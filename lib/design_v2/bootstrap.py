@@ -1,20 +1,23 @@
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
 import shutil
 import stat
 import subprocess
+import tarfile
 import tempfile
 import zipfile
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse
 
-from ..common import he_dir, home, sha256_file, share_dir, write_json
+from ..common import he_dir, home, repo_root, sha256_file, share_dir, write_json
+from ..paths import tar_member_ok
 from . import FTS_SCHEMA_VERSION, PACKAGE_DIR
 from .bank import DesignV2Error, resolve_design_v2_root
 from .commands import bank_health, doctor_rows
@@ -33,8 +36,18 @@ from .security import member_ok
 SOURCE_CONFIG = PACKAGE_DIR / "bootstrap_sources.json"
 SOURCE_NAME_RE = re.compile(r"^[a-z0-9][a-z0-9._-]{0,63}$")
 DRIVE_FILE_ID_RE = re.compile(r"^[A-Za-z0-9_-]{10,128}$")
+SHA256_HEX_RE = re.compile(r"^[0-9A-Fa-f]{64}$")
 SHA256_RE = re.compile(r"^([0-9A-Fa-f]{64})[ \t]+\*?([^\r\n]+)$")
+DRIVE_VIEW_RE = re.compile(r"https?://(?:drive|docs)\.google\.com/file/d/([A-Za-z0-9_-]{10,128})")
+DRIVE_ID_QUERY_RE = re.compile(r"[?&]id=([A-Za-z0-9_-]{10,128})")
+DRIVE_CONFIRM_RE = re.compile(r"[?&]confirm=([0-9A-Za-z_-]+)")
+DRIVE_CONFIRM_INPUT_RE = re.compile(
+    r'name=["\']confirm["\'][^>]*value=["\']([^"\']+)["\']|value=["\']([^"\']+)["\'][^>]*name=["\']confirm["\']',
+    re.I,
+)
 ZIP_MAGIC = (b"PK\x03\x04", b"PK\x05\x06", b"PK\x07\x08")
+GZIP_MAGIC = b"\x1f\x8b"
+DRIVE_HOSTS = ("drive.google.com", "drive.usercontent.google.com", "docs.google.com")
 BOOTSTRAP_ZIP_LIMITS = {
     "max_members": 150_000,
     "max_member_uncompressed": 1 << 30,
@@ -160,15 +173,141 @@ def google_drive_public_url(file_id: str) -> str:
     return f"https://drive.usercontent.google.com/download?{query}"
 
 
-def _curl_download(url: str, destination: Path) -> None:
-    curl = shutil.which("curl")
-    if not curl:
-        raise BootstrapError("PREFLIGHT", "curl is required", code="CURL_MISSING")
+def resolve_operator_url(url: str) -> str:
+    raw = (url or "").strip()
+    if not raw.startswith("https://"):
+        raise BootstrapError("SOURCE_RESOLVED", "URL must be https", code="DESIGN_BANK_URL_INVALID")
+    view = DRIVE_VIEW_RE.search(raw)
+    if view:
+        return f"https://drive.google.com/uc?export=download&id={view.group(1)}"
+    host = (urlparse(raw).hostname or "").lower()
+    if host in DRIVE_HOSTS:
+        found = DRIVE_ID_QUERY_RE.search(raw)
+        if found:
+            return f"https://drive.google.com/uc?export=download&id={found.group(1)}"
+    return raw
+
+
+def env_design_bank_override() -> tuple[str, str] | None:
+    url = (os.environ.get("OPENCODE_DESIGN_BANK_URL") or "").strip()
+    sha = (os.environ.get("OPENCODE_DESIGN_BANK_SHA256") or "").strip()
+    if not url:
+        return None
+    if not SHA256_HEX_RE.fullmatch(sha):
+        raise BootstrapError(
+            "SOURCE_RESOLVED",
+            "OPENCODE_DESIGN_BANK_SHA256 is required",
+            code="SHA256_REQUIRED",
+        )
+    return url, sha.lower()
+
+
+def _archive_name_from_url(url: str, default: str) -> str:
+    host = (urlparse(url).hostname or "").lower()
+    if host in DRIVE_HOSTS:
+        return default
+    name = Path(urlparse(url).path).name
+    if not name or name in {".", "..", "uc", "download", "view"} or "/" in name or "\\" in name:
+        return default
+    return name
+
+
+def operator_url_source(url: str, sha256: str) -> tuple[BootstrapSource, str]:
+    resolved = resolve_operator_url(url)
+    return (
+        BootstrapSource(
+            name="env-url",
+            source_type="operator-url",
+            bank_version="env",
+            archive_name=_archive_name_from_url(resolved, "design-bank.bin"),
+            archive_file_id="",
+            checksum_file_id="",
+            pinned_sha256=sha256.lower(),
+        ),
+        resolved,
+    )
+
+
+def github_fallback_source() -> tuple[BootstrapSource, str]:
+    path = repo_root() / "vendor" / "sources.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise BootstrapError("SOURCE_RESOLVED", "vendor sources unreadable", code="BOOTSTRAP_SOURCE_INVALID") from exc
+    block = ((payload.get("sources") or {}) if isinstance(payload, dict) else {}).get("design-bank")
+    if not isinstance(block, dict):
+        raise BootstrapError("SOURCE_RESOLVED", "github fallback missing", code="BOOTSTRAP_SOURCE_INVALID")
+    url = block.get("artifactUrl")
+    sha = block.get("artifactSha256")
+    if not isinstance(url, str) or not url.startswith("https://"):
+        raise BootstrapError("SOURCE_RESOLVED", "github fallback URL", code="BOOTSTRAP_SOURCE_INVALID")
+    if not isinstance(sha, str) or not SHA256_HEX_RE.fullmatch(sha):
+        raise BootstrapError("SOURCE_RESOLVED", "github fallback SHA-256", code="BOOTSTRAP_SOURCE_INVALID")
+    return (
+        BootstrapSource(
+            name="github-release-fallback",
+            source_type="https-artifact",
+            bank_version=str(block.get("version") or "fallback"),
+            archive_name=_archive_name_from_url(url, "Design-bank.tgz"),
+            archive_file_id="",
+            checksum_file_id="",
+            pinned_sha256=sha.lower(),
+        ),
+        url,
+    )
+
+
+def select_remote_source(
+    source_name: str | None = None, *, config_path: Path | None = None
+) -> tuple[BootstrapSource, str | None, str]:
+    env = env_design_bank_override()
+    if env:
+        source, url = operator_url_source(env[0], env[1])
+        return source, url, "curl-operator-url"
+    try:
+        source = resolve_bootstrap_source(source_name, config_path=config_path)
+        return source, None, "curl-google-drive-public"
+    except BootstrapError:
+        if source_name:
+            raise
+        source, url = github_fallback_source()
+        return source, url, "curl-github-release"
+
+
+def _is_html_file(path: Path) -> bool:
+    try:
+        head = path.read_bytes()[:512].lstrip().lower()
+    except OSError:
+        return False
+    return head.startswith(b"<!doctype html") or head.startswith(b"<html")
+
+
+def drive_confirm_url(original_url: str, page: str) -> str | None:
+    text = html.unescape(page)
+    tokens = DRIVE_CONFIRM_RE.findall(text)
+    for match in DRIVE_CONFIRM_INPUT_RE.findall(text):
+        tokens.extend(part for part in match if part)
+    confirm = next((token for token in tokens if token and token != "t"), tokens[0] if tokens else None)
+    if not confirm:
+        return None
+    found = DRIVE_ID_QUERY_RE.search(original_url) or DRIVE_ID_QUERY_RE.search(text)
+    file_id = found.group(1) if found else None
+    if file_id and DRIVE_FILE_ID_RE.fullmatch(file_id):
+        return f"https://drive.google.com/uc?export=download&id={file_id}&confirm={confirm}"
+    sep = "&" if "?" in original_url else "?"
+    return f"{original_url}{sep}confirm={confirm}"
+
+
+def _is_drive_url(url: str) -> bool:
+    host = (urlparse(url).hostname or "").lower()
+    return host in DRIVE_HOSTS
+
+
+def _run_curl(curl: str, url: str, destination: Path, cookie_jar: Path | None) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     partial = destination.with_name(destination.name + ".part")
     command = [
         curl,
-        "--fail",
         "--location",
         "--silent",
         "--show-error",
@@ -181,29 +320,50 @@ def _curl_download(url: str, destination: Path) -> None:
         "30",
         "--output",
         str(partial),
-        url,
     ]
-    if partial.is_file() and partial.stat().st_size:
-        command[1:1] = ["--continue-at", "-"]
+    if cookie_jar is not None:
+        command.extend(["--cookie", str(cookie_jar), "--cookie-jar", str(cookie_jar)])
+    command.append(url)
     try:
         result = subprocess.run(command, capture_output=True, text=True)
     except OSError as exc:
         partial.unlink(missing_ok=True)
         raise BootstrapError("ARCHIVE_DOWNLOADED", type(exc).__name__, code="DOWNLOAD_FAILED") from exc
-    if result.returncode != 0 and "--continue-at" in command:
-        partial.unlink(missing_ok=True)
-        command[1:3] = []
-        try:
-            result = subprocess.run(command, capture_output=True, text=True)
-        except OSError as exc:
-            raise BootstrapError("ARCHIVE_DOWNLOADED", type(exc).__name__, code="DOWNLOAD_FAILED") from exc
     if result.returncode != 0:
+        partial.unlink(missing_ok=True)
         detail = (result.stderr or "curl failed").strip().splitlines()[-1]
         raise BootstrapError("ARCHIVE_DOWNLOADED", detail, code="DOWNLOAD_FAILED")
     if partial.is_symlink() or not partial.is_file() or partial.stat().st_size == 0:
         partial.unlink(missing_ok=True)
         raise BootstrapError("ARCHIVE_DOWNLOADED", "empty download", code="DOWNLOAD_FAILED")
     os.replace(partial, destination)
+
+
+def _curl_download(url: str, destination: Path) -> None:
+    curl = shutil.which("curl")
+    if not curl:
+        raise BootstrapError("PREFLIGHT", "curl is required", code="CURL_MISSING")
+    if not _is_drive_url(url):
+        _run_curl(curl, url, destination, None)
+        return
+    with tempfile.TemporaryDirectory(prefix="opencode-he-drive-") as tmp:
+        cookie_jar = Path(tmp) / "cookies"
+        _run_curl(curl, url, destination, cookie_jar)
+        if not _is_html_file(destination):
+            return
+        try:
+            page = destination.read_text(encoding="utf-8", errors="ignore")
+        except OSError as exc:
+            destination.unlink(missing_ok=True)
+            raise BootstrapError("ARCHIVE_DOWNLOADED", "unreadable download", code="DOWNLOAD_FAILED") from exc
+        confirm = drive_confirm_url(url, page)
+        destination.unlink(missing_ok=True)
+        if not confirm:
+            raise BootstrapError("ARCHIVE_DOWNLOADED", "Google Drive confirm page", code="DOWNLOAD_FAILED")
+        _run_curl(curl, confirm, destination, cookie_jar)
+        if _is_html_file(destination):
+            destination.unlink(missing_ok=True)
+            raise BootstrapError("ARCHIVE_DOWNLOADED", "Google Drive confirm page", code="DOWNLOAD_FAILED")
 
 
 def download_public_file(url: str, destination: Path) -> None:
@@ -320,8 +480,129 @@ def safe_extract_bootstrap_zip(path: Path, destination: Path) -> dict[str, int]:
     return stats
 
 
+def inspect_bootstrap_tar(path: Path) -> dict[str, int]:
+    try:
+        handle = tarfile.open(path, mode="r:*")
+    except (OSError, tarfile.TarError) as exc:
+        raise BootstrapError("ARCHIVE_INSPECTED", "invalid tar archive", code="ARCHIVE_INVALID") from exc
+    limits = BOOTSTRAP_ZIP_LIMITS
+    try:
+        members = handle.getmembers()
+        if not members or len(members) > int(limits["max_members"]):
+            raise BootstrapError("ARCHIVE_INSPECTED", "tar member limit", code="ARCHIVE_UNSAFE")
+        seen: set[str] = set()
+        total = 0
+        files = 0
+        for member in members:
+            name = (member.name or "").replace("\\", "/")
+            normalized = name.rstrip("/")
+            if normalized in {"", "."}:
+                continue
+            if "\x00" in name or not member_ok(normalized) or ".." in Path(name).parts:
+                raise BootstrapError("ARCHIVE_INSPECTED", f"unsafe tar path {name}", code="ARCHIVE_UNSAFE")
+            if len(name) > int(limits["max_path_length"]) or len(Path(name).parts) > int(limits["max_path_depth"]):
+                raise BootstrapError("ARCHIVE_INSPECTED", "tar path limit", code="ARCHIVE_UNSAFE")
+            if normalized in seen:
+                raise BootstrapError("ARCHIVE_INSPECTED", f"duplicate tar path {normalized}", code="ARCHIVE_UNSAFE")
+            seen.add(normalized)
+            if member.issym() or member.islnk() or not (member.isfile() or member.isdir()):
+                raise BootstrapError("ARCHIVE_INSPECTED", f"special tar member {name}", code="ARCHIVE_UNSAFE")
+            if member.isdir():
+                continue
+            files += 1
+            uncompressed = int(member.size)
+            if uncompressed > int(limits["max_member_uncompressed"]):
+                raise BootstrapError("ARCHIVE_INSPECTED", "tar member size limit", code="ARCHIVE_UNSAFE")
+            total += uncompressed
+            if total > int(limits["max_total_uncompressed"]):
+                raise BootstrapError("ARCHIVE_INSPECTED", "tar total size limit", code="ARCHIVE_UNSAFE")
+        return {"members": len(members), "files": files, "uncompressed_bytes": total}
+    finally:
+        handle.close()
+
+
+def safe_extract_bootstrap_tar(path: Path, destination: Path) -> dict[str, int]:
+    stats = inspect_bootstrap_tar(path)
+    destination.mkdir(parents=True, exist_ok=False)
+    base = destination.resolve()
+    try:
+        with tarfile.open(path, mode="r:*") as handle:
+            for member in handle.getmembers():
+                name = (member.name or "").replace("\\", "/")
+                if name.rstrip("/") in {"", "."}:
+                    continue
+                if not tar_member_ok(destination, name):
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"unsafe tar path {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    )
+                target = destination / name.rstrip("/")
+                try:
+                    target.resolve(strict=False).relative_to(base)
+                except (OSError, ValueError) as exc:
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"unsafe tar path {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    ) from exc
+                if member.isdir():
+                    target.mkdir(parents=True, exist_ok=True)
+                    continue
+                if not member.isfile():
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"special tar member {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    )
+                target.parent.mkdir(parents=True, exist_ok=True)
+                reader = handle.extractfile(member)
+                if reader is None:
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"failed to extract {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    )
+                try:
+                    with reader, target.open("xb") as writer:
+                        shutil.copyfileobj(reader, writer, length=1 << 20)
+                except OSError as exc:
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"failed to extract {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    ) from exc
+                st = target.lstat()
+                if not stat.S_ISREG(st.st_mode) or st.st_nlink != 1 or st.st_size != member.size:
+                    raise BootstrapError(
+                        "EXTRACTED_TO_TEMP", f"unsafe extracted file {name}", code="ARCHIVE_EXTRACTION_FAILED"
+                    )
+    except BootstrapError:
+        raise
+    except (OSError, tarfile.TarError) as exc:
+        raise BootstrapError("EXTRACTED_TO_TEMP", "tar extraction failed", code="ARCHIVE_EXTRACTION_FAILED") from exc
+    return stats
+
+
+def _archive_magic(path: Path) -> bytes:
+    try:
+        with path.open("rb") as handle:
+            return handle.read(4)
+    except OSError as exc:
+        raise BootstrapError("ARCHIVE_INSPECTED", "archive is unreadable", code="ARCHIVE_INVALID") from exc
+
+
+def inspect_bootstrap_archive(path: Path) -> dict[str, int]:
+    magic = _archive_magic(path)
+    if any(magic.startswith(prefix) for prefix in ZIP_MAGIC):
+        return inspect_bootstrap_zip(path)
+    if magic.startswith(GZIP_MAGIC):
+        return inspect_bootstrap_tar(path)
+    raise BootstrapError("ARCHIVE_INSPECTED", "download is not a ZIP or tar archive", code="ARCHIVE_INVALID")
+
+
+def safe_extract_bootstrap_archive(path: Path, destination: Path) -> dict[str, int]:
+    magic = _archive_magic(path)
+    if any(magic.startswith(prefix) for prefix in ZIP_MAGIC):
+        return safe_extract_bootstrap_zip(path, destination)
+    if magic.startswith(GZIP_MAGIC):
+        return safe_extract_bootstrap_tar(path, destination)
+    raise BootstrapError("ARCHIVE_INSPECTED", "download is not a ZIP or tar archive", code="ARCHIVE_INVALID")
+
+
 def validate_design_bank(root: Path) -> dict[str, Any]:
-    if root.is_symlink() or not root.is_dir():
+    check_root = root.resolve() if root.is_symlink() else root
+    if not check_root.is_dir() or check_root.is_symlink():
         raise BootstrapError("BANK_VALIDATED", "Design Bank root is not a directory", code="DESIGN_BANK_INVALID")
     counts: dict[str, int] = {}
     sampled: dict[str, int] = {}
@@ -505,9 +786,27 @@ def bootstrap_design_bank(
             report(name, evidence)
 
     stage("PREFLIGHT")
-    source = resolve_bootstrap_source(source_name, config_path=config_path)
     design_target = resolve_design_target(target)
     v2_root = design_v2_root or resolve_design_v2_root()
+    existing = False
+    validation: dict[str, Any] | None = None
+    if (design_target.exists() or design_target.is_symlink()) and not download_only:
+        try:
+            validation = validate_design_bank(design_target)
+        except BootstrapError as exc:
+            raise BootstrapError(
+                "PREFLIGHT", "target exists but is not a compatible Design Bank", code="TARGET_EXISTS"
+            ) from exc
+        existing = True
+        stage("BANK_VALIDATED", "already-present")
+        stage("BANK_COMMITTED", "already-present")
+
+    if existing:
+        source = resolve_bootstrap_source(source_name, config_path=config_path)
+        archive_url: str | None = None
+        download_method = "curl-google-drive-public"
+    else:
+        source, archive_url, download_method = select_remote_source(source_name, config_path=config_path)
     stage("SOURCE_RESOLVED", source.name)
     if dry_run:
         stage("COMPLETE", "dry-run")
@@ -519,22 +818,9 @@ def bootstrap_design_bank(
             "source_type": source.source_type,
             "target": str(design_target),
             "design_v2_root": str(v2_root),
-            "download_method": "curl-google-drive-public",
+            "download_method": download_method,
             "stages": stages,
         }
-
-    existing = False
-    validation: dict[str, Any] | None = None
-    if design_target.exists() or design_target.is_symlink():
-        try:
-            validation = validate_design_bank(design_target)
-        except BootstrapError as exc:
-            raise BootstrapError(
-                "PREFLIGHT", "target exists but is not a compatible Design Bank", code="TARGET_EXISTS"
-            ) from exc
-        existing = True
-        stage("BANK_VALIDATED", "already-present")
-        stage("BANK_COMMITTED", "already-present")
 
     cache = cache_dir or share_dir() / "cache" / "design-bootstrap" / source.name
     archive = cache / source.archive_name
@@ -545,34 +831,42 @@ def bootstrap_design_bank(
         if cache.is_symlink() or (cache.exists() and not cache.is_dir()):
             raise BootstrapError("PREFLIGHT", "bootstrap cache is not a safe directory", code="CACHE_UNSAFE")
         cache.mkdir(parents=True, exist_ok=True)
-        if checksum_file.is_symlink():
-            checksum_file.unlink()
-        if not checksum_file.is_file():
+        if source.checksum_file_id:
+            if checksum_file.is_symlink():
+                checksum_file.unlink()
+            if not checksum_file.is_file():
+                try:
+                    downloader(google_drive_public_url(source.checksum_file_id), checksum_file)
+                except BootstrapError as exc:
+                    if exc.stage == "PREFLIGHT":
+                        raise
+                    raise BootstrapError("CHECKSUM_FETCHED", exc.detail, code=exc.code) from exc
+                except Exception as exc:
+                    raise BootstrapError("CHECKSUM_FETCHED", str(exc), code="DOWNLOAD_FAILED") from exc
             try:
-                downloader(google_drive_public_url(source.checksum_file_id), checksum_file)
-            except BootstrapError as exc:
-                if exc.stage == "PREFLIGHT":
-                    raise
-                raise BootstrapError("CHECKSUM_FETCHED", exc.detail, code=exc.code) from exc
-            except Exception as exc:
-                raise BootstrapError("CHECKSUM_FETCHED", str(exc), code="DOWNLOAD_FAILED") from exc
-        try:
-            expected = parse_checksum(checksum_file.read_text(encoding="utf-8"), source.archive_name)
-        except BootstrapError:
-            checksum_file.unlink(missing_ok=True)
-            raise
-        except (OSError, UnicodeDecodeError) as exc:
-            checksum_file.unlink(missing_ok=True)
-            raise BootstrapError("CHECKSUM_FETCHED", "checksum is unreadable", code="CHECKSUM_INVALID") from exc
-        if source.pinned_sha256 and expected != source.pinned_sha256:
-            raise BootstrapError("CHECKSUM_FETCHED", "checksum does not match pinned digest", code="CHECKSUM_MISMATCH")
+                expected = parse_checksum(checksum_file.read_text(encoding="utf-8"), source.archive_name)
+            except BootstrapError:
+                checksum_file.unlink(missing_ok=True)
+                raise
+            except (OSError, UnicodeDecodeError) as exc:
+                checksum_file.unlink(missing_ok=True)
+                raise BootstrapError("CHECKSUM_FETCHED", "checksum is unreadable", code="CHECKSUM_INVALID") from exc
+            if source.pinned_sha256 and expected != source.pinned_sha256:
+                raise BootstrapError(
+                    "CHECKSUM_FETCHED", "checksum does not match pinned digest", code="CHECKSUM_MISMATCH"
+                )
+        else:
+            expected = source.pinned_sha256
+            if not expected:
+                raise BootstrapError("SOURCE_RESOLVED", "SHA-256 is required", code="SHA256_REQUIRED")
         stage("CHECKSUM_FETCHED", expected)
 
         cached_ok = archive.is_file() and not archive.is_symlink() and sha256_file(archive) == expected
         if not cached_ok:
             archive.unlink(missing_ok=True)
+            fetch_url = archive_url or google_drive_public_url(source.archive_file_id)
             try:
-                downloader(google_drive_public_url(source.archive_file_id), archive)
+                downloader(fetch_url, archive)
             except BootstrapError:
                 raise
             except Exception as exc:
@@ -584,7 +878,7 @@ def bootstrap_design_bank(
             raise BootstrapError("ARCHIVE_VERIFIED", "archive SHA-256 mismatch", code="CHECKSUM_MISMATCH")
         stage("ARCHIVE_VERIFIED", actual)
         try:
-            archive_stats = inspect_bootstrap_zip(archive)
+            archive_stats = inspect_bootstrap_archive(archive)
         except BootstrapError:
             archive.unlink(missing_ok=True)
             raise
@@ -608,7 +902,7 @@ def bootstrap_design_bank(
         workspace = Path(tempfile.mkdtemp(prefix=".opencode-design-bootstrap-", dir=str(design_target.parent)))
         extracted = workspace / "extract"
         try:
-            safe_extract_bootstrap_zip(archive, extracted)
+            safe_extract_bootstrap_archive(archive, extracted)
             stage("EXTRACTED_TO_TEMP", str(extracted))
             normalized = normalize_extracted_bank(extracted)
             validation = validate_design_bank(normalized)

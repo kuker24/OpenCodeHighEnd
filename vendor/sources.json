@@ -38,7 +38,7 @@
       "artifactSha256": "9866f5a82f57f84c45f4f82af8092f9bd3a6838b5c12d6b097e3eb4fda5b634c",
       "ownedDest": "~/.local/share/opencode-highend/design-bank",
       "redistribution": "not-cleared",
-      "note": "Not vendored in git. Installer discovers a valid bank or downloads this existing upstream release asset."
+      "note": "Not vendored in git. Fourth-priority bootstrap fallback after a valid local bank, OPENCODE_DESIGN_BANK_URL+SHA256, and the Drive ZIP pin in lib/design_v2/bootstrap_sources.json."
     },
     "serena": {
       "repository": "https://github.com/oraios/serena",

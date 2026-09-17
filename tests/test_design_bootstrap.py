@@ -6,6 +6,7 @@ import json
 import os
 import shutil
 import socket
+import tarfile
 import urllib.request
 import zipfile
 from contextlib import redirect_stdout
@@ -17,10 +18,12 @@ from unittest.mock import patch
 from lib.design_v2.bootstrap import (
     BootstrapError,
     bootstrap_design_bank,
+    drive_confirm_url,
     google_drive_public_url,
     inspect_bootstrap_zip,
     load_bootstrap_sources,
     parse_checksum,
+    resolve_operator_url,
     validate_design_bank,
 )
 from lib.design_v2.commands import doctor_rows
@@ -302,6 +305,92 @@ class BootstrapTests(IsolatedHome):
         self.assertEqual(archive["files"], 6)
         self.assertEqual(bank["preview_samples"]["21st"], 1)
         self.assertEqual(bank["preview_samples"]["aura"], 1)
+
+    def test_env_url_without_sha256_fails_closed(self):
+        os.environ["OPENCODE_DESIGN_BANK_URL"] = "https://example.invalid/bank.zip"
+        os.environ.pop("OPENCODE_DESIGN_BANK_SHA256", None)
+        with self.assertRaises(BootstrapError) as caught:
+            self._bootstrap()
+        self.assertEqual(caught.exception.code, "SHA256_REQUIRED")
+        self.assertEqual(self.download_calls, [])
+        self.assertFalse(self.target.exists())
+
+    def test_env_url_with_sha256_uses_operator_url(self):
+        os.environ["OPENCODE_DESIGN_BANK_URL"] = (
+            "https://drive.google.com/file/d/1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw/view"
+        )
+        os.environ["OPENCODE_DESIGN_BANK_SHA256"] = self.digest
+        payload = self._bootstrap()
+        self.assertEqual(payload["status"], "ok")
+        self.assertEqual(payload["source"], "env-url")
+        self.assertTrue(any("uc?export=download" in url for url in self.download_calls))
+        self.assertTrue((self.target / "Refero/bank/catalog.json").is_file())
+
+    def test_drive_view_link_resolves_to_uc_export(self):
+        resolved = resolve_operator_url(
+            "https://drive.google.com/file/d/1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw/view?usp=sharing"
+        )
+        self.assertEqual(
+            resolved,
+            "https://drive.google.com/uc?export=download&id=1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw",
+        )
+
+    def test_drive_confirm_token_extracted_once(self):
+        html = (
+            '<a href="https://drive.google.com/uc?export=download&amp;confirm=ABCD'
+            '&amp;id=1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw">download</a>'
+        )
+        original = "https://drive.google.com/uc?export=download&id=1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw"
+        confirm = drive_confirm_url(original, html)
+        self.assertIsNotNone(confirm)
+        self.assertIn("confirm=ABCD", confirm)
+        self.assertIn("id=1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw", confirm)
+
+    def test_symlink_valid_bank_is_already_present(self):
+        real = self.tmp / "real-bank"
+        shutil.copytree(self.source_tree, real)
+        self.target.symlink_to(real)
+        payload = self._bootstrap()
+        self.assertEqual(payload["status"], "already_present")
+        self.assertEqual(self.download_calls, [])
+
+    def test_github_tgz_fallback_when_drive_config_missing(self):
+        tgz = self.tmp / "Design-bank.tgz"
+        with tarfile.open(tgz, "w:gz") as handle:
+            handle.add(self.source_tree, arcname=".")
+        digest = hashlib.sha256(tgz.read_bytes()).hexdigest()
+        from lib.design_v2.bootstrap import BootstrapSource
+
+        fallback = BootstrapSource(
+            name="github-release-fallback",
+            source_type="https-artifact",
+            bank_version="1.0.0",
+            archive_name="Design-bank.tgz",
+            archive_file_id="",
+            checksum_file_id="",
+            pinned_sha256=digest,
+        )
+        url = "https://github.com/kuker24/GrokBestFriend/releases/download/v1.0.0/Design-bank.tgz"
+
+        def tgz_downloader(fetch_url: str, destination: Path) -> None:
+            self.download_calls.append(fetch_url)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(tgz, destination)
+
+        missing = self.tmp / "missing-drive.json"
+        missing.write_text('{"schemaVersion":1,"default":"missing","sources":{}}', encoding="utf-8")
+        with patch("lib.design_v2.bootstrap.github_fallback_source", return_value=(fallback, url)):
+            payload = bootstrap_design_bank(
+                target=self.target,
+                design_v2_root=self.design_v2,
+                cache_dir=self.cache,
+                downloader=tgz_downloader,
+                config_path=missing,
+            )
+        self.assertEqual(payload["status"], "ok")
+        self.assertEqual(payload["source"], "github-release-fallback")
+        self.assertEqual(self.download_calls, [url])
+        self.assertTrue((self.target / "21st/library/catalog.json").is_file())
 
 
 if __name__ == "__main__":

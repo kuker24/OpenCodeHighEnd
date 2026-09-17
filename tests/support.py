@@ -20,6 +20,8 @@ class IsolatedHome(unittest.TestCase):
                 "OPENCODE_HE_MOCK_OPENCODE",
                 "OPENCODE_HE_TEST_CBM",
                 "OPENCODE_DESIGN_BANK",
+                "OPENCODE_DESIGN_BANK_URL",
+                "OPENCODE_DESIGN_BANK_SHA256",
                 "OPENCODE_SMARTDOC",
                 "OPENCODE_DISABLE_CLAUDE_CODE",
                 "OPENCODE_HE_MOCK_MCP_LIST",
@@ -40,6 +42,8 @@ class IsolatedHome(unittest.TestCase):
         os.environ["OPENCODE_HE_MOCK_OPENCODE"] = str(mock_oc)
         os.environ["OPENCODE_HE_TEST_CBM"] = str(mock_cbm)
         os.environ["OPENCODE_DESIGN_BANK"] = str(ROOT / "tests" / "fixtures" / "Design")
+        os.environ.pop("OPENCODE_DESIGN_BANK_URL", None)
+        os.environ.pop("OPENCODE_DESIGN_BANK_SHA256", None)
         os.environ["OPENCODE_DISABLE_CLAUDE_CODE"] = "1"
         claude = self.tmp / ".claude"
         claude.mkdir()
