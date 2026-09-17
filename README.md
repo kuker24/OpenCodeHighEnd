@@ -1,10 +1,8 @@
 # OpenCodeHighEnd
 
-Production-ready capability layer for OpenCode:
-62 routed skills (core + Wave 2/3 warehouse specialists), MCP, Codebase Memory,
-Design Bank, Design Intelligence, SmartDoc, browser and verification tooling.
+OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
-OpenCodeHighEnd is an installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
+Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
 
 Version **0.1.0**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
 
@@ -39,6 +37,9 @@ cd OpenCodeHighEnd
 
 # optional: acquire the full user-owned Design Bank and build DesignV2
 ./install.sh --with-design-bank
+# or after install:
+# opencode-he design bootstrap
+# OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design bootstrap
 
 # pick up OPENCODE_DISABLE_CLAUDE_CODE=1
 exec "$SHELL"
@@ -182,11 +183,18 @@ Normal `./install.sh` installs the engine only and never starts the multi-gigaby
 
 ```bash
 ./install.sh --with-design-bank
-# or after installation
 opencode-he design bootstrap
+OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design bootstrap
 ```
 
-Bootstrap resolves `OPENCODE_DESIGN_BANK` → existing pointer → `~/Design`. It downloads the declared public artifact with curl, verifies SHA-256, safely extracts into a temporary directory, validates all four catalogs, and commits the bank without merging into an existing directory. `~/Design` and `~/DesignV2` are user data and uninstall never removes them. Google Drive is contacted only by bootstrap; retrieval remains offline.
+Two download sources (SHA-256 fail-closed; URL without SHA is refused):
+
+1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (ZIP). Google Drive is contacted only during bootstrap.
+2. **Fallback GitHub artifact** in `vendor/sources.json` (`GrokBestFriend` `Design-bank.tgz`, sha256 `9866f5a8…`). Used when the Drive pin is unavailable.
+
+Operator override: `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. Drive view links (`/file/d/ID/view`) resolve to `uc?export=download`. A valid local bank (four catalogs at `OPENCODE_DESIGN_BANK` or `~/Design`) is used as-is — no download.
+
+Bootstrap verifies SHA-256, extracts to a temp directory, validates 21st / Aura / Refero / Motionsites catalogs, then commits into `~/Design` or `OPENCODE_DESIGN_BANK`. Uninstall never deletes `~/Design` or `~/DesignV2`. After bootstrap, retrieval stays offline.
 
 ## Design Intelligence
 
