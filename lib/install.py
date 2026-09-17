@@ -783,6 +783,45 @@ def remove_legacy_installer() -> None:
         info(f"removed leftover ClaudeBestFriend installer {inst}")
 
 
+KNOWN_LEGACY_PLUGINS = ("impeccable-live-poll.ts",)
+
+
+def quarantine_legacy_plugins() -> list[str]:
+    pdir = config_dir() / "plugins"
+    if not pdir.is_dir():
+        return []
+    quarantined: list[str] = []
+    for name in KNOWN_LEGACY_PLUGINS:
+        cand = pdir / name
+        if cand.is_file():
+            qdir = share_dir() / "quarantine" / "plugins"
+            qdir.mkdir(parents=True, exist_ok=True)
+            dest = qdir / name
+            shutil.move(str(cand), str(dest))
+            quarantined.append(name)
+            info(f"quarantined legacy V1 plugin {cand} -> {dest}")
+    try:
+        for cand in list(pdir.iterdir()):
+            if not cand.is_file():
+                continue
+            try:
+                text = cand.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                continue
+            if "@opencode-ai/plugin" in text and cand.name not in quarantined:
+                qdir = share_dir() / "quarantine" / "plugins"
+                qdir.mkdir(parents=True, exist_ok=True)
+                dest = qdir / cand.name
+                shutil.move(str(cand), str(dest))
+                quarantined.append(cand.name)
+                info(f"quarantined legacy V1 plugin {cand} -> {dest}")
+        if not any(pdir.iterdir()):
+            pdir.rmdir()
+    except OSError:
+        pass
+    return quarantined
+
+
 def git_head() -> str | None:
     r = run(["git", "rev-parse", "HEAD"], cwd=repo_root())
     if r.returncode == 0:
@@ -901,6 +940,7 @@ def apply(meta: dict, cbm_bin: Path, bank: tuple[str | None, str, str]) -> list[
     helpers = install_helpers()
     owned.extend(helpers.values())
     remove_legacy_installer()
+    quarantine_legacy_plugins()
     merge_opencode_config(cbm_bin)
     ensure_shell_isolation()
     oc = which("opencode") or os.environ.get("OPENCODE_HE_MOCK_OPENCODE") or "opencode"

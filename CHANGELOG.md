@@ -11,6 +11,7 @@ First OpenCodeHighEnd release. New product on OpenCode 2. Not OpenCodeBestFriend
 - Installer fails closed on OpenCode 1.x. Gate is major `>= 2`.
 - New identity: CLI `opencode-he`, overlay `~/.config/opencode/highend`, share `~/.local/share/opencode-highend`, AGENTS markers `OPENCODEHIGHEND:BEGIN/END`.
 - V1 plugins are not copied. `lsp` is not ported. Design Bank / Design V2 / SmartDoc remain user data, never git media.
+- Legacy V1 plugins (`impeccable-live-poll.ts`) quarantined to `~/.local/share/opencode-highend/quarantine/plugins/`; doctor reports `V1_PLUGIN_LEFTOVER`.
 - FOREIGN_ON_DEMAND MCP stay enable-gated: serena, stitch, reticle, ui-skills, markitdown; exa is never added/removed/overwritten.
 - Retired twins stay retired: `ask-matt`, `grilling`, `wait-what`, `matt-implement`.
 - Dropped deprecated `GROK_*` env aliases. Runtime paths never use GrokBuild, `~/.grok`, or `~/.claude`.

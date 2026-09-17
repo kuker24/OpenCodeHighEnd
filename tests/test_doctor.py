@@ -435,6 +435,40 @@ class DoctorDeepTests(IsolatedHome):
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
 
+    def test_doctor_plugins_clean_when_absent(self):
+        self._install()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("PASS                   plugins                      0 (directory absent)", buf.getvalue())
+
+    def test_doctor_plugins_warns_on_v1_leftover(self):
+        self._install()
+        pdir = self.tmp / ".config" / "opencode" / "plugins"
+        pdir.mkdir(parents=True, exist_ok=True)
+        (pdir / "impeccable-live-poll.ts").write_text("import type { Plugin } from '@opencode-ai/plugin';", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor(strict=False)
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("WARN                   plugins                      V1_PLUGIN_LEFTOVER impeccable-live-poll.ts", buf.getvalue())
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            strict_rc = cmd_doctor(strict=True)
+        self.assertEqual(strict_rc, 1, buf.getvalue())
+
+    def test_doctor_plugins_pass_on_user_v2_plugin(self):
+        self._install()
+        pdir = self.tmp / ".config" / "opencode" / "plugins"
+        pdir.mkdir(parents=True, exist_ok=True)
+        (pdir / "my-custom.ts").write_text("export default { id: 'my-custom' };", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("PASS                   plugins                      1 user plugin(s)", buf.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()

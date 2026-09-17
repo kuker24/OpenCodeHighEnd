@@ -604,6 +604,20 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(cmd_restore(stamp), 0)
         self.assertEqual((product / "VERSION").read_text(encoding="utf-8"), "1.0.1\n")
 
+    def test_install_quarantines_legacy_v1_plugin(self):
+        pdir = self.tmp / ".config" / "opencode" / "plugins"
+        pdir.mkdir(parents=True, exist_ok=True)
+        legacy_file = pdir / "impeccable-live-poll.ts"
+        legacy_file.write_text("// legacy", encoding="utf-8")
+        user_plugin = pdir / "user-plugin.ts"
+        user_plugin.write_text("// user plugin", encoding="utf-8")
+
+        self.assertEqual(cmd_install(), 0)
+        self.assertFalse(legacy_file.exists())
+        qfile = self.tmp / ".local" / "share" / "opencode-highend" / "quarantine" / "plugins" / "impeccable-live-poll.ts"
+        self.assertTrue(qfile.is_file())
+        self.assertTrue(user_plugin.is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

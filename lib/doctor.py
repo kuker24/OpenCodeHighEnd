@@ -481,6 +481,34 @@ def _permission_findings(f: Findings) -> None:
         f.add("DEGRADED_SECURITY", "PERMISSION_PROFILE", 'wildcard "*" = allow unrestricted tool execution')
 
 
+def _plugin_findings(f: Findings) -> None:
+    pdir = config_dir() / "plugins"
+    if not pdir.is_dir():
+        f.add("PASS", "plugins", "0 (directory absent)")
+        return
+    files = [p for p in pdir.iterdir() if p.is_file()]
+    if not files:
+        f.add("PASS", "plugins", "0 (directory empty)")
+        return
+    v1_leftovers: list[str] = []
+    user_plugins: list[str] = []
+    for p in sorted(files):
+        try:
+            text = p.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            text = ""
+        if p.name == "impeccable-live-poll.ts" or "@opencode-ai/plugin" in text:
+            v1_leftovers.append(p.name)
+        else:
+            user_plugins.append(p.name)
+    if v1_leftovers:
+        f.add("WARN", "plugins", f"V1_PLUGIN_LEFTOVER {','.join(v1_leftovers)}")
+    elif user_plugins:
+        f.add("PASS", "plugins", f"{len(user_plugins)} user plugin(s)")
+    else:
+        f.add("PASS", "plugins", "0")
+
+
 def cmd_security_profile() -> int:
     print("=== opencode-highend security-profile (recommendation only; not applied) ===")
     print('wildcard "*" = allow means unrestricted tool execution')
@@ -689,6 +717,7 @@ def cmd_doctor(deep: bool = False, strict: bool = False) -> int:
     _host_findings(f, shadcn_enabled=shadcn_enabled)
     _browser_qa_findings(f)
     _permission_findings(f)
+    _plugin_findings(f)
     print("--- context ---")
     f.add("NOT_APPLICABLE", "Context Guard", "NOT_PORTED_BY_DESIGN")
     f.add("PASS", "OpenCode context engine", "NATIVE_UNCHANGED")

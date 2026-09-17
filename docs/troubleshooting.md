@@ -4,6 +4,8 @@
 
 `UNSUPPORTED_OPENCODE_VERSION` — this release supports OpenCode 2.x (`mcp.servers`). 1.x fails closed.
 
+`V1_PLUGIN_LEFTOVER` / `failed to load plugin` — OpenCode 2 rejects legacy V1 plugins (such as `impeccable-live-poll.ts` from OCBF) in `~/.config/opencode/plugins/`. Re-run `./install.sh` to quarantine known legacy plugins to `~/.local/share/opencode-highend/quarantine/plugins/`, or move them manually.
+
 `CODEBASE_MEMORY_CHECKSUM_FAILED` — delete `~/.local/share/opencode-highend/cache/downloads/` and retry. Do not ignore a mismatch.
 
 `DESIGN_BANK_INVALID` — bootstrap requires parseable 21st, Aura, Refero, and Motionsites catalogs. Fix the configured target or choose a new empty `--target`.
