@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opencode-highend.local/schemas/design-v2/catalog-lock.schema.json",
+  "title": "Design V2 catalog lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "generation_id",
+    "schema_version",
+    "jsonl_filename",
+    "jsonl_sha256",
+    "fts",
+    "input_hashes",
+    "created_at",
+    "item_count"
+  ],
+  "properties": {
+    "generation_id": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "schema_version": {"type": "integer", "const": 2},
+    "jsonl_filename": {"type": "string", "pattern": "^catalog-[0-9a-f]+\\.jsonl$"},
+    "jsonl_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {"enum": ["available", "unavailable", "failed", "skipped"]},
+        "sqlite_filename": {"type": ["string", "null"]},
+        "sqlite_sha256": {"type": ["string", "null"]},
+        "schema_version": {"type": "integer", "enum": [2, 3]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "available"}}},
+          "then": {
+            "required": ["sqlite_filename", "sqlite_sha256"],
+            "properties": {
+              "sqlite_filename": {"type": "string", "pattern": "^catalog-[0-9a-f]+\\.sqlite3$"},
+              "sqlite_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+            }
+          }
+        }
+      ]
+    },
+    "input_hashes": {
+      "type": "object",
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "created_at": {"type": "string"},
+    "item_count": {"type": "integer", "minimum": 0}
+  }
+}

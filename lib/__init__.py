@@ -1,0 +1,1 @@
+"""OpenCodeHighEnd installer library."""
