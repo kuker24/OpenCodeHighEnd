@@ -1,0 +1,844 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import importlib.util
+import io
+import json
+import os
+import sqlite3
+import sys
+import unittest
+import zipfile
+from contextlib import redirect_stdout
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from lib.cli import main as cli_main  # noqa: E402
+from lib.design_v2.atoms import (  # noqa: E402
+    ATOMS_SCHEMA,
+    map_intent_to_role,
+    read_atoms,
+    record_atom_pick,
+    write_atoms,
+)
+from lib.design_v2.bank import (  # noqa: E402
+    PathEscape,
+    assert_under_v2,
+    bank_present,
+    list_sources,
+    resolve_design_v2_root,
+)
+from lib.design_v2.dna import extract_query  # noqa: E402
+from lib.design_v2.importers.common import classify_atomic_role, guess_kind_role  # noqa: E402
+from lib.design_v2.import_stage import ImportRejected, import_stage  # noqa: E402
+from lib.design_v2.commands import doctor_rows  # noqa: E402
+from lib.design_v2.bank import load_policy  # noqa: E402
+from lib.design_v2.rebuild import FTS_SCHEMA_VERSION, _write_sqlite, rebuild  # noqa: E402
+from lib.design_v2.schema import check_item, empty_item_v1, empty_item_v2  # noqa: E402
+from lib.design_v2.search import _fts_ids, query_kind_intent, search, shortlist  # noqa: E402
+from lib.design_v2.security import compile_secret_patterns, secret_hits  # noqa: E402
+from lib.install import cmd_uninstall  # noqa: E402
+from lib.paths import assert_within_allowed  # noqa: E402
+from tests.support import IsolatedHome  # noqa: E402
+
+
+def _item(**overrides):
+    row = empty_item_v2()
+    row.update(overrides)
+    if "id" in overrides and "canonical_id" not in overrides:
+        row["canonical_id"] = overrides["id"]
+    return row
+
+
+class DesignV2Tests(IsolatedHome):
+    def setUp(self):
+        super().setUp()
+        self.bank = self.tmp / "DesignV2"
+        os.environ["OPENCODE_DESIGN_V2"] = str(self.bank)
+        os.environ.pop("OPENCODE_DESIGN_V2_SKIP_FTS", None)
+        os.environ.pop("GROK_DESIGN_V2", None)
+        os.environ.pop("GROK_DESIGN_V2_SKIP_FTS", None)
+
+    def tearDown(self):
+        os.environ.pop("OPENCODE_DESIGN_V2", None)
+        os.environ.pop("OPENCODE_DESIGN_V2_SKIP_FTS", None)
+        os.environ.pop("GROK_DESIGN_V2", None)
+        os.environ.pop("GROK_DESIGN_V2_SKIP_FTS", None)
+        super().tearDown()
+
+    def _inbox(self, item: dict) -> None:
+        inbox = self.bank / "inbox"
+        inbox.mkdir(parents=True, exist_ok=True)
+        (inbox / f"{item['id'].replace(':', '-')}.json").write_text(
+            json.dumps(item, indent=2) + "\n", encoding="utf-8"
+        )
+
+    def test_root_env_vs_default(self):
+        os.environ.pop("OPENCODE_DESIGN_V2", None)
+        default = resolve_design_v2_root()
+        self.assertEqual(default, (self.tmp / "DesignV2").resolve())
+        os.environ["OPENCODE_DESIGN_V2"] = str(self.tmp / "other")
+        self.assertEqual(resolve_design_v2_root(), (self.tmp / "other").resolve())
+
+    def test_path_escape_rejected(self):
+        self.bank.mkdir()
+        with self.assertRaises(PathEscape):
+            assert_under_v2(self.bank, self.tmp / "outside.txt")
+        with self.assertRaises(PathEscape):
+            assert_under_v2(self.bank, self.bank / ".." / "etc")
+
+    def test_owned_namespace_rejects_design_v2(self):
+        self.bank.mkdir()
+        with self.assertRaises(SystemExit):
+            assert_within_allowed(self.bank)
+
+    def test_schema_v1_and_v2(self):
+        self.assertEqual(check_item(empty_item_v1()), [])
+        self.assertEqual(check_item(empty_item_v2()), [])
+        bad = empty_item_v2()
+        bad["kind"] = "unknown-kind"
+        self.assertTrue(check_item(bad))
+        bad_lic = empty_item_v2()
+        bad_lic["license"]["redistribution"] = "yes"
+        self.assertTrue(any("redistribution" in err for err in check_item(bad_lic)))
+
+    def test_catalog_item_json_schema_describes_both_versions(self):
+        schema = json.loads(
+            (ROOT / "lib" / "design_v2" / "schemas" / "catalog-item.schema.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual(len(schema["oneOf"]), 2)
+        self.assertFalse(schema["$defs"]["itemV1"]["additionalProperties"])
+        self.assertFalse(schema["$defs"]["itemV2"]["additionalProperties"])
+        self.assertIn("kind", schema["$defs"]["itemV2"]["properties"])
+        self.assertIn("source", schema["$defs"]["itemV2"]["required"])
+
+    def test_dna_extract(self):
+        extracted = extract_query("cybersecurity premium dark dense dashboard jangan slop")
+        self.assertIn("luxury", extracted["aesthetic"])
+        self.assertIn("dark", extracted["aesthetic"])
+        self.assertEqual(extracted["density"], "dense")
+        self.assertIn("security", extracted["product_fit"])
+        self.assertTrue(extracted["avoid_slop"])
+
+    def test_readonly_does_not_create_bank(self):
+        self.assertFalse(self.bank.exists())
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.assertEqual(cli_main(["design", "status"]), 0)
+            self.assertEqual(cli_main(["design", "search", "hero"]), 0)
+            self.assertEqual(cli_main(["design", "inspect", "section:missing"]), 1)
+            self.assertEqual(cli_main(["design", "doctor"]), 0)
+            self.assertEqual(cli_main(["design", "sources"]), 0)
+            self.assertEqual(cli_main(["design", "shortlist", "hero"]), 0)
+        self.assertFalse(self.bank.exists())
+        self.assertFalse(bank_present(self.bank))
+        from lib.design_v2.commands import product_doctor_rows
+
+        rows = product_doctor_rows()
+        statuses = {label: status for status, label, _ in rows}
+        self.assertEqual(statuses.get("Design V2"), "EMPTY")
+
+    def test_rebuild_atomic_and_search(self):
+        hero = _item(
+            id="section:cyber-hero",
+            name="Cyber security hero",
+            description="Dark dense professional monitoring hero",
+            kind="section",
+            tags=["security", "dark", "hero"],
+            categories=["hero"],
+            dna={"aesthetic": ["futuristic", "dark"], "density": "dense", "geometry": "sharp"},
+            product_fit=["security", "dashboard"],
+            anti_slop=[],
+            search_text="cybersecurity dashboard hero dark dense",
+        )
+        glass = _item(
+            id="section:glass-hero",
+            name="Glass glow hero",
+            description="Generic saas gradient glow glassmorphism",
+            kind="section",
+            tags=["hero", "excessive-glassmorphism", "excessive-glow"],
+            categories=["hero"],
+            dna={"aesthetic": ["playful"], "density": "sparse"},
+            anti_slop=["excessive-glassmorphism", "excessive-glow", "generic-saas-hero"],
+            search_text="glass glow gradient saas hero",
+        )
+        self._inbox(hero)
+        self._inbox(glass)
+        result = rebuild(self.bank)
+        self.assertEqual(result["status"], "ok")
+        lock = json.loads((self.bank / "catalog" / "catalog.lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(lock["schema_version"], 2)
+        self.assertIn("fts", lock)
+        jsonl = self.bank / "catalog" / lock["jsonl_filename"]
+        self.assertTrue(jsonl.is_file())
+        hits = search("cybersecurity premium dark dense dashboard jangan slop")
+        ids = [row["id"] for row in hits["results"]]
+        self.assertIn("section:cyber-hero", ids)
+        self.assertGreater(ids.index("section:cyber-hero") if "section:cyber-hero" in ids else 99, -1)
+        if "section:glass-hero" in ids:
+            self.assertLess(ids.index("section:cyber-hero"), ids.index("section:glass-hero"))
+
+    def test_fts_candidates_use_bm25_order(self):
+        path = self.tmp / "rank.sqlite3"
+        weak = _item(
+            id="section:weak-dashboard",
+            name="Dashboard",
+            description="General layout",
+            search_text="dashboard",
+        )
+        strong = _item(
+            id="section:strong-dashboard",
+            name="Dark dashboard",
+            description="Dark dashboard operations dashboard",
+            search_text="dark dashboard dense dashboard",
+        )
+        try:
+            _write_sqlite(path, [weak, strong])
+        except sqlite3.OperationalError:
+            self.skipTest("SQLite FTS5 unavailable")
+        self.assertEqual(_fts_ids(path, "dark dashboard", 1), ["section:strong-dashboard"])
+
+    def test_kind_intent_prefers_component_button_over_effect(self):
+        button = _item(
+            id="component:primary-button",
+            name="Primary Button",
+            description="A compact primary button",
+            kind="component",
+            categories=["button"],
+            tags=["button"],
+            role="component",
+            search_text="premium modern button",
+        )
+        shader = _item(
+            id="effect:shiny-button",
+            name="Shiny Borders Button",
+            description="Shiny borders button shader",
+            kind="effect",
+            categories=["shader"],
+            tags=["shader", "button"],
+            role="effect",
+            search_text="premium modern button shiny",
+        )
+        self._inbox(button)
+        self._inbox(shader)
+        rebuild(self.bank)
+        hits = search("premium modern button")
+        ids = [row["id"] for row in hits["results"]]
+        self.assertEqual(ids[0], "component:primary-button")
+        self.assertIn("kind_intent", hits["results"][0]["matched_fields"])
+        self.assertIn("category_intent", hits["results"][0]["matched_fields"])
+
+    def test_kind_intent_prefers_shader_effect_and_hero_section(self):
+        shader = _item(
+            id="effect:cyber-shader",
+            name="Cybernetic Grid shader",
+            kind="effect",
+            categories=["shader"],
+            search_text="dark futuristic shader",
+        )
+        page = _item(
+            id="page:futuristic-landing",
+            name="Futuristic Sci-Fi Landing Page Template",
+            kind="page",
+            categories=["landing-page"],
+            search_text="dark futuristic shader landing",
+        )
+        hero = _item(
+            id="section:saas-hero",
+            name="Hero Section",
+            kind="section",
+            categories=["hero"],
+            search_text="clean SaaS hero section",
+        )
+        other = _item(
+            id="component:saas-card",
+            name="SaaS hero card",
+            kind="component",
+            categories=["card"],
+            search_text="clean SaaS hero section",
+        )
+        for row in (shader, page, hero, other):
+            self._inbox(row)
+        rebuild(self.bank)
+        self.assertEqual(search("dark futuristic shader")["results"][0]["id"], "effect:cyber-shader")
+        self.assertEqual(search("clean SaaS hero section")["results"][0]["id"], "section:saas-hero")
+        kinds, cats = query_kind_intent("premium modern button")
+        self.assertEqual(kinds, frozenset({"component"}))
+        self.assertEqual(cats, frozenset({"button"}))
+
+    def test_intent_mode_framework_and_trust_affect_ranking(self):
+        preferred = _item(
+            id="section:preferred-dashboard",
+            name="Operations dashboard",
+            description="Dashboard workspace",
+            search_text="dashboard workspace",
+            intent=["greenfield"],
+            modes=["Operate"],
+            frameworks=["react"],
+            trust="curated",
+            license={"spdx": "MIT", "status": "known", "redistribution": "allowed"},
+        )
+        other = _item(
+            id="section:other-dashboard",
+            name="Operations dashboard",
+            description="Dashboard workspace",
+            search_text="dashboard workspace",
+            intent=["refresh"],
+            modes=["Market"],
+            frameworks=["vue"],
+            trust="unknown",
+        )
+        self._inbox(preferred)
+        self._inbox(other)
+        rebuild(self.bank)
+        hits = search(
+            "dashboard workspace",
+            intent="greenfield",
+            mode="Operate",
+            frameworks=["react"],
+        )
+        self.assertEqual(hits["results"][0]["id"], "section:preferred-dashboard")
+        self.assertIn("intent", hits["results"][0]["matched_fields"])
+        self.assertIn("mode", hits["results"][0]["matched_fields"])
+        self.assertIn("framework", hits["results"][0]["matched_fields"])
+        self.assertIn("trust:curated", hits["results"][0]["matched_fields"])
+        self.assertEqual(hits["context"]["frameworks"], ["react"])
+
+    def test_empty_search_and_skip_fts(self):
+        os.environ["OPENCODE_DESIGN_V2_SKIP_FTS"] = "1"
+        rebuild(self.bank)
+        lock = json.loads((self.bank / "catalog" / "catalog.lock.json").read_text(encoding="utf-8"))
+        self.assertEqual(lock["fts"]["status"], "skipped")
+        self.assertTrue((self.bank / "catalog" / lock["jsonl_filename"]).is_file())
+        hits = search("anything")
+        self.assertEqual(hits["results"], [])
+        self.assertEqual(hits["retrieval"], "jsonl")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.assertEqual(cli_main(["design", "doctor"]), 0)
+        self.assertIn("DEGRADED_FTS", buf.getvalue())
+
+    def test_rebuild_retries_degraded_fts_for_same_generation(self):
+        os.environ["OPENCODE_DESIGN_V2_SKIP_FTS"] = "1"
+        first = rebuild(self.bank)
+        self.assertEqual(first["fts"]["status"], "skipped")
+        os.environ.pop("OPENCODE_DESIGN_V2_SKIP_FTS", None)
+        second = rebuild(self.bank)
+        if second["fts"]["status"] != "available":
+            self.skipTest("SQLite FTS5 unavailable")
+        self.assertTrue(second["reused"])
+        self.assertTrue(second["fts_rebuilt"])
+        self.assertEqual(second["fts"]["schema_version"], FTS_SCHEMA_VERSION)
+
+    def test_doctor_detects_catalog_hash_mismatch(self):
+        rebuild(self.bank)
+        lock = json.loads((self.bank / "catalog" / "catalog.lock.json").read_text(encoding="utf-8"))
+        jsonl = self.bank / "catalog" / lock["jsonl_filename"]
+        with jsonl.open("ab") as handle:
+            handle.write(b"tampered\n")
+        rows = doctor_rows(self.bank)
+        self.assertIn(("FAIL", "jsonl", "CATALOG_HASH_MISMATCH"), rows)
+        self.assertEqual(search("anything", root=self.bank)["bank_status"], "DEGRADED")
+
+    def test_doctor_detects_fts_hash_mismatch(self):
+        rebuild(self.bank)
+        lock = json.loads((self.bank / "catalog" / "catalog.lock.json").read_text(encoding="utf-8"))
+        if lock["fts"]["status"] != "available":
+            self.skipTest("SQLite FTS5 unavailable")
+        sqlite_path = self.bank / "catalog" / lock["fts"]["sqlite_filename"]
+        with sqlite_path.open("ab") as handle:
+            handle.write(b"tampered")
+        self.assertIn(("FAIL", "fts", "FTS_HASH_MISMATCH"), doctor_rows(self.bank))
+
+    def test_import_stage_rejects_symlink_and_secret(self):
+        src = self.tmp / "payload"
+        src.mkdir()
+        (src / "ok.html").write_text("<html></html>\n", encoding="utf-8")
+        evil = self.tmp / "outside.txt"
+        evil.write_text("nope\n", encoding="utf-8")
+        link = src / "link.html"
+        link.symlink_to(evil)
+        with self.assertRaises(ImportRejected):
+            import_stage(src, self.bank)
+        sources = self.bank / "sources" / "manual"
+        if sources.is_dir():
+            self.assertEqual(list(sources.iterdir()), [])
+
+        clean = self.tmp / "clean"
+        clean.mkdir()
+        (clean / "page.html").write_text("<p>ok</p>\n", encoding="utf-8")
+        (clean / "notes.md").write_text("XAI_API_KEY=sk-test-should-not-pass\n", encoding="utf-8")
+        with self.assertRaises(ImportRejected):
+            import_stage(clean, self.bank)
+        if sources.is_dir():
+            self.assertEqual(list(sources.iterdir()), [])
+        self.assertTrue((self.bank / "quarantine").is_dir())
+        self.assertTrue(any((self.bank / "quarantine").iterdir()))
+
+        common = self.tmp / "common-secret"
+        common.mkdir()
+        (common / "page.html").write_text("<p>ok</p>\n", encoding="utf-8")
+        (common / "notes.md").write_text(
+            "OPENAI_API_" + "KEY=dummy-value\n", encoding="utf-8"
+        )
+        with self.assertRaises(ImportRejected):
+            import_stage(common, self.bank)
+
+    def test_secret_patterns_cover_common_credentials(self):
+        patterns = compile_secret_patterns(load_policy())
+        samples = [
+            "OPENAI_API_" + "KEY=dummy-value",
+            "ANTHROPIC_API_" + "KEY=dummy-value",
+            "AWS_SECRET_ACCESS_" + "KEY=dummy-value",
+            "NPM_" + "TOKEN=dummy-value",
+            "gh" + "p_" + "a" * 24,
+            "github_" + "pat_" + "a" * 24,
+            "sk-" + "ant-" + "a" * 24,
+            "-----BEGIN " + "PRIVATE KEY-----",
+            "DATABASE_" + "URL=postgres://user:password@localhost/db",
+        ]
+        self.assertTrue(all(secret_hits(sample, patterns) for sample in samples))
+
+    def test_import_stage_rejects_zip_traversal(self):
+        zpath = self.tmp / "bad.zip"
+        with zipfile.ZipFile(zpath, "w") as handle:
+            handle.writestr("../evil.txt", "x")
+        with self.assertRaises(ImportRejected):
+            import_stage(zpath, self.bank)
+        sources = self.bank / "sources" / "manual"
+        if sources.is_dir():
+            self.assertEqual(list(sources.iterdir()), [])
+
+    def test_import_stage_accepts_safe_file(self):
+        page = self.tmp / "hero.html"
+        page.write_text("<section>hero</section>\n", encoding="utf-8")
+        report = import_stage(page, self.bank)
+        self.assertEqual(report["status"], "ok")
+        dest = self.bank / report["path"]
+        self.assertTrue((dest / "hero.html").is_file())
+        self.assertTrue((dest / "provenance.json").is_file())
+        self.assertEqual(report["provenance"]["redistribution"], "local-only")
+        self.assertEqual(report["provenance"]["license_evidence"], "unknown")
+
+    def test_uninstall_leaves_design_v2(self):
+        self.bank.mkdir()
+        keep = self.bank / "keep.txt"
+        keep.write_text("stay\n", encoding="utf-8")
+        man = self.tmp / ".config" / "opencode" / "highend" / "manifests" / "ownership.json"
+        man.parent.mkdir(parents=True, exist_ok=True)
+        man.write_text(
+            json.dumps(
+                {
+                    "product": "opencode-highend",
+                    "modelInvokedSkills": [],
+                    "manualSkills": [],
+                    "ownedFiles": [],
+                    "ownedMcp": [],
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(cmd_uninstall(), 0)
+        self.assertTrue(keep.is_file())
+        self.assertEqual(keep.read_text(encoding="utf-8"), "stay\n")
+
+    def test_shim_resolves_clone_lib(self):
+        path = ROOT / "skills" / "impeccable" / "scripts" / "design_v2.py"
+        spec = importlib.util.spec_from_file_location("design_v2_shim", path)
+        self.assertIsNotNone(spec)
+        assert spec is not None and spec.loader is not None
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        engine = mod.resolve_engine()
+        self.assertTrue((engine / "__init__.py").is_file())
+        self.assertEqual(engine.resolve(), (ROOT / "lib" / "design_v2").resolve())
+
+    def test_import_sources_shortlist_cli(self):
+        page = self.tmp / "hero.html"
+        page.write_text("<section>hero</section>\n", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            self.assertEqual(cli_main(["design", "import", str(page), "--provider", "manual"]), 0)
+        report = json.loads(buf.getvalue())
+        self.assertEqual(report["status"], "ok")
+        listed = list_sources(self.bank)
+        self.assertEqual(listed["status"], "ok")
+        manual = next(row for row in listed["providers"] if row["provider"] == "manual")
+        self.assertGreaterEqual(manual["count"], 1)
+        hero = _item(
+            id="section:cli-hero",
+            name="CLI hero",
+            description="Dark dense professional hero",
+            kind="section",
+            tags=["hero", "dark"],
+            categories=["hero"],
+            dna={"aesthetic": ["dark"], "density": "dense"},
+            search_text="cli hero dark dense",
+        )
+        self._inbox(hero)
+        rebuild(self.bank)
+        payload = shortlist(
+            "dark dense hero", intent="greenfield", mode="Operate", frameworks=["react"]
+        )
+        self.assertEqual(payload["packages_loaded_during_search"], 0)
+        self.assertEqual(payload["offline"], True)
+        self.assertEqual(payload["frameworks"], ["react"])
+        ids = [row["id"] for row in payload["visuals"]]
+        self.assertIn("section:cli-hero", ids)
+
+    def test_rebuild_does_not_require_sqlite(self):
+        os.environ["OPENCODE_DESIGN_V2_SKIP_FTS"] = "1"
+        result = rebuild(self.bank)
+        lock = json.loads((self.bank / "catalog" / "catalog.lock.json").read_text(encoding="utf-8"))
+        self.assertIsNone(lock["fts"]["sqlite_filename"])
+        self.assertTrue((self.bank / "catalog" / lock["jsonl_filename"]).is_file())
+        self.assertEqual(result["item_count"], 0)
+
+    def test_atomic_roles_classification(self):
+        cases = [
+            ("delete-button", "button", "button.destructive"),
+            ("discard-button", "button", "button.destructive"),
+            ("ghost-button", "button", "button.ghost"),
+            ("outline-btn", "button", "button.ghost"),
+            ("secondary-button", "button", "button.ghost"),
+            ("subtle-button", "button", "button.ghost"),
+            ("link-btn", "button", "button.ghost"),
+            ("icon-button", "button", "button.icon"),
+            ("star-button", "button", "button.icon"),
+            ("close-button", "button", "button.icon"),
+            ("back-button", "button", "button.icon"),
+            ("arrow-btn", "button", "button.icon"),
+            ("save-button", "button", "button.primary"),
+            ("discover-button", "button", "button.primary"),
+            ("shimmer-button", "button", "button.primary"),
+            ("rainbow-button", "button", "button.primary"),
+            ("text-input", "input", "input.text"),
+            ("search-bar", "input", "input.search"),
+            ("priority-select", "dropdown", "input.select"),
+            ("bento-card", "card", "card"),
+            ("favicon-badge", "badge", "badge"),
+            ("discrete-tab", "tabs", "nav.tab"),
+            ("sidebar-nav-item", "nav", "nav.sidebar-item"),
+            ("dialog-modal", "modal", "overlay.modal"),
+            # Excluded non-action controls (must NOT be classified as atomic buttons)
+            ("radio-button", "button", None),
+            ("radio-group", "control", None),
+            ("switch-button", "button", None),
+            ("toggle-button", "button", None),
+            ("accordion-button", "button", None),
+            ("button-group", "button", None),
+            ("pagination-btn", "button", None),
+        ]
+        for ident, jenis, expected_role in cases:
+            with self.subTest(ident=ident, jenis=jenis):
+                self.assertEqual(classify_atomic_role(ident, jenis), expected_role)
+
+    def test_schema_role_validation(self):
+        policy = load_policy()
+        for role in (
+            "button.primary",
+            "button.ghost",
+            "button.destructive",
+            "button.icon",
+            "input.text",
+            "input.search",
+            "input.select",
+            "card",
+            "badge",
+            "nav.tab",
+            "nav.sidebar-item",
+            "overlay.modal",
+            "page",
+            "section",
+            "pattern",
+        ):
+            valid_item = _item(id=f"component:test-{role.replace('.', '-')}", role=role, kind="component")
+            self.assertEqual(check_item(valid_item, policy), [], f"role {role} should be valid")
+
+        invalid_item = _item(id="component:test-invalid", role="unsupported-wildcard-role", kind="component")
+        self.assertIn("role='unsupported-wildcard-role'", check_item(invalid_item, policy))
+
+    def test_shortlist_and_search_by_kind_and_role(self):
+        btn_prim = _item(
+            id="component:test-btn-prim",
+            name="Primary Action Button",
+            kind="component",
+            role="button.primary",
+            search_text="primary action button click",
+        )
+        btn_ghost = _item(
+            id="component:test-btn-ghost",
+            name="Ghost Button",
+            kind="component",
+            role="button.ghost",
+            search_text="ghost subtle outline button",
+        )
+        card = _item(
+            id="component:test-card",
+            name="Simple Card",
+            kind="component",
+            role="card",
+            search_text="simple card surface",
+        )
+        shader = _item(
+            id="effect:test-shader-button",
+            name="Glow Button Shader",
+            kind="effect",
+            role="effect",
+            search_text="glow button background shader visual",
+        )
+        for it in (btn_prim, btn_ghost, card, shader):
+            self._inbox(it)
+        rebuild(self.bank)
+
+        # Search with kind and role
+        res = search("", root=self.bank, kind="component", role="button.primary")
+        self.assertEqual(res["bank_status"], "ok")
+        self.assertEqual([r["id"] for r in res["results"]], ["component:test-btn-prim"])
+
+        # Shortlist with kind and role
+        short = shortlist(root=self.bank, kind="component", role="button.primary")
+        self.assertEqual(short["status"], "ok")
+        self.assertEqual([r["id"] for r in short["results"]], ["component:test-btn-prim"])
+        self.assertEqual([r["id"] for r in short["components"]], ["component:test-btn-prim"])
+
+    def test_cli_shortlist_by_kind_and_role(self):
+        btn = _item(
+            id="component:test-cli-btn",
+            name="CLI Button",
+            kind="component",
+            role="button.primary",
+            search_text="cli primary button",
+        )
+        self._inbox(btn)
+        rebuild(self.bank)
+
+        out = io.StringIO()
+        with redirect_stdout(out):
+            rc = cli_main(["design", "shortlist", "--kind", "component", "--role", "button.primary", "--json"])
+        self.assertEqual(rc, 0)
+        data = json.loads(out.getvalue())
+        self.assertEqual(data["status"], "ok")
+        self.assertEqual([r["id"] for r in data["results"]], ["component:test-cli-btn"])
+
+    def test_button_search_does_not_rank_shaders(self):
+        real_button = _item(
+            id="component:real-button",
+            name="Interactive Push Button",
+            kind="component",
+            role="button.primary",
+            search_text="interactive push button component click",
+            categories=["button"],
+        )
+        shader_button = _item(
+            id="effect:shader-button",
+            name="Fancy Button Background Effect",
+            kind="effect",
+            role="effect",
+            search_text="fancy button background effect shader noise",
+            categories=["shader"],
+        )
+        self._inbox(real_button)
+        self._inbox(shader_button)
+        rebuild(self.bank)
+
+        res = search("button", root=self.bank)
+        self.assertEqual(res["bank_status"], "ok")
+        result_ids = [r["id"] for r in res["results"]]
+        self.assertIn("component:real-button", result_ids)
+        self.assertEqual(result_ids[0], "component:real-button")
+
+    def test_guess_kind_role_does_not_force_button_primary(self):
+        cases = [
+            (["RadioButton.tsx"], "export function RadioButton() { return <input type='radio' />; }", ("component", "component")),
+            (["Checkbox.tsx"], "export function Checkbox() { return <input type='checkbox' />; }", ("component", "component")),
+            (["Switch.tsx"], "export function Switch() { return <button role='switch' />; }", ("component", "component")),
+            (["Combobox.tsx"], "export function Combobox() { return <select />; }", ("component", "input.select")),
+            (["PricingSection.tsx"], "<div><h2>Pricing</h2><button>Subscribe</button></div>", ("section", "section")),
+            (["HeroSection.tsx"], "<div><h1>Welcome</h1><button>Get Started</button></div>", ("section", "hero")),
+            (["PrimaryButton.tsx"], "export function PrimaryButton() { return <button>Go</button>; }", ("component", "button.primary")),
+            (["GhostButton.tsx"], "export function GhostButton() { return <button>Ghost</button>; }", ("component", "button.ghost")),
+            (["CloseButton.tsx"], "export function CloseButton() { return <button aria-label='close' />; }", ("component", "button.icon")),
+        ]
+        for names, text, expected in cases:
+            with self.subTest(names=names):
+                self.assertEqual(guess_kind_role(names, text), expected)
+
+    def test_search_button_subtypes_ranking(self):
+        btn_prim = _item(
+            id="component:btn-prim",
+            name="Primary Action Button",
+            kind="component",
+            role="button.primary",
+            search_text="primary cta main action button",
+            categories=["button"],
+        )
+        btn_ghost = _item(
+            id="component:btn-ghost",
+            name="Secondary Ghost Button",
+            kind="component",
+            role="button.ghost",
+            search_text="ghost secondary outline subtle button",
+            categories=["button"],
+        )
+        btn_dest = _item(
+            id="component:btn-dest",
+            name="Delete Danger Button",
+            kind="component",
+            role="button.destructive",
+            search_text="delete destructive trash danger remove button",
+            categories=["button"],
+        )
+        btn_icon = _item(
+            id="component:btn-icon",
+            name="Close Icon Button",
+            kind="component",
+            role="button.icon",
+            search_text="close icon back dismiss button",
+            categories=["button"],
+        )
+        for it in (btn_prim, btn_ghost, btn_dest, btn_icon):
+            self._inbox(it)
+        rebuild(self.bank)
+
+        # "ghost button" should rank button.ghost at the top
+        res_ghost = search("ghost button", root=self.bank)
+        self.assertEqual(res_ghost["results"][0]["id"], "component:btn-ghost")
+
+        # "delete button" should rank button.destructive at the top
+        res_dest = search("delete button", root=self.bank)
+        self.assertEqual(res_dest["results"][0]["id"], "component:btn-dest")
+
+        # "close icon button" should rank button.icon at the top
+        res_icon = search("close icon button", root=self.bank)
+        self.assertEqual(res_icon["results"][0]["id"], "component:btn-icon")
+
+        # "primary button" should rank button.primary at the top
+        res_prim = search("primary button", root=self.bank)
+        self.assertEqual(res_prim["results"][0]["id"], "component:btn-prim")
+
+    def test_map_intent_to_role(self):
+        cases = [
+            ("ghost button", "button.ghost"),
+            ("outline button", "button.ghost"),
+            ("delete button", "button.destructive"),
+            ("danger button", "button.destructive"),
+            ("close icon button", "button.icon"),
+            ("copy button", "button.icon"),
+            ("primary action button", "button.primary"),
+            ("button", "button.primary"),
+            ("text input", "input.text"),
+            ("search input", "input.search"),
+            ("search bar", "input.search"),
+            ("dropdown select", "input.select"),
+            ("combobox", "input.select"),
+            ("card surface", "card"),
+            ("status badge", "badge"),
+            ("navigation tabs", "nav.tab"),
+            ("sidebar item link", "nav.sidebar-item"),
+            ("dialog modal", "overlay.modal"),
+        ]
+        for phrase, expected_role in cases:
+            with self.subTest(phrase=phrase):
+                self.assertEqual(map_intent_to_role(phrase), expected_role)
+
+    def test_atoms_json_read_write_and_schema(self):
+        proj = self.tmp / "my-project"
+        proj.mkdir()
+        empty = read_atoms(proj)
+        self.assertEqual(empty["schema"], ATOMS_SCHEMA)
+        self.assertEqual(empty["items"], [])
+
+        valid_payload = {
+            "schema": "impeccable.atoms.v1",
+            "items": [
+                {
+                    "id": "component:21st-test-button",
+                    "role": "button.primary",
+                    "kind": "component",
+                    "provider": "21st",
+                }
+            ],
+        }
+        out_path = write_atoms(proj, valid_payload)
+        self.assertTrue(out_path.is_file())
+        self.assertEqual(out_path, proj / ".impeccable" / "atoms.json")
+
+        loaded = read_atoms(proj)
+        self.assertEqual(loaded["schema"], "impeccable.atoms.v1")
+        self.assertEqual(len(loaded["items"]), 1)
+        self.assertEqual(loaded["items"][0]["id"], "component:21st-test-button")
+        self.assertEqual(loaded["items"][0]["role"], "button.primary")
+        self.assertEqual(loaded["items"][0]["kind"], "component")
+        self.assertEqual(loaded["items"][0]["provider"], "21st")
+
+        # Missing required key in item should raise ValueError on write
+        bad_payload = {
+            "schema": "impeccable.atoms.v1",
+            "items": [{"id": "bad", "role": "button.primary"}],  # missing kind, provider
+        }
+        with self.assertRaises(ValueError):
+            write_atoms(proj, bad_payload)
+
+    def test_record_atom_pick(self):
+        proj = self.tmp / "my-project-record"
+        proj.mkdir()
+        item = {
+            "id": "component:21st-sample-btn",
+            "kind": "component",
+            "role": "button.primary",
+            "provider": "21st",
+            "local_path": "components/21st/sample-btn",
+        }
+        out = record_atom_pick(proj, item)
+        self.assertTrue(out.is_file())
+        data = read_atoms(proj)
+        self.assertEqual(len(data["items"]), 1)
+        self.assertEqual(data["items"][0]["role"], "button.primary")
+        self.assertEqual(data["items"][0]["local_path"], "components/21st/sample-btn")
+
+        # Overwrite same role replaces it, new role appends
+        item2 = {
+            "id": "component:21st-ghost-btn",
+            "kind": "component",
+            "role": "button.ghost",
+            "provider": "21st",
+        }
+        record_atom_pick(proj, item2)
+        data2 = read_atoms(proj)
+        self.assertEqual(len(data2["items"]), 2)
+        roles = {it["role"] for it in data2["items"]}
+        self.assertEqual(roles, {"button.primary", "button.ghost"})
+
+
+class HardlinkImportTests(IsolatedHome):
+    def setUp(self):
+        super().setUp()
+        self.bank = self.tmp / "DesignV2"
+        os.environ["OPENCODE_DESIGN_V2"] = str(self.bank)
+
+    def tearDown(self):
+        os.environ.pop("OPENCODE_DESIGN_V2", None)
+        super().tearDown()
+
+    def test_hardlink_rejected(self):
+        src = self.tmp / "hl"
+        src.mkdir()
+        target = src / "a.html"
+        target.write_text("<p>a</p>\n", encoding="utf-8")
+        link = src / "b.html"
+        try:
+            os.link(target, link)
+        except OSError:
+            self.skipTest("hardlinks unsupported")
+        if link.lstat().st_nlink < 2:
+            self.skipTest("hardlink nlink not visible")
+        with self.assertRaises(ImportRejected):
+            import_stage(src, self.bank)
+
+
+if __name__ == "__main__":
+    unittest.main()
