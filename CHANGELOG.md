@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.1.1 — 2026-09-19
+
+- Modernized `found-this-design` skill with a local zero-token search engine across 12 universal design banks (Refero, Aura, Motionsites, Scrolltide, Bencho, Layers, Supahero, NavbarGallery, FooterDesign, CtaGallery, 404sDesign, 21st).
+- Upgraded Design Bank bootstrap default pin to `OpenCodeHighEnd-DesignBank-v2.zip` (SHA-256 `43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2`) with fail-closed checksum verification and Google Drive direct download URL resolution.
+- Updated unit test fixtures in `tests/test_design_bootstrap.py` for v2 archive naming, checksums, and version assertions.
+- Synchronized release acceptance fixtures (`docs/acceptance.md`), catalog freeze metadata, compatibility targets, and vendor specifications to 0.1.1.
+
 ## 0.1.0 — 2026-09-18
 
 First OpenCodeHighEnd release. New product on OpenCode 2. Not OpenCodeBestFriend 1.8.6, not Claude Code, not GrokBuild.

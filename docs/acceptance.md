@@ -5,17 +5,17 @@
 `doctor --deep` = is live runtime proven?
 `doctor --strict` = treat DEGRADED/WARN as failure.
 
-A successful 1.8.0 install should report approximately:
+A successful 0.1.1 install should report approximately:
 
 ```text
 PASS INSTALLED_PRODUCT opencode-highend
-PASS INSTALLED_VERSION 1.8.0
+PASS INSTALLED_VERSION 0.1.1
 PASS SOURCE_REPOSITORY https://github.com/kuker24/OpenCodeHighEnd
 
-PASS OpenCode
+PASS OpenCode (major >= 2.x)
 PASS opencode.jsonc parseable
 PASS AGENTS.md thin owned-lines=…
-PASS skills TOTAL 59/59 MODEL 43/43 MANUAL 16/16
+PASS skills TOTAL 62/62 MODEL 47/47 MANUAL 15/15
 PASS rules 6 portable; 04-context-guard EXCLUDED_BY_DESIGN
 
 CONFIGURED mcp:codebase-memory-mcp
@@ -25,7 +25,7 @@ OPTIONAL_ABSENT mcp:serena
 OPTIONAL_ABSENT mcp:exa
 
 PASS codebase-memory bin
-PASS Design Bank / 21st / Aura / Refero / Motionsites   (when bootstrapped; or DEGRADED Design Bank)
+PASS Design Bank <path>   (when bootstrapped; or DEGRADED Design Bank)
 EMPTY Design V2 absent   (or PASS catalog / DEGRADED_FTS)
 PASS DI policy / taxonomy / CLI / runtime
 PASS OPENCODE_DISABLE_CLAUDE_CODE

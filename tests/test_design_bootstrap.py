@@ -33,7 +33,7 @@ from lib.cli import main as cli_main
 from tests.support import IsolatedHome
 
 
-ARCHIVE_NAME = "OpenCodeHighEnd-DesignBank-v1.zip"
+ARCHIVE_NAME = "OpenCodeHighEnd-DesignBank-v2.zip"
 
 
 class BootstrapTests(IsolatedHome):
@@ -138,6 +138,8 @@ class BootstrapTests(IsolatedHome):
         default, sources = load_bootstrap_sources()
         self.assertEqual(default, "personal-google-drive-v1")
         source = sources[default]
+        self.assertEqual(source.archive_name, "OpenCodeHighEnd-DesignBank-v2.zip")
+        self.assertEqual(source.bank_version, "v2")
         self.assertEqual(source.archive_file_id, "130IbcQVWNuo3RV2qsSRLJJxMapWSa_Rj")
         self.assertEqual(source.checksum_file_id, "1dLzT1CRsag5fzEMu_q4-iBpVefoO9ima")
         self.assertEqual(
