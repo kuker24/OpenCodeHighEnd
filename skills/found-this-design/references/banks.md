@@ -1,24 +1,49 @@
-# Design bank paths and catalog fields
+# Design Bank Architecture (12 Universal Banks)
 
-Root: `$OPENCODE_DESIGN_BANK` if set, otherwise `~/Design`. Both catalogs must exist or search exits non-zero.
+Design Bank root resolution priority:
+1. Explicit path (`--bank-root <path>` or `--bank <path>`)
+2. `$OPENCODE_DESIGN_BANK` environment variable
+3. Local development root (`~/Downloads/LAB GITHUB/Design`)
+4. Adapter config (`~/.config/opencode/bestfriend/config/design-bank.json`)
+5. User home default (`~/Design`)
 
-| Bank | Catalog | Item files |
-|---|---|---|
-| Refero | `Refero/bank/catalog.json` | `Refero` + `files.design` / `files.tokens` / `files.tailwind` / `thumb` (those fields start with `/bank/...`) |
-| Motion | `motionsites/library/catalog.json` | `motionsites/library/<jenis>/<id>/{meta.json,prompt.md,<preview>}` |
+Minimum required: `Refero` and `motionsites` (for legacy/test environments). When full 12-bank suite is present, all banks are automatically registered, indexed, and queryable.
 
-Do not crawl. Do not open `npm run bank` unless the user asked to browse.
+---
 
-## Refero style fields used for match
+## 🧭 12-Bank Catalog Registry & File Schemas
 
-`name`, `slug`, `northStar`, `theme` (`dark`/`light`), `kind`, `tags[]`, `industry`, `fonts[]`, `colors[].hex`, `thumb`, `thumbMissing`, `trendingRank`, `popularRank`, `files`.
+| Bank ID | Tier / Lane | Name | Catalog Path | Primary Asset Files | Role & Focus |
+|---|---|---|---|---|---|
+| **refero** | `identity` | Refero.design | `Refero/bank/catalog.json` | `DESIGN.md`, `tokens.css`, `tailwind.css`, `thumb.jpg` | Design system, tokens, typography, aesthetic rules |
+| **aura** | `identity` | Aura.build | `aura/library/catalog.json` | `source.html`, `meta.json`, `prompt.md`, `preview.png` | End-to-end landing templates, complete SaaS dashboards |
+| **motionsites** | `motion` | Motionsites.ai | `motionsites/library/catalog.json` | `prompt.md`, `preview.mp4`, `preview.webp`, `meta.json` | UI motion direction, hero animations, WebGL interactions |
+| **scrolltide** | `motion` | Scrolltide.co | `scrolltide/library/catalog.json` | `prompt.md`, `preview.mp4`, `preview.png`, `meta.json` | Scrollytelling, timeline pinning, scroll-driven UI |
+| **bencho** | `motion` | Bencho.dev | `bencho/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | Micro-interactions, gooey physics, interactive widgets |
+| **layers** | `motion` | Getlayers.ai | `layers/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | 3D Three.js scenes, WebGL shaders, animated gradients |
+| **supahero** | `section` | Supahero.io | `supahero/library/catalog.json` | `prompt.md`, `source.html`, `meta.json`, `preview.png` | High-converting SaaS hero headers, split layouts |
+| **navbargallery** | `section` | Navbar.gallery | `navbargallery/library/catalog.json` | `prompt.md`, `source.html`, `meta.json`, `preview.png` | Sticky headers, mega-menus, floating docks, navs |
+| **footerdesign** | `section` | Footer.design | `footerdesign/library/catalog.json` | `prompt.md`, `source.html`, `meta.json`, `preview.png` | Multi-column sitemaps, trust badges, legal footers |
+| **ctagallery** | `section` | Cta.gallery | `ctagallery/library/catalog.json` | `prompt.md`, `source.html`, `meta.json`, `preview.png` | High-impact CTA sections, conversion banners |
+| **404sdesign** | `section` | 404s.design | `404sdesign/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | Playful 404 error pages, empty states, recovery flows |
+| **21st** | `atomic` | 21st.dev | `21st/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | Atomic UI components, inputs, buttons (handoff to Impeccable) |
 
-Kinds on disk: `dark-mode`, `editorial`, `playful`, `monochrome`, `high-contrast`, `soft-gradients`, `brutalist`, `minimal`, `lainnya`.
+---
 
-## Motion item fields used for match
+## ⚡ Field Matching Details
 
-`id`, `title`, `jenis`, `page_type`, `types_source[]`, `category_source`, `industry`, `preview`, `featured`, `popular_score`.
+### 1. Refero (`styles[]`)
+`name`, `slug`, `northStar`, `theme` (`dark`/`light`), `kind`, `tags[]`, `industry`, `fonts[]`, `colors[].hex`, `thumb`, `popularRank`, `files`.
+- **Kinds on disk**: `dark-mode`, `editorial`, `playful`, `monochrome`, `high-contrast`, `soft-gradients`, `brutalist`, `minimal`, `lainnya`.
 
-Jenis on disk: `hero`, `landing-page`, `features`, `about`, `footer`, `cta`, `pricing`, `404`, `mobile-app`, `testimonials`, `stats`, `blog`, `carousel`, `3d-website`.
+### 2. Aura (`items[]`)
+`id`, `title`, `author`, `category` (or `jenis`), `tags[]`, `description`, `popular_rank`, `popular_score`, `preview`, `files`.
+- Complete screens and templates with live HTML sources.
 
-`preview` is a filename next to `prompt.md`. Prefer a still (`webp`/`png`/`jpg`/`gif`) over `mp4`.
+### 3. Motion Banks (Motionsites, Scrolltide, Bencho, Layers)
+`id`, `title`, `jenis`, `category`, `tags[]`, `description`, `preview`, `files.prompt`, `files.meta`.
+- Animation prompts, seekable preview clips, and canvas shader setups.
+
+### 4. Section Banks (Supahero, Navbar, Footer, CTA, 404s)
+`id`, `title`, `category`, `tags[]`, `description`, `popular_rank`, `files.prompt`, `files.source`.
+- Structural component blueprints targeted to specific viewport zones.

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   MOTION_JENIS,
   argValue,
@@ -24,17 +25,21 @@ const SURFACE_ALIASES = [
   { re: /\b(dashboard|admin|settings|operate)\b/i, surface: "dashboard" },
   { re: /\b(landing|homepage|marketing|home page)\b/i, surface: "landing-page" },
   { re: /\bhero\b/i, surface: "hero" },
+  { re: /\b(nav|navbar|navigation|header|menu|dock)\b/i, surface: "navigation" },
   { re: /\b(about|tentang)\b/i, surface: "about" },
   { re: /\b(pricing|harga)\b/i, surface: "pricing" },
-  { re: /\bfooter\b/i, surface: "footer" },
-  { re: /\b(404|not found)\b/i, surface: "404" },
+  { re: /\b(footer|sitemap)\b/i, surface: "footer" },
+  { re: /\b(404|not found|error page)\b/i, surface: "404" },
+  { re: /\b(cta|waitlist|conversion|banner)\b/i, surface: "cta" },
+  { re: /\b(scroll|scrollytelling|timeline|pinned)\b/i, surface: "scrollytelling" },
+  { re: /\b(micro|physics|gooey|widget|interaction)\b/i, surface: "micro-interaction" },
+  { re: /\b(3d|webgl|shader|canvas|mesh)\b/i, surface: "3d-website" },
   { re: /\b(mobile|app screen)\b/i, surface: "mobile-app" },
   { re: /\b(feature|benefits)\b/i, surface: "features" },
   { re: /\b(blog|article|docs)\b/i, surface: "blog" },
   { re: /\b(testimonial|review)\b/i, surface: "testimonials" },
   { re: /\b(stats|metrics)\b/i, surface: "stats" },
-  { re: /\b(cta|waitlist)\b/i, surface: "cta" },
-  { re: /\b(3d|webgl)\b/i, surface: "3d-website" },
+  { re: /\b(button|input|component|atom|bento)\b/i, surface: "component" },
   { re: /\b(portfolio|gallery|showcase)\b/i, surface: "portfolio" },
 ];
 
@@ -157,10 +162,27 @@ function laneHint(intent, surface) {
   if ((intent === "redesign" || intent === "new") && WHOLE_SURFACES.has(surface)) {
     return "both";
   }
-  if (MOTION_JENIS.includes(surface)) return "section";
+  if (["3d-website", "scrollytelling", "micro-interaction"].includes(surface)) return "motion";
+  if (["navigation", "footer", "cta", "404", "hero", "pricing", "features", "about", ...MOTION_JENIS].includes(surface)) return "section";
+  if (surface === "component") return "atomic";
   if (intent === "section") return "section";
   if (intent === "redesign" || intent === "new") return "identity";
   return "both";
+}
+
+function detectPreferredBanks(surface, blob) {
+  const banks = [];
+  if (surface === "navigation") banks.push("navbargallery");
+  if (surface === "footer") banks.push("footerdesign");
+  if (surface === "cta") banks.push("ctagallery");
+  if (surface === "404") banks.push("404sdesign");
+  if (surface === "hero") banks.push("supahero", "motionsites");
+  if (surface === "scrollytelling") banks.push("scrolltide");
+  if (surface === "micro-interaction") banks.push("bencho");
+  if (surface === "3d-website") banks.push("layers", "motionsites");
+  if (surface === "dashboard") banks.push("aura", "refero");
+  if (surface === "component") banks.push("21st");
+  return banks;
 }
 
 function compactQuery({ query, productName, industry, kinds, surface, extra }) {
@@ -221,6 +243,7 @@ export function fingerprint({ cwd, query = "", count = 3, intent: intentArg }) {
     productName,
     count: n,
     laneHint: laneHint(intent, surface),
+    preferredBanks: detectPreferredBanks(surface, blob),
     avoid: [],
     sources: {
       product: Boolean(productMd),
@@ -232,7 +255,7 @@ export function fingerprint({ cwd, query = "", count = 3, intent: intentArg }) {
 }
 
 const isMain =
-  import.meta.url === `file://${path.resolve(process.argv[1] || "")}`;
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
 
 if (isMain) {
   const argv = process.argv.slice(2);

@@ -138,11 +138,11 @@ class BootstrapTests(IsolatedHome):
         default, sources = load_bootstrap_sources()
         self.assertEqual(default, "personal-google-drive-v1")
         source = sources[default]
-        self.assertEqual(source.archive_file_id, "1QCqajqPkSl95Y2PDsyC5o-SkyGD7FyRw")
-        self.assertEqual(source.checksum_file_id, "1et1hQHKnkW7wvYYdJGAPeY3IB6jsSw5r")
+        self.assertEqual(source.archive_file_id, "130IbcQVWNuo3RV2qsSRLJJxMapWSa_Rj")
+        self.assertEqual(source.checksum_file_id, "1dLzT1CRsag5fzEMu_q4-iBpVefoO9ima")
         self.assertEqual(
             source.pinned_sha256,
-            "1341c8480d16a579e7d35009287ea5b269ec22da35f9f4f34be6a4571cd6771f",
+            "43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2",
         )
         url = google_drive_public_url(source.archive_file_id)
         self.assertEqual(url.split("?", 1)[0], "https://drive.usercontent.google.com/download")

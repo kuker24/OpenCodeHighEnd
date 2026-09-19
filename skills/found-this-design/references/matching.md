@@ -1,55 +1,62 @@
-# Matching spec
+# Matching Specification (12-Bank Universal Design Engine)
 
-Implemented by `scripts/search.mjs`. Do not restate the numbers in SKILL.md.
+Implemented by `scripts/search.mjs` and `scripts/fingerprint.mjs`.
 
-## Brief (from `fingerprint.mjs`)
+## Brief Structure (from `fingerprint.mjs`)
 
-`intent` (`new`|`redesign`|`section`), `mode` (Persuade|Operate|Read|Experience), `surface`, `industry`, `theme` (`dark`|`light`|`unknown`), `kinds[]`, `query` (compact distinctive tokens, not whole files), `hexes[]`, `productName`, `count` (3 or 5), `laneHint`, `avoid[]`.
+- `intent`: `new` | `redesign` | `section`
+- `mode`: `Persuade` | `Operate` | `Read` | `Experience`
+- `surface`: `landing-page` | `hero` | `navigation` | `footer` | `cta` | `404` | `scrollytelling` | `micro-interaction` | `3d-website` | `dashboard` | `component` | etc.
+- `industry`: `saas` | `wellness` | `portfolio` | `agency` | `finance` | `commerce`
+- `theme`: `dark` | `light` | `unknown`
+- `kinds[]`: `dark-mode` | `minimal` | `editorial` | `playful` | `monochrome` | `high-contrast` | `soft-gradients` | `brutalist` | `lainnya`
+- `query`: Compact token string (not bloated context)
+- `hexes[]`: Extracted brand color accents
+- `preferredBanks[]`: Specialist banks auto-mapped from surface/intent
+- `count`: 3 (default) or 5
+- `laneHint`: `identity` | `section` | `motion` | `atomic` | `both`
 
-## Weights — Refero
+---
 
-| Signal | Points |
-|---|---|
-| `kind` in `brief.kinds` | +24 |
-| any `tag` in `brief.kinds` | +12 (if kind itself did not already hit) |
-| `theme` equals brief | +20 |
-| theme opposite brief | −8 |
-| token overlap on name + northStar + tags + fonts + industry vs `query` | 0–24 |
-| industry string overlap | +12 |
-| closest accent-hue Δ ≤ 30° (ignore gray / near-black / near-white) | 0–10 |
-| `trendingRank` or `popularRank` present | +4 × (21 − rank) / 20 |
-| `thumbMissing` | −15 |
+## 🎯 Scoring Engine Breakdown
 
-## Weights — Motion
+### 1. Specialist Bank Matching (+20 to +30 pts)
+When a query targets a specific surface zone, dedicated banks receive specialist priority:
+- `hero` → `supahero`, `motionsites`
+- `navigation` → `navbargallery`
+- `footer` → `footerdesign`
+- `cta` → `ctagallery`
+- `404` → `404sdesign`
+- `scrollytelling` → `scrolltide`
+- `micro-interaction` → `bencho`
+- `3d-website` / `shader` → `layers`, `motionsites`
+- `dashboard` → `refero`, `aura`
 
-| Signal | Points |
-|---|---|
-| `jenis` / `page_type` / `types_source` equals `brief.surface` | +28 |
-| related pair `hero` ↔ `landing-page` | +16 |
-| industry or `category_source` overlap | +20 |
-| title + id token overlap vs `query` | 0–16 |
-| `featured` | +4 |
-| `popular_score` | +min(4, score / 8) |
+### 2. Token Overlap (0 to +24 pts)
+Calculated against normalized stemmed words across item title, tags, description, category, and author.
 
-## Aliases (fingerprint)
+### 3. Theme & Kind Alignment (0 to +24 pts)
+- Exact kind match (`dark-mode`, `minimal`, etc.): +24 pts
+- Tag-level kind match: +12 pts
+- Theme alignment (`dark` vs `light`): +20 pts (opposite theme: −8 pts)
 
-**Theme / kind:** dark, gelap, midnight, noir → `theme=dark` + kind `dark-mode`. light, terang, cream, paper, ivory → `theme=light`. editorial, magazine, newspaper, serif → `editorial`. playful, fun, colorful, cartoon → `playful`. mono, monochrome, grayscale → `monochrome`. contrast, swiss engineering → `high-contrast`. gradient, aurora, glow, soft → `soft-gradients`. brutalist, raw, concrete → `brutalist`. minimal, clean, swiss, quiet → `minimal`. Kinds come from the user query, then `PRODUCT.md` — not from `DESIGN.md`. Theme may still use `DESIGN.md` hex luminance.
+### 4. Industry Match (+12 to +20 pts)
+Matched against industry categorization in metadata.
 
-**Surface:** hero → `hero`. landing, homepage, marketing → `landing-page`. about, tentang → `about`. pricing, harga → `pricing`. footer → `footer`. 404, not found → `404`. mobile, app screen → `mobile-app`. feature, benefits → `features`. blog, article, docs → `blog`. testimonial, review → `testimonials`. stats, metrics → `stats`. cta, waitlist → `cta`. 3d, webgl → `3d-website`. dashboard, admin, settings → `dashboard`.
+### 5. Color Accent Hue Match (0 to +10 pts)
+Computed using perceptual HSL closeness for accent hues within Δ ≤ 30°.
 
-**Industry:** saas, software, b2b, productivity → `saas`. wellness, health, healthcare, medical → `wellness`. portfolio, personal → `portfolio`. agency, studio → `agency`. finance, fintech, bank → `finance`. shop, store, ecommerce → `commerce`.
+### 6. Authority & Community Rank Bonus (+1 to +5 pts)
+Rank-based boost for top community-ranked designs (`popular_rank` #1 through #50).
 
-**Lane hint:** `dashboard` → `identity`. `redesign`/`new` on a whole surface (`landing-page`, `hero`, `mobile-app`, `3d-website`, `portfolio`) → `both`. other motion jenis → `section`. leftover `redesign`/`new` → `identity`. else `both`.
+---
 
-**Mode:** landing/marketing/pricing/campaign → Persuade. dashboard/admin/settings/app UI → Operate. docs/article/blog/help → Read. portfolio/gallery/showcase → Experience.
+## 🧭 Lanes & Diversity
 
-## Diversity and mix
+- `identity`: Focuses on complete brand worlds, design systems, tokens, and templates (`refero`, `aura`).
+- `section`: Focuses on structural UI parts (`supahero`, `navbargallery`, `footerdesign`, `ctagallery`, `404sdesign`).
+- `motion`: Focuses on animation, scrollytelling, physics, and WebGL (`motionsites`, `scrolltide`, `bencho`, `layers`).
+- `atomic`: Individual UI components and buttons (`21st` — handed off to Impeccable).
+- `both` / `all`: Balanced synthesis ensuring at least 1 identity world and 1 dynamic surface/motion candidate, filled out by top overall scores.
 
-- Slug family = slug/id with a trailing 8-hex suffix stripped, then a trailing `-hero` stripped. One family per shortlist.
-- `--lane identity` = Refero only. `section` = Motion only.
-- `both`: if each bank has at least one item scoring ≥ 8, reserve one slot each, then fill by score. Do not fill all 3/5 from one bank while the other still has hits ≥ 8.
-- `--exclude` drops those slugs/ids (re-roll).
-
-## Reason codes
-
-`kind`, `theme`, `tokens`, `industry`, `surface`, `hue`, `rank`, `featured`. Agent writes one user-facing sentence from these. Do not show raw score unless asked.
+Diversity rule: One item per slug family (`familyOf` normalizes IDs by stripping hash suffixes and `-hero` tags). Re-roll drops previous candidates via `--exclude <id1,id2>`.

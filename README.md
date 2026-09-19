@@ -11,7 +11,7 @@ Version **0.1.0**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 - 62 skills: 47 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
 - A thin `AGENTS.md` router (lazy, one primary specialist)
 - Core MCP: Codebase Memory, Context7, shadcn
-- Design Bank discovery or download (media is **not** in git)
+- 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, transactional install, uninstall, restore
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
@@ -175,26 +175,34 @@ NVIDIA SkillEvaluator is `FOREIGN_ON_DEMAND` in the same sense: a maintainer may
 
 The installer merges only owned MCP keys. Provider, model, permissions, plugins, and foreign MCP stay yours.
 
-## Design Bank
+## Design Bank (12 Universal Banks)
 
-Design Bank content is **not** vendored in this repository. Redistribution of the media archive is not cleared as first-party content.
+Design Bank media is **not** vendored in this repository. Redistribution of the media archive is not cleared as first-party content.
 
-Normal `./install.sh` installs the engine only and never starts the multi-gigabyte download. Full setup is explicit:
+OpenCodeHighEnd connects to an offline collection of **12 Design Banks** (34,500+ curated items) across four architectural tiers:
+- **Identity**: `Refero` (design systems, CSS tokens, typography, colors), `Aura` (complete landing & dashboard templates)
+- **Motion**: `Motionsites` (motion direction & UI animation), `Scrolltide` (scrollytelling & timeline pinning), `Bencho` (micro-interactions & widgets), `Layers` (3D Three.js & WebGL shaders)
+- **Section**: `Supahero` (SaaS hero headers), `NavbarGallery` (navigation bars & mega menus), `FooterDesign` (footers & sitemaps), `CtaGallery` (call-to-action blocks), `404sDesign` (empty states & error pages)
+- **Atomic**: `21st` (atomic components; handed off to Impeccable)
+
+Normal `./install.sh` installs the engine only and never starts the multi-gigabyte download. Full setup with the design suite is explicit:
 
 ```bash
 ./install.sh --with-design-bank
+# or anytime post-install:
 opencode-he design bootstrap
+# custom mirror override:
 OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design bootstrap
 ```
 
-Two download sources (SHA-256 fail-closed; URL without SHA is refused):
+Download sources (SHA-256 fail-closed; URL without SHA is refused):
 
-1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (ZIP). Google Drive is contacted only during bootstrap.
+1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (`OpenCodeHighEnd-DesignBank-v2.zip`, SHA-256 `43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2`). Google Drive is contacted only during bootstrap.
 2. **Fallback GitHub artifact** in `vendor/sources.json` (`GrokBestFriend` `Design-bank.tgz`, sha256 `9866f5a8…`). Used when the Drive pin is unavailable.
 
-Operator override: `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. Drive view links (`/file/d/ID/view`) resolve to `uc?export=download`. A valid local bank (four catalogs at `OPENCODE_DESIGN_BANK` or `~/Design`) is used as-is — no download.
+Operator override: `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. Drive view links (`/file/d/ID/view`) resolve to `uc?export=download`. A valid local bank (at `OPENCODE_DESIGN_BANK` or `~/Design`) is used as-is — no download.
 
-Bootstrap verifies SHA-256, extracts to a temp directory, validates 21st / Aura / Refero / Motionsites catalogs, then commits into `~/Design` or `OPENCODE_DESIGN_BANK`. Uninstall never deletes `~/Design` or `~/DesignV2`. After bootstrap, retrieval stays offline.
+Bootstrap verifies SHA-256, extracts to a temp directory, validates catalogs, then commits into `~/Design` or `OPENCODE_DESIGN_BANK`. Uninstall never deletes `~/Design` or `~/DesignV2`. After bootstrap, all queries and searches via skill `found-this-design` stay 100% offline with zero token context overhead.
 
 ## Design Intelligence
 

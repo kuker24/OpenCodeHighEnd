@@ -3,11 +3,18 @@ import os from "node:os";
 import path from "node:path";
 
 function catalogsOk(root) {
-  return (
-    !!root &&
+  if (!root || !fs.existsSync(root)) return false;
+  if (
     fs.existsSync(path.join(root, "Refero/bank/catalog.json")) &&
     fs.existsSync(path.join(root, "motionsites/library/catalog.json"))
-  );
+  ) {
+    return true;
+  }
+  let count = 0;
+  for (const conf of Object.values(BANK_REGISTRY)) {
+    if (fs.existsSync(path.join(root, conf.catalogRel))) count++;
+  }
+  return count >= 2;
 }
 
 function bankFromAdapterConfig() {
@@ -25,22 +32,158 @@ function envBank() {
   return process.env.OPENCODE_DESIGN_BANK || "";
 }
 
+const LOCAL_KNOWN_BANK = path.join(
+  os.homedir(),
+  "Downloads",
+  "LAB GITHUB",
+  "Design",
+);
+
 export const DEFAULT_BANK =
   envBank() ||
+  (fs.existsSync(LOCAL_KNOWN_BANK) ? LOCAL_KNOWN_BANK : "") ||
   bankFromAdapterConfig() ||
   path.join(os.homedir(), "Design");
 
 export function resolveBankRoot(explicit) {
+  if (explicit) return explicit;
   const candidates = [
-    explicit,
     envBank(),
+    LOCAL_KNOWN_BANK,
+    path.join(os.homedir(), "Downloads", "LAB GITHUB", "Design"),
     bankFromAdapterConfig(),
     path.join(os.homedir(), "Design"),
   ].filter(Boolean);
   for (const root of candidates) {
     if (catalogsOk(root)) return root;
   }
-  return explicit || envBank() || DEFAULT_BANK;
+  return DEFAULT_BANK;
+}
+
+export const BANK_REGISTRY = {
+  refero: {
+    id: "refero",
+    name: "Refero.design",
+    tier: "identity",
+    catalogRel: "Refero/bank/catalog.json",
+    baseRel: "Refero",
+    itemKey: "styles",
+    description: "Design systems, color palettes, CSS tokens, typography",
+  },
+  aura: {
+    id: "aura",
+    name: "Aura.build",
+    tier: "identity",
+    catalogRel: "aura/library/catalog.json",
+    baseRel: "aura",
+    itemKey: "items",
+    description: "Full-page landing templates and complete dashboard layouts",
+  },
+  motionsites: {
+    id: "motionsites",
+    name: "Motionsites.ai",
+    tier: "motion",
+    catalogRel: "motionsites/library/catalog.json",
+    baseRel: "motionsites",
+    itemKey: "items",
+    description: "Motion UI direction, animated heroes, WebGL interactions",
+  },
+  scrolltide: {
+    id: "scrolltide",
+    name: "Scrolltide.co",
+    tier: "motion",
+    catalogRel: "scrolltide/library/catalog.json",
+    baseRel: "scrolltide",
+    itemKey: "items",
+    description: "Scrollytelling, timeline pinning, scroll-driven interactive dashboards",
+  },
+  bencho: {
+    id: "bencho",
+    name: "Bencho.dev",
+    tier: "motion",
+    catalogRel: "bencho/library/catalog.json",
+    baseRel: "bencho",
+    itemKey: "items",
+    description: "Micro-interactions, gooey physics, interactive widgets",
+  },
+  layers: {
+    id: "layers",
+    name: "Getlayers.ai",
+    tier: "motion",
+    catalogRel: "layers/library/catalog.json",
+    baseRel: "layers",
+    itemKey: "items",
+    description: "3D Three.js scenes, WebGL shaders, animated mesh gradients",
+  },
+  supahero: {
+    id: "supahero",
+    name: "Supahero.io",
+    tier: "section",
+    catalogRel: "supahero/library/catalog.json",
+    baseRel: "supahero",
+    itemKey: "items",
+    description: "High-converting SaaS hero headers, split layouts, 3D headers",
+  },
+  navbargallery: {
+    id: "navbargallery",
+    name: "Navbar.gallery",
+    tier: "section",
+    catalogRel: "navbargallery/library/catalog.json",
+    baseRel: "navbargallery",
+    itemKey: "items",
+    description: "Navigation bars, mega menus, sticky headers, floating docks",
+  },
+  footerdesign: {
+    id: "footerdesign",
+    name: "Footer.design",
+    tier: "section",
+    catalogRel: "footerdesign/library/catalog.json",
+    baseRel: "footerdesign",
+    itemKey: "items",
+    description: "Multi-column website footers, sitemaps, newsletters",
+  },
+  ctagallery: {
+    id: "ctagallery",
+    name: "Cta.gallery",
+    tier: "section",
+    catalogRel: "ctagallery/library/catalog.json",
+    baseRel: "ctagallery",
+    itemKey: "items",
+    description: "Call-to-action sections, conversion banners, waitlist blocks",
+  },
+  "404sdesign": {
+    id: "404sdesign",
+    name: "404s.design",
+    tier: "section",
+    catalogRel: "404sdesign/library/catalog.json",
+    baseRel: "404sdesign",
+    itemKey: "items",
+    description: "Playful 404 error pages, empty states, recovery flows",
+  },
+  "21st": {
+    id: "21st",
+    name: "21st.dev",
+    tier: "atomic",
+    catalogRel: "21st/library/catalog.json",
+    baseRel: "21st",
+    itemKey: "items",
+    description: "Atomic UI components, React/Tailwind elements, shaders",
+  },
+};
+
+export function getAvailableBanks(bankRoot) {
+  const available = {};
+  for (const [key, conf] of Object.entries(BANK_REGISTRY)) {
+    const p = path.join(bankRoot, conf.catalogRel);
+    if (fs.existsSync(p)) {
+      available[key] = {
+        ...conf,
+        catalogPath: p,
+        baseDir: path.join(bankRoot, conf.baseRel),
+      };
+    }
+  }
+  return available;
 }
 
 export const REFERO_KINDS = [
@@ -124,17 +267,21 @@ export function catalogPaths(bankRoot) {
 }
 
 export function requireCatalogs(bankRoot) {
+  const available = getAvailableBanks(bankRoot);
   const paths = catalogPaths(bankRoot);
-  const missing = [];
-  if (!fs.existsSync(paths.refero)) missing.push(paths.refero);
-  if (!fs.existsSync(paths.motion)) missing.push(paths.motion);
-  if (missing.length) {
+  if (Object.keys(available).length === 0) {
+    const missing = [];
+    if (!fs.existsSync(paths.refero)) missing.push(paths.refero);
+    if (!fs.existsSync(paths.motion)) missing.push(paths.motion);
     const err = new Error(`Design bank catalogs missing:\n${missing.join("\n")}`);
     err.code = "BANK_MISSING";
     err.missing = missing;
     throw err;
   }
-  return paths;
+  return {
+    ...paths,
+    available,
+  };
 }
 
 export function readJson(file) {

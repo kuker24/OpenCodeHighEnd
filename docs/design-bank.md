@@ -33,7 +33,7 @@ Publish the ZIP (or `.tgz`) on Google Drive as anyone-with-the-link, or keep it 
 Compute the digest of the **archive file**, not of a folder:
 
 ```bash
-sha256sum OpenCodeHighEnd-DesignBank-v1.zip
+sha256sum OpenCodeHighEnd-DesignBank-v2.zip
 ```
 
 Accepted URL shapes:
