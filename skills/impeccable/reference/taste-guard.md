@@ -72,11 +72,17 @@ Before shipping UI, verify against the four gates:
 - Never let heroes float arbitrarily far down the viewport (cap hero top padding at ~6rem / `pt-24`).
 - Desktop navigation on a single line (max height 80px).
 
-### 4. Components, Tokens, & Navigation
+### 4. Components, Tokens, & Anti-Generic Filters (anthropics/frontend-design MERGE)
 - Single palette lock: choose neutral base + one primary accent role; maintain accent consistency throughout the page.
 - Corner radius consistency: uniform scale across cards, inputs, and buttons unless a distinct token hierarchy is documented.
 - Inherit existing design system tokens and component libraries where present.
 - **Anti-Slop Visual Fences**: Reject unexamined category templates: no default dark purple-gradient hero, glowing cyan/purple mesh backgrounds, or ungrounded Inter-on-white-card layouts unless explicitly requested.
+- **No Predictable Ground Kit**: Reject the default warm cream `#F4F1EA` ground kit with high-contrast serif display unless the project brief specifically calls for it.
+- **No Terracotta SaaS Cards**: Reject uniform terracotta or signal-red accent cards across generic business software.
+- **Token System Before Build**: Establish explicit token definitions (palette, spacing, radius, typography) BEFORE generating markup or layout.
+- **Subject-Specific Typography**: Typography must mirror the specific domain material (technical, editorial, industrial) rather than defaulting to generic neo-grotesque sans everywhere.
+- **Orchestrated Motion**: At most one orchestrated motion moment per page (hero reveal or signature transition); avoid spraying disconnected micro-animations across every container.
+- **Invariant**: `anthropics/frontend-design` is a MERGE of principles into this taste guard only. NEVER add as a separate skill. NEVER implement product UI from it when Design Bank misses; fall back to Design V2 component atoms or project shadcn.
 
 ### 5. Product Truth & Factual Content
 - **Zero Hallucinated Precision**: Never invent precise statistics (`94.2%`, `4.8x`), fake customer logos, fake review quotes, or fake partner endorsements.

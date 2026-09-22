@@ -21,6 +21,66 @@ Do not infer a model provider from a logical model name. Treat custom-gateway al
 7. **Review** → in-session review. `/matt-code-review` only if the user asked for two-axis Standards + Spec. There is no user `/code-review` skill.
 8. **Verification** → pick a profile, then Read `~/.config/opencode/highend/rules/01-verification.md`. Required configured failures block a completion claim.
 
+## Closed Intent Classification
+
+The router classifies every user task into exactly one closed intent:
+
+```text
+repo_understand | bug | security | perf | ui_direction | ui_implement
+motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
+academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id
+```
+
+| Intent | Primary Route | Handoff Boundary / Rule |
+|---|---|---|
+| `repo_understand` | Codebase Memory MCP → `code-tour` | Codebase Memory first; guided tour anchors `.tours/` |
+| `architecture` | `/why` (manual); blast risk → `/blast-radius` | Rationale and blast radius; no auto-architect |
+| `bug` | `diagnosing-bugs` | Reproduce red-green; known typos stay `/tdd` or in-session |
+| `security` | `full-audit-keamanan` | Defensive code/auth/secrets audit (max 1 risk specialist) |
+| `perf` | `full-performance-audit` | Measured LCP/INP/CLS/latency/bundle bottlenecks |
+| `ui_direction` | `found-this-design` | Stop after writing `.impeccable/found-this-design.json` |
+| `ui_implement` | `impeccable` | Requires pinned world or project `DESIGN.md` |
+| `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
+| `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
+| `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
+| `img3d` | `img2threejs` | Procedural Three.js models from reference images |
+| `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
+| `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
+| `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
+| `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
+| `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
+| `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
+| `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
+| `warehouse` | Only when user names the job | `agent-architecture-audit`, `cost-aware-llm-pipeline`, etc. |
+| `ops_data` | `supabase-ops` / `mongodb-ops` / `vercel-ops` | Operational data/hosting config; never generates UI |
+
+## Tool Reporting
+
+When reporting tool or specialist usage to the operator, strictly use:
+
+```text
+USED
+CONSIDERED_NOT_USED
+MANUAL_NOT_INVOKED
+```
+
+Never list unused tools or uncalled MCP methods as used.
+
+## Jev-Shaped Verification Policy (Without External Server)
+
+1. **Assertions ≠ Evidence**: Claims made in the user prompt, PR body, or issue tickets are hypotheses until backed by verifiable mechanical facts.
+2. **Missing Facts Stop**: If a required priority, test command, or baseline constraint is missing or ambiguous, halt and stop with `ask_user` or targeted repo investigation before mutating code.
+3. **Execution Bands**:
+   - `auto`: Permitted ONLY when an objective, mechanical FACT exists (tests passing, compiler green, clean lint, exit 0) AND blast radius is low.
+   - `review`: Required whenever mechanical proof is missing, tests are unconfigured, or changes touch auth, secrets, or payments.
+4. **Hard Artifacts Overwrite Model Confidence**: Compiler errors, test suites, SHA-256 checks, traces, and screenshots strictly overrule model reasoning or confidence.
+
+## Harness & Code Mode Tooling Rules
+
+1. **Host Identity**: OpenCodeHighEnd runs on OpenCode 2. Never assume foreign host/gateway namespaces (e.g. `tools.antigravity.*`) in Code Mode execution scripts.
+2. **Session Tools**: Session manipulation in Code Mode is strictly `tools.opencode.session_move` and `tools.opencode.session_rename`. Always call `search()` before executing unknown tool paths.
+3. **Codebase Memory Path Verification**: Codebase Memory MCP operations (`index_repository`, `index_status`) strictly require verified, existing filesystem directory paths matching cwd or an explicit user path. Never guess or invent unverified sibling directory paths (e.g. `AntigravityHighEnd`). If an indexing worker reports an error or the path is missing, verify `cwd` or run `list_projects` first rather than retrying arbitrary paths.
+
 ## Knowledge
 
 - Repository structure and impact: MCP `codebase-memory-mcp` first. If Codebase Memory has no project for cwd, skip it and use repo files. Do not retry.

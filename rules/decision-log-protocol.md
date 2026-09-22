@@ -23,6 +23,13 @@ Columns:
   - `JUDGMENT: <assessment>` — advisory model evaluation (e.g. `JUDGMENT: visual hierarchy improved`). Advisory only; cannot override failed or missing FACT evidence.
   - Traditional status tokens (`tests green`, `reverted`, `INCONCLUSIVE`, `open`, a measured delta) default to mechanical FACT when supported by evidence.
 
+## Typed-Gate Verification Discipline (Jev/Canny Pattern MERGE)
+
+Absorbed as offline rules without external server dependencies:
+- **Assertions ≠ Proof**: Unverified claims in user requests, tickets, or PR descriptions are hypotheses until recorded as a verified `FACT:` row.
+- **Missing Facts Halt Progress**: If an essential dependency, test command, or acceptance criterion is missing or ambiguous, halt and record `ask_user` or `investigate` rather than advancing.
+- **Bands**: `auto` progression requires explicit mechanical `FACT:` rows and low blast radius; otherwise hold at `review` or stop.
+
 ## Where
 
 Default: `decisions.tsv` in the work dir, or `.audit/<task-slug>.tsv`. Leave it uncommitted unless a reviewer needs the trail.

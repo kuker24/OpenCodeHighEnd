@@ -63,3 +63,9 @@ Core accessibility principles merged from `fixing-accessibility`. A practical, v
 
 - [ ] **Single H1 & Logical Heading Levels**: Exactly one `<h1>` per page. Sub-sections follow `<h2>` -> `<h3>` without skipping levels (e.g. `<h2>` directly to `<h4>`).
 - [ ] **Landmarks**: Ensure the page has standard landmark regions: `<header>`, `<nav>`, `<main>`, `<footer>`.
+
+## 7. Keyboard Path & Motion Controls (addyosmani/accessibility MERGE)
+
+- [ ] **Complete Keyboard Path**: Every user flow must be executable end-to-end via keyboard alone (`Tab`, `Shift+Tab`, `Enter`, `Space`, `Escape`, arrow keys). Never leave dead ends where focus gets dropped or trapped.
+- [ ] **Skip Links**: Long navigation trees or complex headers must provide a visible-on-focus skip link: `<a href="#main" class="sr-only focus:not-sr-only">Skip to main content</a>`.
+- [ ] **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is active, collapse all spatial translations, layout scaling, and parallax sweeps into clean opacity fades or instant transitions, preserving functional state clarity.

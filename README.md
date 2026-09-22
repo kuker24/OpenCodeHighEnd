@@ -4,7 +4,7 @@ OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
 
-Version **0.1.2**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
+Version **0.1.3**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
 
 ## What it is
 

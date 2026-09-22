@@ -56,3 +56,17 @@ Tactile polish and interface feel principles merged from `make-interfaces-feel-b
 - [ ] **Optical Icon Alignment**: Icons paired with text inside buttons or menu items often sit mathematically centered but optically low. Nudge icon containers up by `0.5px` or `1px` relative to text baseline to align with font capital height.
 - [ ] **Layout Shift-Free Skeletons**: Skeleton loaders and fallback placeholders must match the exact dimensions, line-height, and padding of the final content to guarantee 0 CLS (Cumulative Layout Shift) when asynchronous data settles.
 - [ ] **Predictable Interactive States**: Every interactive surface must define explicit visual states for `:hover`, `:active`, `:focus-visible`, and `disabled`. Never leave a control in a dead static state.
+
+## 5. Apple-Grade Motion & Tactile Physics (emilkowalski/apple-design + wshobson/interaction-design MERGE)
+
+- [ ] **Interruptible Springs**: Gesture-driven and state animations must remain interruptible mid-flight without snapping or layout hitching.
+- [ ] **Velocity Inheritance**: When releasing drag or swipe gestures, inherit user touch velocity directly into the resolving spring physics curve.
+- [ ] **Press Feedback Discipline**: Interactive cards and buttons should respond with subtle downward scaling (`transform: scale(0.97)`) on pointerdown, resolving cleanly on pointerup within 100–150ms.
+- [ ] **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is enabled, zero out spatial translations and physical bounces while preserving opacity fades for state clarity.
+- [ ] **No Hairline-Only Affordances (better-interface MERGE)**: Interactive elements must not rely strictly on a 1px border to communicate clickable boundaries; use background contrast, elevation, or padded hit targets.
+
+## 6. Layered Shadows & Adaptive Flow (mengto/beautiful-shadows + pbakaus/adapt + superfuture/design-review MERGE)
+
+- [ ] **Multi-Stop Ambient Shadows**: Simulate realistic ambient illumination by layering multiple subtle box-shadows (sharp contact shadow + mid ambient diffusion) rather than single harsh offsets.
+- [ ] **Container-Adaptive Components**: Use CSS container queries (`@container`) on self-contained cards and modules so they adapt fluidly to local container width rather than global viewport size alone.
+- [ ] **Pre-Verification Design Review**: Audit visual hierarchy, contrast ratios, concentric radius geometry, and hit targets before handing off to browser verification.

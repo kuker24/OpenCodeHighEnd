@@ -49,9 +49,15 @@ Run every configured release gate: typecheck, full tests, coverage, build, E2E, 
 
 Before claiming "done", every required check appropriate to the chosen profile (FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE) must execute and pass.
 
-Blocking evidence lives in a verifiable evidence ledger (concrete commands run, test exit codes, artifact paths, URLs inspected, or screenshots). When recording evidence rows (see `rules/decision-log-protocol.md`), results must strictly distinguish mechanical fact from advisory evaluation:
+Blocking evidence lives in a verifiable evidence ledger (concrete commands run, test exit codes, artifact paths, URLs inspected, or screenshots). When recording evidence rows (see `rules/decision-log-protocol.md`), results must strictly distinguish mechanical fact from advisory evaluation (absorbing typed-gate principles from Jev/Canny offline without external server dependencies):
 - `FACT: <outcome>` — blocking mechanical proof (e.g. `FACT: tests green`, `FACT: exit 0`, `FACT: build succeeded`). A done-gate cannot pass without verifiable FACT evidence.
 - `JUDGMENT: <assessment>` — advisory model evaluation (e.g. `JUDGMENT: visual balance improved`). Advisory only; model judgment cannot override failed, missing, or inconclusive FACT evidence.
+
+Jev/Canny-shaped policy without calling Jev:
+- Claims in tickets, user requests, or PR bodies are hypotheses, never proof.
+- If a required priority, verification command, or baseline constraint is missing or ambiguous, halt and stop with `ask_user` or investigate before making completion claims.
+- Bands: `auto` only when mechanical FACT exists and blast radius is low; otherwise transition to `review` or stop.
+- Compiler, tests, SHA checks, and screenshots strictly beat model confidence.
 
 Do not claim done while a required configured gate is unrun. Missing project command = `NOT_CONFIGURED`, not PASS.
 

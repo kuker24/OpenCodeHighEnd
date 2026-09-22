@@ -7,7 +7,10 @@ pikir dulu → bukti di repo → satu spesialis → cek hasil
 
 Availability is not a reason to use a tool. One primary specialist. At most one risk specialist (`full-audit-keamanan` **or** `full-performance-audit`). Never print tokens, gateway URLs, or model maps. Model names are opaque identifiers. Never enable `--auto` unless the user explicitly asked.
 
-## Default
+## Closed Intent & Default
+
+Classify into exactly one intent before acting:
+`repo_understand | bug | security | perf | ui_direction | ui_implement | motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose | academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id`
 
 1. Repo evidence is enough → do the work. No specialist.
 2. User typed a slash command → load that command's specialist. Do not substitute.
@@ -27,15 +30,16 @@ If you name specialists or tools, use only:
 
 Do not list unused tools as if they ran.
 
-## Knowledge (lazy)
+## Knowledge & Code Mode Tooling (lazy)
 
-repo/file → Codebase Memory MCP first (skip if no project for cwd) → Serena only if already registered and exact symbol work → Context7 for current lib docs → OpenCode WebSearch/WebFetch; foreign Exa only if already connected → skill `adhd` only for high-ambiguity/high-risk.
+repo/file → Codebase Memory MCP first (skip if no project for cwd; only index existing repo paths, never invent sibling paths) → Serena only if already registered and exact symbol work → Context7 for current lib docs → OpenCode WebSearch/WebFetch; foreign Exa only if already connected → skill `adhd` only for high-ambiguity/high-risk.
+Code Mode host is OpenCode 2: session tools are strictly `tools.opencode.session_move` and `tools.opencode.session_rename` (never foreign `tools.antigravity.*`). Search catalog before unknown calls.
 
 ## Specialists (load one)
 
-UI direction → skill `found-this-design` then `impeccable`. UI atoms (button, input, card, nav) after world/brief → impeccable after Design V2 shortlist; BANK_MISS ≠ generate (never `found-this-design` for buttons). Motion UI (easing, hover, seam) → `emil-design-eng`. Still/ads/non-UI surface → `visual-studio`. Scroll-led story → `scroll-craft`. Camera/3D world/diorama → `scroll-world`. Object image to procedural Three.js → `img2threejs`. Registry → shadcn MCP. Design Intelligence and Design V2 are internal to Impeccable `new-work`, never a route. Stitch MCP = screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. UI Skills MCP = design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document.
+UI direction → skill `found-this-design` (must write `.impeccable/found-this-design.json` before implement) then `impeccable`. UI atoms (button, input, card, nav) after world/brief → impeccable after Design V2 shortlist; BANK_MISS ≠ generate (never `found-this-design` for buttons). Motion UI (easing, hover, seam) → `emil-design-eng`. Still/ads/non-UI surface → `visual-studio`. Scroll-led story → `scroll-craft`. Camera/3D world/diorama → `scroll-world`. Object image to procedural Three.js → `img2threejs`. Registry → shadcn MCP. Design Intelligence and Design V2 are internal to Impeccable `new-work`, never a route. Stitch MCP = screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. UI Skills MCP = design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document.
 
-Browser QA → skill `playwright-qa`. Explicit/session BrowserAct → `browser-act`. Observed cause → `chrome-devtools-axi` after `opencode-chromium-cdp` (`127.0.0.1:9223`). Never Google Chrome. Project E2E suites (Playwright Test/Cypress) stay authoritative for regressions.
+Browser QA → skill `playwright-qa` (isolated verification session; builder does not self-attest). Explicit/session BrowserAct → `browser-act`. Observed cause → `chrome-devtools-axi` after `opencode-chromium-cdp` (`127.0.0.1:9223`). Never Google Chrome. Project E2E suites (Playwright Test/Cypress) stay authoritative for regressions.
 
 Auth/secret/payment/upload/webhook/privileged/public API → `full-audit-keamanan`. Measured LCP/INP/CLS/latency/bundle → `full-performance-audit`. GitHub → `gh-axi`. Hard unknown bug → `diagnosing-bugs`. Documents (PDF/DOCX/extract/review) → `smartdoc`. File → Markdown ingest → `markitdown`. Reusable local knowledge → `smartbook-ingest`.
 
@@ -58,7 +62,7 @@ Read the file `~/.config/opencode/highend/rules/00-routing.md` with the Read too
 
 ## When a verification profile is chosen
 
-Read `~/.config/opencode/highend/rules/01-verification.md`. Profiles: FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE. Missing project command = `NOT_CONFIGURED`, not PASS. Done-gate is evidence-blocked: model judgment advises but cannot override missing or failed test logs, exit codes, or artifact paths. Long-running trails record in `/decision-log`.
+Read `~/.config/opencode/highend/rules/01-verification.md`. Profiles: FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE. Missing project command = `NOT_CONFIGURED`, not PASS. Done-gate is evidence-blocked: model judgment advises but cannot override missing or failed test logs, exit codes, or artifact paths (`FACT:` vs `JUDGMENT:`). External Jev/Canny servers skipped; typed gates run offline. Claims are hypotheses until proven; missing facts stop with `ask_user`. Long-running trails record in `/decision-log`.
 
 If you need operational principles or prose discipline, Read `~/.config/opencode/highend/rules/02-engineering-principles.md` or `03-prose-discipline.md`. Do not `@`-import them.
 

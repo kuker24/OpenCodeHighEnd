@@ -12,7 +12,61 @@ One primary specialist per problem. At most one risk specialist (`full-audit-kea
 
 Manual specialists stay behind slash commands. Suggest them when the user names the job. Product interviews, glossaries, and ADRs route to `grill-with-docs` (including frontier rounds). Spec and ticket implementations stay in-session with `tdd`. Workflow choice is resolved directly via the router without an extra specialist.
 
-Tool reporting:
+## Closed Intent Classification
+
+Every user request is classified into exactly one closed intent:
+
+```text
+repo_understand | bug | security | perf | ui_direction | ui_implement
+motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
+academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id
+```
+
+| Intent | Primary Route | Handoff Boundary / Rule |
+|---|---|---|
+| `repo_understand` | Codebase Memory MCP → `code-tour` | Codebase Memory first; guided tour anchors `.tours/` |
+| `architecture` | `/why` (manual); blast risk → `/blast-radius` | Rationale and blast radius; no auto-architect |
+| `bug` | `diagnosing-bugs` | Reproduce red-green; known typos stay `/tdd` or in-session |
+| `security` | `full-audit-keamanan` | Defensive code/auth/secrets audit (max 1 risk specialist) |
+| `perf` | `full-performance-audit` | Measured LCP/INP/CLS/latency/bundle bottlenecks |
+| `ui_direction` | `found-this-design` | Stop after writing `.impeccable/found-this-design.json` |
+| `ui_implement` | `impeccable` | Requires pinned world or project `DESIGN.md` |
+| `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
+| `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
+| `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
+| `img3d` | `img2threejs` | Procedural Three.js models from reference images |
+| `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
+| `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
+| `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
+| `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
+| `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
+| `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
+| `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
+| `warehouse` | Only when user names the job | `agent-architecture-audit`, `cost-aware-llm-pipeline`, etc. |
+| `ops_data` | `supabase-ops` / `mongodb-ops` / `vercel-ops` | Operational data/hosting config; never generates UI |
+
+## Explicit Handoff Graph (Artifact-Gated)
+
+1. **Direction → Implementation**: `found-this-design` MUST write `.impeccable/found-this-design.json` before `impeccable` starts. Direction without pin is rejected.
+2. **Implementation → Verification**: `impeccable` does not self-attest. `playwright-qa` runs in a clean session with screenshots/traces/exit codes.
+3. **Data Nodes are Passive**: Design Bank, Design V2, and shadcn are passive data stores and component registries, never pseudo-agents.
+4. **Mixed Requests**: On multi-surface requests (landing + button + video), pick largest surface first (usually `impeccable`). Motion or video is step 2 after user confirmation. Never parallel-load specialists.
+5. **No Direct UI Generation**: Stitch, UI Skills, and Reticle never implement production UI alone.
+
+## Jev-Shaped Verification Policy (Without External Server)
+
+- **Assertions ≠ Proof**: Claims in the user request or PR body are hypotheses, never evidence.
+- **Missing Facts Stop**: If a required fact, test command, or priority is missing, stop with `ask_user` / investigate before changing code.
+- **Bands**: `auto` progression applies only when mechanical proof (`FACT:`) exists and risk is low; otherwise hold at `review` or stop.
+- **Hard Artifacts Win**: Compiler errors, test suites, SHA checks, and screenshots strictly overrule model reasoning or confidence.
+
+## Harness & Code Mode Tooling Rules
+
+- **OpenCode 2 Host**: Never assume foreign gateway/host namespaces such as `tools.antigravity.*` in Code Mode scripts.
+- **Session Tools**: Session manipulation in Code Mode is strictly `tools.opencode.session_move` and `tools.opencode.session_rename`.
+- **Codebase Memory Paths**: Codebase Memory MCP operations strictly require verified, existing filesystem directory paths matching cwd or an explicit user path. Never guess or invent unverified sibling directory paths (e.g. `AntigravityHighEnd`). If an indexing worker reports an error or the path is missing, verify `cwd` or run `list_projects` first rather than retrying arbitrary paths.
+
+## Tool reporting:
 
 ```text
 USED

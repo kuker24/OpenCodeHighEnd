@@ -49,5 +49,6 @@ Instead of opaque multi-agent swarms or chat-based delegation, OpenCodeHighEnd o
 
 Adapted from *awesome-harness-engineering* and production agent systems:
 - **Harness Over Model**: System correctness, fail-closed boundaries, and deterministic verification gates matter far more than prompt persuasion.
-- **Context Hygiene**: Lazy specialist activation ensures context is never polluted with irrelevant skills.
-- **Evidence-First Done Gate**: Completion claims require mechanical fact proofs in an evidence ledger. Model judgment advises but never overrides verification results.
+- **Context Hygiene**: Lazy specialist activation ensures context is never polluted with irrelevant skills. Closed intent classification routes requests to exactly one specialist.
+- **Evidence-First Done Gate**: Completion claims require mechanical fact proofs in an evidence ledger (`FACT:` vs `JUDGMENT:`). Model judgment advises but never overrides verification results. External Jev/Canny servers are skipped; typed-gate verification patterns operate entirely offline.
+- **Host & Tooling Guardrails**: Product identity is strictly OpenCode 2. Session tools are strictly `tools.opencode.*`; Codebase Memory operations only target verified existing repository roots.

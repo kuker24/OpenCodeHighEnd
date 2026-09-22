@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.1.3 — 2026-09-23
+
+- Codified the 20-member closed intent classification set in `rules/00-routing.md`, `docs/routing.md`, and `templates/AGENTS.md` (`repo_understand | bug | security | perf | ui_direction | ui_implement | motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose | academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id`).
+- Codified artifact-gated specialist handoff graph in `rules/00-routing.md`, `docs/routing.md`, and `docs/architecture.md`, enforcing `found-this-design` must emit `.impeccable/found-this-design.json` before `impeccable` starts.
+- Enforced OpenCode 2 host and Code Mode tooling guardrails: session operations strictly use `tools.opencode.session_move` and `tools.opencode.session_rename` (never foreign namespaces); Codebase Memory MCP strictly targets verified repository paths.
+- Absorbed offline typed-gate verification patterns (Jev/Canny MERGE) across `rules/01-verification.md` and `rules/decision-log-protocol.md`: assertions in tickets/PRs are hypotheses requiring `FACT:` rows, missing facts halt progress to ask user, and auto-progression requires low blast radius and mechanical proof.
+- Merged anti-generic frontend design principles from `anthropics/frontend-design` into `skills/impeccable/reference/taste-guard.md` (no default warm cream ground kit, no terracotta cards, token system before build, domain-grounded typography).
+- Merged keyboard navigation flows and reduced-motion fallbacks from `addyosmani/accessibility` into `skills/impeccable/reference/accessibility.md`.
+- Merged Apple-grade tactile motion, velocity inheritance, and interruptible springs from `emilkowalski/apple-design` and `wshobson/interaction-design`, along with layered ambient shadows and container-adaptive layouts into `skills/emil-design-eng/references/interface-feel.md`.
+- Updated `docs/source-wave.md` with explicit dispositions for upstream wave sources (Canny, Jev demos, typesafe-mcp, Agent-Reach, etc.).
+- Explicitly documented `Agent-Reach` and `typesafe-mcp` as REJECTED in `docs/mcp.md` and `docs/source-wave.md`, keeping core MCP servers frozen at `codebase-memory-mcp`, `context7`, and `shadcn`.
+- Synchronized release acceptance fixtures (`docs/acceptance.md`), catalog freeze metadata, compatibility targets, and vendor specifications to 0.1.3.
+
 ## 0.1.2 — 2026-09-22
 
 - Aligned done-gate vocabulary in `rules/01-verification.md` explicitly requiring `FACT: <outcome>` (blocking) and `JUDGMENT: <assessment>` (advisory) backed by `rules/decision-log-protocol.md`.
