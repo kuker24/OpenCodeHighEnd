@@ -40,3 +40,29 @@
 - **No fixed sleep**: Avoid arbitrary `sleep 5` or polling loops. Use snapshot auto-wait and element presence checks.
 - **Reference freshness**: Snapshot refs are ephemeral to the session and DOM generation. After significant page changes or navigation, capture a fresh snapshot.
 - **Don't touch project configs**: Do not inject Playwright Test runner configuration files into projects that do not have them unless explicitly asked.
+
+## Advanced Diagnostic Commands
+
+When deep visual or state investigation is needed during exploratory QA:
+
+- **Targeted snippet search**:
+  ```bash
+  playwright-cli -s=<task-session> find "Submit Order"
+  ```
+  Searches the snapshot without dumping full DOM trees, returning matching element refs with context.
+- **Visual element highlight**:
+  ```bash
+  playwright-cli -s=<task-session> highlight e4
+  playwright-cli -s=<task-session> highlight --hide
+  ```
+- **Execution tracing**:
+  ```bash
+  playwright-cli -s=<task-session> tracing-start
+  # ... perform actions ...
+  playwright-cli -s=<task-session> tracing-stop
+  ```
+- **Console inspection**:
+  ```bash
+  playwright-cli -s=<task-session> console error
+  ```
+  Surfaces client-side runtime exceptions and console errors during user flows.

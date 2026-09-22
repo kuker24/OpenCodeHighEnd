@@ -18,7 +18,7 @@ function catalogsOk(root) {
 }
 
 function bankFromAdapterConfig() {
-  const cfg = path.join(os.homedir(), ".config/opencode/bestfriend/config/design-bank.json");
+  const cfg = path.join(os.homedir(), ".config/opencode/highend/config/design-bank.json");
   try {
     const data = JSON.parse(fs.readFileSync(cfg, "utf8"));
     if (data && typeof data.root === "string" && catalogsOk(data.root)) return data.root;
@@ -32,27 +32,23 @@ function envBank() {
   return process.env.OPENCODE_DESIGN_BANK || "";
 }
 
-const LOCAL_KNOWN_BANK = path.join(
-  os.homedir(),
-  "Downloads",
-  "LAB GITHUB",
-  "Design",
-);
+function ownedShareBank() {
+  return path.join(os.homedir(), ".local/share/opencode-highend/design-bank");
+}
 
 export const DEFAULT_BANK =
   envBank() ||
-  (fs.existsSync(LOCAL_KNOWN_BANK) ? LOCAL_KNOWN_BANK : "") ||
   bankFromAdapterConfig() ||
+  (catalogsOk(ownedShareBank()) ? ownedShareBank() : "") ||
   path.join(os.homedir(), "Design");
 
 export function resolveBankRoot(explicit) {
   if (explicit) return explicit;
   const candidates = [
     envBank(),
-    LOCAL_KNOWN_BANK,
-    path.join(os.homedir(), "Downloads", "LAB GITHUB", "Design"),
     bankFromAdapterConfig(),
     path.join(os.homedir(), "Design"),
+    ownedShareBank(),
   ].filter(Boolean);
   for (const root of candidates) {
     if (catalogsOk(root)) return root;

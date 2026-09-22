@@ -699,7 +699,7 @@ Test the interface through the eyes of 5 distinct user archetypes. Each persona 
 - Needs adequate color contrast (4.5:1 minimum)
 - May use browser zoom up to 200%
 
-**Test Questions**:
+**Test Questions** (see [accessibility.md](accessibility.md) for full WCAG checklist):
 - Can the entire primary flow be completed keyboard-only?
 - Are all interactive elements focusable with visible focus indicators?
 - Do images have meaningful alt text?

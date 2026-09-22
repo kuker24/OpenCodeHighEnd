@@ -3,11 +3,13 @@
 Design Bank root resolution priority:
 1. Explicit path (`--bank-root <path>` or `--bank <path>`)
 2. `$OPENCODE_DESIGN_BANK` environment variable
-3. Local development root (`~/Downloads/LAB GITHUB/Design`)
-4. Adapter config (`~/.config/opencode/bestfriend/config/design-bank.json`)
-5. User home default (`~/Design`)
+3. HighEnd config pointer (`~/.config/opencode/highend/config/design-bank.json`)
+4. User home default (`~/Design`)
+5. Owned shared cache (`~/.local/share/opencode-highend/design-bank`)
 
-Minimum required: `Refero` and `motionsites` (for legacy/test environments). When full 12-bank suite is present, all banks are automatically registered, indexed, and queryable.
+Catalog requirements:
+- Search engine & skill indexing (`found-this-design`): dynamically discovers and indexes all available banks across the 12 universal catalogs (minimum: `Refero` + `motionsites` or any 2 valid catalogs).
+- Design V2 Engine (`lib/design_v2/bootstrap.py` `REQUIRED_CATALOGS`): bootstrap and validation require four canonical catalogs (`21st`, `aura`, `refero`, `motionsites`). Full 12-bank suites expand the search footprint beyond bootstrap requirements.
 
 ---
 

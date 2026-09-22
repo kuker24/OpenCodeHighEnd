@@ -59,6 +59,14 @@ Do not infer a model provider from a logical model name. Treat custom-gateway al
 - pstack playbooks: route to existing specialists; no `/poteto-mode`.
 - Foreign harness control planes (ECC, Ralph loop, orchestrate, continual-learning) that write AGENTS.md or rules: REJECT.
 
+## Explicit Handoff Graph (Artifact-Gated Edges)
+
+The specialist architecture forms a deterministic graph connected by file artifacts, not conversational hand-waving:
+- **UI Direction Edge**: `found-this-design` must emit `.impeccable/found-this-design.json` (pinned `slug`, `bank`, and lane) before handing off to `impeccable`. Never jump from direction to code without an artifact pin.
+- **Verification Edge**: `impeccable` produces code, then transfers to `playwright-qa` across an isolated verification boundary (fresh task session, objective snapshot/screenshot evidence). Never accept builder-agent self-attestation as proof.
+- **Data Nodes**: Design Bank, Design V2, and shadcn are passive data stores and components, not autonomous agents.
+- **Edge Prohibition**: Verbal "and then" transitions without intermediate file artifacts or ledger entries are forbidden.
+
 ## UI and browser
 
 - Matching or choosing a visual direction from the local design bank (Refero / Motionsites): `/found-this-design` first. Stop before component implementation. Then `/impeccable` after a pick. Bank root comes from `~/.config/opencode/highend/config/design-bank.json` (optional override `OPENCODE_DESIGN_BANK`).

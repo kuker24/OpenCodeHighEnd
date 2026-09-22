@@ -674,3 +674,13 @@ When reviewing UI code, check for:
 | Framer Motion `x`/`y` props under load     | Use `transform: "translateX()"` for hardware acceleration        |
 | Same enter/exit transition speed           | Make exit faster than enter (e.g., enter 2s, exit 200ms)         |
 | Elements all appear at once                | Add stagger delay (30-80ms between items)                        |
+
+## Interface Feel & Tactile Polish
+
+Beyond animation curves, great interfaces feel responsive and stable through tactile details:
+- **Typography**: Apply `tabular-nums` to numbers/metrics to eliminate layout jitter. Use `text-wrap: balance` on headlines and `text-wrap: pretty` on copy.
+- **Hit targets**: Maintain >=44×44px hit targets (using negative pseudo-element insets if visual element is smaller). Set `user-select: none` on clickable badges/controls.
+- **Surfaces**: Enforce concentric nested radius (`inner = max(0, outer - padding)`). Use layered diffuse shadows and 1px semi-transparent borders.
+- **Optical alignment**: Nudge icons in text containers up 0.5–1px for baseline harmony.
+
+See detailed checklist in [references/interface-feel.md](references/interface-feel.md).

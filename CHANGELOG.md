@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Merged interface tactile feel principles (typography stability, hit targets, concentric border radius, layered shadows) from `make-interfaces-feel-better` into `skills/emil-design-eng/references/interface-feel.md`.
+- Merged practical WCAG AA checklist (accessible names, focus rings, dialog focus trapping, `aria-invalid`) from `fixing-accessibility` into `skills/impeccable/reference/accessibility.md` and wired into audit and critique workflows.
+- Refreshed `skills/playwright-qa` with Playwright CLI diagnostics (`find`, `highlight`, `tracing-start`/`tracing-stop`, `console`) while maintaining strict 4-door browser hierarchy and <=200 line budget.
+- Documented `react-doctor` as an optional on-demand tool for React audits in `skills/impeccable/reference/audit.md` and `skills/full-performance-audit/SKILL.md` (no network required at install, zero skill catalog bloat).
+- Updated `docs/source-wave.md` with explicit MERGE and OPTIONAL dispositions.
+- Hardened done-gate verification pattern across `rules/01-verification.md`, `rules/decision-log-protocol.md`, `manual-skills/decision-log/SKILL.md`, and `templates/AGENTS.md`. Mechanical completion now explicitly requires an evidence ledger (commands, exit codes, artifact paths) with mandatory pointers for done claims and strict separation of blocking `FACT:` proofs from advisory `JUDGMENT:` assessments.
+- Fixed Design Bank config resolution path drift in `found-this-design` (`lib.mjs` and `banks.md` now read `~/.config/opencode/highend/config/design-bank.json` and share cache instead of legacy `bestfriend` paths and personal machine folders).
+- Aligned documentation across `docs/design-bank.md`, `docs/troubleshooting.md`, and `docs/architecture.md` clarifying the distinction between the 12-bank discovery footprint and 4-catalog bootstrap requirements.
+
 ## 0.1.1 — 2026-09-19
 
 - Modernized `found-this-design` skill with a local zero-token search engine across 12 universal design banks (Refero, Aura, Motionsites, Scrolltide, Bencho, Layers, Supahero, NavbarGallery, FooterDesign, CtaGallery, 404sDesign, 21st).

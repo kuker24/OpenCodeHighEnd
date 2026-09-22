@@ -58,7 +58,7 @@ Read the file `~/.config/opencode/highend/rules/00-routing.md` with the Read too
 
 ## When a verification profile is chosen
 
-Read `~/.config/opencode/highend/rules/01-verification.md`. Profiles: FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE. Missing project command = `NOT_CONFIGURED`, not PASS.
+Read `~/.config/opencode/highend/rules/01-verification.md`. Profiles: FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE. Missing project command = `NOT_CONFIGURED`, not PASS. Done-gate is evidence-blocked: model judgment advises but cannot override missing or failed test logs, exit codes, or artifact paths. Long-running trails record in `/decision-log`.
 
 If you need operational principles or prose discipline, Read `~/.config/opencode/highend/rules/02-engineering-principles.md` or `03-prose-discipline.md`. Do not `@`-import them.
 

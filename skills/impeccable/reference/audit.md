@@ -10,6 +10,8 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 
 ### 1. Accessibility (A11y)
 
+Detailed checklist: [accessibility.md](accessibility.md).
+
 **Check for**:
 - **Contrast issues**: Text contrast ratios < 4.5:1 (or 7:1 for AAA)
 - **Motion sensitivity**: `prefers-reduced-motion` needs an intentional alternative that preserves state change and hierarchy; flag a global `0.01ms` kill that destroys useful feedback, flashing above threshold, and motion that blocks focus, reading, or task completion
@@ -30,6 +32,8 @@ Run comprehensive checks across 5 dimensions. Score each dimension 0-4 using the
 - **will-change overuse**: `will-change` applied broadly or left on at rest (it is a targeted hint for known expensive animations, not a baseline requirement)
 - **Bundle size**: Unnecessary imports, unused dependencies
 - **Render performance**: Unnecessary re-renders, missing memoization
+
+**Optional React Tooling**: When auditing a React project AND the user explicitly asks or audit depth warrants component-level static profiling, run `npx react-doctor@latest` (or `npx react-doctor@latest design --verbose`). This is strictly an optional on-demand check; never require network/npx during default installation, and never add as a required skill.
 
 **Score 0-4**: 0=Severe issues (layout thrash, unoptimized everything), 1=Major problems (no lazy loading, expensive animations), 2=Partial (some optimization, gaps remain), 3=Good (mostly optimized, minor improvements possible), 4=Excellent (fast, lean, well-optimized)
 

@@ -17,8 +17,11 @@ Columns:
 - **phase** — workstream name
 - **decision** — what was chosen or done, one line
 - **why** — plain reason (constraint, measurement, user call). Not a principle-skill tag.
-- **evidence** — pointer only: commit SHA, `file:line`, test name, artifact path, log path, PR number
-- **result** — `tests green`, `reverted`, `INCONCLUSIVE`, `open`, a measured delta
+- **evidence** — pointer only: commit SHA, `file:line`, test name, artifact path, log path, PR number. Mandatory for any completion, milestone, or "done" claim; model judgment without an evidence pointer cannot close a task.
+- **result** — outcome category and predicate state:
+  - `FACT: <outcome>` — blocking mechanical proof (e.g. `FACT: tests green`, `FACT: exit 0`, `FACT: pixel-diff 0`). Blocking for done-gates.
+  - `JUDGMENT: <assessment>` — advisory model evaluation (e.g. `JUDGMENT: visual hierarchy improved`). Advisory only; cannot override failed or missing FACT evidence.
+  - Traditional status tokens (`tests green`, `reverted`, `INCONCLUSIVE`, `open`, a measured delta) default to mechanical FACT when supported by evidence.
 
 ## Where
 

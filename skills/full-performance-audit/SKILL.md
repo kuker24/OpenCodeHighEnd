@@ -35,6 +35,7 @@ license: MIT
    - Analyze bundle size
    - Check render performance
    - Optimize images/assets
+   - Optional React profiling: on React projects upon request, optionally run `npx react-doctor@latest` for component inspection (external tool; not an install dependency)
 
 2. **Backend Audit**
    - Profile API endpoints

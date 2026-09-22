@@ -34,12 +34,13 @@ playwright-cli -s=task-ui open http://localhost:3000
 # 2. Inspect page structure (captures semantic refs e1, e2...)
 playwright-cli -s=task-ui snapshot
 
-# 3. Interact using snapshot refs or locators
+# 3. Locate & interact using snapshot refs or search
+playwright-cli -s=task-ui find "Sign In"
 playwright-cli -s=task-ui click e4
 playwright-cli -s=task-ui fill e7 "test user"
 playwright-cli -s=task-ui press Enter
 
-# 4. Verify outcome with fresh snapshot or screenshot
+# 4. Verify outcome with fresh snapshot, screenshot, or trace
 playwright-cli -s=task-ui snapshot
 playwright-cli -s=task-ui screenshot --filename=artifacts/qa-verify.png
 

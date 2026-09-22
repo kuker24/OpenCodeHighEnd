@@ -22,8 +22,11 @@ Copy `references/decision-log-template.tsv` (the header row) to start a clean lo
 - **phase.** The phase or workstream.
 - **decision.** What was chosen or done, one line.
 - **why.** The reason in plain words. A constraint, a measurement, or a user call. Not a principle-skill tag.
-- **evidence.** A link or path that proves it: commit SHA, PR number, `file:line`, test name, artifact path, log path. Never a paragraph.
-- **result.** The outcome or predicate state: `tests green`, `reverted`, `pixel-diff 0`, `INCONCLUSIVE`, `open`.
+- **evidence.** A link or path that proves it: commit SHA, PR number, `file:line`, test name, artifact path, log path. Never a paragraph. Evidence pointers are mandatory before any unit can claim "done".
+- **result.** The outcome or predicate state, distinguishing mechanical proof from advisory assessment:
+  - `FACT: <state>` (blocking): `FACT: tests green`, `FACT: reverted`, `FACT: pixel-diff 0`, `FACT: exit 0`.
+  - `JUDGMENT: <assessment>` (advisory): model evaluation or subjective trade-off. Advisory only; cannot override failed or missing FACT rows.
+  - Standard concise tokens (`tests green`, `reverted`, `open`) remain valid and map to factual state when backed by the evidence pointer.
 
 An example, illustration only; do not copy these rows into a real log.
 

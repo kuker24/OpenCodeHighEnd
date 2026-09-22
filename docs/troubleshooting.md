@@ -8,7 +8,7 @@
 
 `CODEBASE_MEMORY_CHECKSUM_FAILED` — delete `~/.local/share/opencode-highend/cache/downloads/` and retry. Do not ignore a mismatch.
 
-`DESIGN_BANK_INVALID` — bootstrap requires parseable 21st, Aura, Refero, and Motionsites catalogs. Fix the configured target or choose a new empty `--target`.
+`DESIGN_BANK_INVALID` — bootstrap requires parseable 21st, Aura, Refero, and Motionsites catalogs (the 4 foundational bootstrap catalogs; `found-this-design` indexes up to 12 banks once present). Fix the configured target or choose a new empty `--target`.
 
 `DOWNLOAD_FAILED` / `CHECKSUM_MISMATCH` — core installation remains valid. Retry `opencode-he design bootstrap`; an unverified archive is never extracted.
 

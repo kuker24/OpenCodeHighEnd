@@ -16,9 +16,11 @@
         │
         ▼
      Design / Documents
-      ├─ Design Bank
-      │  ├─ Refero
-      │  └─ Motionsites
+      ├─ Design Bank (12 universal banks; 4 bootstrap required: Refero, Motionsites, 21st, Aura)
+      │  ├─ Identity: Refero, Aura
+      │  ├─ Motion: Motionsites, Scrolltide, Bencho, Layers
+      │  ├─ Section: Supahero, Navbar, Footer, CTA, 404s
+      │  └─ Atoms: 21st
       ├─ Design Intelligence
       ├─ Design V2 (offline, ~/DesignV2)
       └─ SmartDoc / SmartBook (resolved SmartDoc root)
@@ -33,3 +35,19 @@ Runtime destinations (user-local):
 - Ownership → `~/.config/opencode/highend/manifests/ownership.json`
 
 OpenCode native context engine and autocompact are unchanged. Context Guard is not ported.
+
+## Specialist Graph & Handoff Edges
+
+Instead of opaque multi-agent swarms or chat-based delegation, OpenCodeHighEnd operates as an explicit, artifact-gated directed graph:
+
+1. **Direction Node -> Implementation Node**: `found-this-design` must write `.impeccable/found-this-design.json` before `impeccable` begins implementation. Direction without a pinned artifact is rejected.
+2. **Implementation Node -> Verification Node**: `impeccable` produces code, which hands off to `playwright-qa` across an isolated verification boundary. The verification agent operates in a clean session, proving claims with screenshots, traces, or test exit codes rather than relying on builder reasoning.
+3. **Data Nodes vs Agents**: Design Bank, Design V2, and shadcn are passive data sources and component registries, never pseudo-agents.
+4. **No Phantom Transitions**: Every inter-specialist edge requires a machine-readable artifact or ledger entry. Unbacked "and then" handoffs are strictly forbidden.
+
+## Harness Engineering Principles
+
+Adapted from *awesome-harness-engineering* and production agent systems:
+- **Harness Over Model**: System correctness, fail-closed boundaries, and deterministic verification gates matter far more than prompt persuasion.
+- **Context Hygiene**: Lazy specialist activation ensures context is never polluted with irrelevant skills.
+- **Evidence-First Done Gate**: Completion claims require mechanical fact proofs in an evidence ledger. Model judgment advises but never overrides verification results.

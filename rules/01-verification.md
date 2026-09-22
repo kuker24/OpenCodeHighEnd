@@ -45,7 +45,11 @@ Primary Core Web Vitals: LCP, INP, CLS. FID is legacy. Do not claim improvement 
 
 Run every configured release gate: typecheck, full tests, coverage, build, E2E, dependency or export checks, Semgrep, OSV-Scanner, Gitleaks, and pre-commit. Record unconfigured gates explicitly. Do not declare release success while a required configured gate fails.
 
-## Mechanical completion
+## Mechanical completion & Done-gate
+
+Before claiming "done", every required check appropriate to the chosen profile (FAST, STANDARD, UI, SECURITY, PERFORMANCE, RELEASE) must execute and pass.
+
+Blocking evidence lives in a verifiable evidence ledger (concrete commands run, test exit codes, artifact paths, URLs inspected, or screenshots). Model judgment and rationalization are advisory; they cannot override failed, missing, or inconclusive evidence.
 
 Do not claim done while a required configured gate is unrun. Missing project command = `NOT_CONFIGURED`, not PASS.
 
