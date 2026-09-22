@@ -13,7 +13,7 @@ Produce a practical, defensive security review that improves real-world resilien
 ## Reference Baseline
 Use current official/project baselines as orientation, not as a substitute for repository evidence:
 - OWASP Top 10, OWASP API Security Top 10, OWASP ASVS, OWASP Cheat Sheets
-- OWASP Top 10 for LLM Applications when AI agents, RAG, prompt/tool use, or model gateways are present
+- OWASP Top 10 for LLM Applications when AI agents, RAG, prompt/tool use, or model gateways are present (optional external red-team playbook: `confident-ai/deepteam`, Apache-2.0; maintainer-side only, non-vendored, do not install into overlay)
 - NIST SSDF / secure SDLC practices for supply-chain and build/release controls
 - Platform/vendor docs for framework-specific secure defaults
 

@@ -48,3 +48,7 @@ Consult [references/methodology.md](references/methodology.md) for detailed scor
    - Consult [references/skill-utility.md](references/skill-utility.md) when the question is whether a skill beats its own absence.
    - Run the same dataset without the skill (Run A) and with it (Run B); quality parity at lower token or latency cost still passes.
    - `A ≈ B` on the skill's claimed task is evidence for `RETIRE` or `COMPRESS`; route that verdict to `skill-stocktake`.
+
+6. **Adversarial & Safety Probes (External Playbook):**
+   - For agent red-teaming or multi-turn vulnerability probing aligned with OWASP LLM Top 10, maintainers may optionally consult external frameworks such as `confident-ai/deepteam` (Apache-2.0).
+   - This framework is external only; do not vendor it into the overlay or add it to project runtime dependencies.

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Aligned done-gate vocabulary in `rules/01-verification.md` explicitly requiring `FACT: <outcome>` (blocking) and `JUDGMENT: <assessment>` (advisory) backed by `rules/decision-log-protocol.md`.
+- Documented TypeSafe Jev (`jev-mcp`) as SKIPPED in `docs/mcp.md` and `docs/source-wave.md`, noting Canny verification patterns are absorbed into rules and decision logs without external server dependencies.
+- Added upstream disposition for `microsoft/playwright-cli` (REFRESH) in `docs/source-wave.md`.
+- Documented `confident-ai/deepteam` as an optional external maintainer-side red-team framework pointer in `skills/full-audit-keamanan/SKILL.md` and `skills/eval-harness/SKILL.md` (non-vendored, no extra dependencies).
 - Merged interface tactile feel principles (typography stability, hit targets, concentric border radius, layered shadows) from `make-interfaces-feel-better` into `skills/emil-design-eng/references/interface-feel.md`.
 - Merged practical WCAG AA checklist (accessible names, focus rings, dialog focus trapping, `aria-invalid`) from `fixing-accessibility` into `skills/impeccable/reference/accessibility.md` and wired into audit and critique workflows.
 - Refreshed `skills/playwright-qa` with Playwright CLI diagnostics (`find`, `highlight`, `tracing-start`/`tracing-stop`, `console`) while maintaining strict 4-door browser hierarchy and <=200 line budget.
