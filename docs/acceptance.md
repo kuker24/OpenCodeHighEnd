@@ -5,11 +5,11 @@
 `doctor --deep` = is live runtime proven?
 `doctor --strict` = treat DEGRADED/WARN as failure.
 
-A successful 0.1.1 install should report approximately:
+A successful 0.1.2 install should report approximately:
 
 ```text
 PASS INSTALLED_PRODUCT opencode-highend
-PASS INSTALLED_VERSION 0.1.1
+PASS INSTALLED_VERSION 0.1.2
 PASS SOURCE_REPOSITORY https://github.com/kuker24/OpenCodeHighEnd
 
 PASS OpenCode (major >= 2.x)

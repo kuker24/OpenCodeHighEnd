@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.1",
+  "productVersion": "0.1.2",
   "adaptedFrom": {
     "product": "OpenCodeBestFriend",
     "version": "1.8.6",

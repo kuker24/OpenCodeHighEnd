@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.2 — 2026-09-22
+
 - Aligned done-gate vocabulary in `rules/01-verification.md` explicitly requiring `FACT: <outcome>` (blocking) and `JUDGMENT: <assessment>` (advisory) backed by `rules/decision-log-protocol.md`.
 - Documented TypeSafe Jev (`jev-mcp`) as SKIPPED in `docs/mcp.md` and `docs/source-wave.md`, noting Canny verification patterns are absorbed into rules and decision logs without external server dependencies.
 - Added upstream disposition for `microsoft/playwright-cli` (REFRESH) in `docs/source-wave.md`.
@@ -14,6 +16,8 @@
 - Hardened done-gate verification pattern across `rules/01-verification.md`, `rules/decision-log-protocol.md`, `manual-skills/decision-log/SKILL.md`, and `templates/AGENTS.md`. Mechanical completion now explicitly requires an evidence ledger (commands, exit codes, artifact paths) with mandatory pointers for done claims and strict separation of blocking `FACT:` proofs from advisory `JUDGMENT:` assessments.
 - Fixed Design Bank config resolution path drift in `found-this-design` (`lib.mjs` and `banks.md` now read `~/.config/opencode/highend/config/design-bank.json` and share cache instead of legacy `bestfriend` paths and personal machine folders).
 - Aligned documentation across `docs/design-bank.md`, `docs/troubleshooting.md`, and `docs/architecture.md` clarifying the distinction between the 12-bank discovery footprint and 4-catalog bootstrap requirements.
+- Formalized specialist architecture as an artifact-gated directed graph and codified harness engineering principles across `rules/00-routing.md` and `docs/architecture.md`.
+- Synchronized release acceptance fixtures (`docs/acceptance.md`), catalog freeze metadata, compatibility targets, and vendor specifications to 0.1.2.
 
 ## 0.1.1 — 2026-09-19
 

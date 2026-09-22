@@ -1,6 +1,6 @@
 # Compatibility
 
-Official target for 0.1.1:
+Official target for 0.1.2:
 
 - Linux x86_64
 - OpenCode **2.x** (1.x fails closed)

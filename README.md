@@ -4,7 +4,7 @@ OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
 
-Version **0.1.1**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
+Version **0.1.2**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
 
 ## What it is
 
@@ -12,6 +12,10 @@ Version **0.1.1**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 - A thin `AGENTS.md` router (lazy, one primary specialist)
 - Core MCP: Codebase Memory, Context7, shadcn
 - 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
+- Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json` (HighEnd config, not legacy bestfriend)
+- Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
+- Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
+- UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still 62 skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, transactional install, uninstall, restore
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
@@ -22,6 +26,8 @@ Version **0.1.1**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 - Not Context Guard / Claude hooks / Claude autocompact
 - Not your provider keys, models, or auth state
 - Not a Design Bank media repository
+- Not a multi-agent swarm (explicit, artifact-gated specialist graph)
+- Not vendoring external red-team playbooks like `deepteam` (optional external pointer only)
 - Not OpenCode 1.x (installer fails closed on 1.x)
 - Not claimed as macOS/Windows-tested (Linux x86_64 only for this release)
 
@@ -57,7 +63,7 @@ Restart OpenCode after install. Config is not hot-reloaded.
 ## Architecture
 
 ```text
-                         OpenCode
+                         OpenCode 2
                             │
                        AGENTS.md
                             │
@@ -72,14 +78,14 @@ Restart OpenCode after install. Config is not hot-reloaded.
         │
         ▼
      Design / Documents
-      ├─ Design Bank
-      │  ├─ 21st
-      │  ├─ Aura
-      │  ├─ Refero
-      │  └─ Motionsites
+      ├─ Design Bank (12 universal banks; 4 bootstrap required: Refero, Motionsites, 21st, Aura)
+      │  ├─ Identity: Refero, Aura
+      │  ├─ Motion: Motionsites, Scrolltide, Bencho, Layers
+      │  ├─ Section: Supahero, Navbar, Footer, CTA, 404s
+      │  └─ Atoms: 21st
       ├─ Design Intelligence
       ├─ Design V2 (offline user bank, ~/DesignV2)
-      └─ SmartDoc / SmartBook (user-owned ~/SmartDoc)
+      └─ SmartDoc / SmartBook (resolved SmartDoc root)
 ```
 
 Availability is not a reason to activate a tool. One primary specialist. At most one risk specialist.
@@ -98,7 +104,7 @@ Default: repository evidence first. Then at most one specialist.
 | Measured performance regression | `full-performance-audit` |
 | Current library docs | Context7 |
 | UI registry | shadcn MCP |
-| Visual direction | `found-this-design` |
+| Visual direction | `found-this-design` (emits `.impeccable/found-this-design.json` before implement) |
 | UI implementation after a direction | `impeccable` |
 | Generic AI UI look | `impeccable` taste-gate (not `install-anti-slop`) |
 | Motion | `emil-design-eng` |
@@ -108,7 +114,7 @@ Default: repository evidence first. Then at most one specialist.
 | Procedural Three.js object from image | `img2threejs` |
 | Deterministic HTML composition video | `hyperframes` |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
-| Browser | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
+| Browser | `playwright-qa` (isolated verification edge; not builder self-attest) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
 | Documents (PDF/DOCX/answer/extract/review) | `smartdoc` |
 | File to Markdown ingest | `markitdown` |
 | Reusable book/module knowledge | `smartbook-ingest` |
@@ -169,6 +175,7 @@ Optional:
 - `reticle` — `opencode-he reticle enable` registers Reticle as a local perception server (`npx -y @reticlehq/server mcp`). `FOREIGN_ON_DEMAND`. Server package is FSL-1.1-ALv2 (competing-use clause); SDK packages (Apache-2.0) are not vendored. Never an auto-implementer; default verification remains `playwright-qa` / `chrome-devtools-axi`. `opencode-he reticle disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `ui-skills` — `opencode-he ui-skills enable` registers UI Skills (`https://www.ui-skills.com/mcp`) as an optional remote MCP server. `FOREIGN_ON_DEMAND` for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; `BANK_MISS` never generates from a random ui-skills document. `opencode-he ui-skills disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
+- `jev-mcp` — TypeSafe Jev / `jkudish/jev-mcp` is intentionally SKIPPED as a required runtime MCP; core verification and done-gates operate offline without external server dependencies.
 - `exa` — `FOREIGN_ON_DEMAND`; installer never adds, removes, or overwrites it
 
 NVIDIA SkillEvaluator is `FOREIGN_ON_DEMAND` in the same sense: a maintainer may run it externally for embedding-based overlap scoring or live catalog evaluation. Caliper is `FOREIGN_ON_DEMAND` similarly: a maintainer may `pipx install caliper-eval` off-tree for prompt/agent benchmark evaluation. Neither is vendored into `lib/`, the installer never adds them, `doctor` does not fail when they are absent, and a malformed MCP entry fails closed like any other schema violation.
