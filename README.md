@@ -4,7 +4,7 @@ OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
 
-Version **0.1.3**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
+Version **0.1.4**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
 
 ## What it is
 
@@ -16,6 +16,9 @@ Version **0.1.3**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
 - UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still 62 skills)
+- Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
+- Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
+- Emil motion doctrines live under `emil-design-eng` references (still 62 skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, transactional install, uninstall, restore
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
@@ -164,7 +167,7 @@ Native OpenCode 2 shape (`mcp.servers`, every entry has `type`, `disabled` not V
 
 Core (installed):
 
-- `codebase-memory-mcp` — downloaded, SHA-256 verified, Linux x86_64. If the binary will not run, doctor reports `DEGRADED`, never fake `CONNECTED`.
+- `codebase-memory-mcp` — downloaded, SHA-256 verified (archive and extracted binary), Linux x86_64, pin **0.11.0**. If the binary will not run, doctor reports `DEGRADED`, never fake `CONNECTED`. A 0.9.0 install must delete the download cache and `components/codebase-memory`, then re-run `./install.sh` (index rebuilds once).
 - `context7` — `https://mcp.context7.com/mcp` (no secret stored)
 - `shadcn` — `npx -y shadcn@4.21.0 mcp`
 
@@ -174,7 +177,7 @@ Optional:
 - `stitch` — `opencode-he stitch enable` registers Google Stitch as a remote comp/mock source. Not an owned core server and not a production UI implementer: hand screens to `found-this-design` or `impeccable` before shipping. Keys are never written into config, only referenced as `{env:STITCH_API_KEY}`, or omitted with `--oauth`. `opencode-he stitch disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `reticle` — `opencode-he reticle enable` registers Reticle as a local perception server (`npx -y @reticlehq/server mcp`). `FOREIGN_ON_DEMAND`. Server package is FSL-1.1-ALv2 (competing-use clause); SDK packages (Apache-2.0) are not vendored. Never an auto-implementer; default verification remains `playwright-qa` / `chrome-devtools-axi`. `opencode-he reticle disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `ui-skills` — `opencode-he ui-skills enable` registers UI Skills (`https://www.ui-skills.com/mcp`) as an optional remote MCP server. `FOREIGN_ON_DEMAND` for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; `BANK_MISS` never generates from a random ui-skills document. `opencode-he ui-skills disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
-- `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
+- `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `jev-mcp` — TypeSafe Jev / `jkudish/jev-mcp` is intentionally SKIPPED as a required runtime MCP; core verification and done-gates operate offline without external server dependencies.
 - `exa` — `FOREIGN_ON_DEMAND`; installer never adds, removes, or overwrites it
 

@@ -54,7 +54,7 @@
       "enabled": false,
       "transport": "stdio",
       "command": "uvx",
-      "args": ["--from", "markitdown-mcp", "markitdown-mcp"]
+      "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"]
     }
   }
 }

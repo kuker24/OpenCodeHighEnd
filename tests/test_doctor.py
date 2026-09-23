@@ -439,6 +439,13 @@ class DoctorDeepTests(IsolatedHome):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
+        data["mcp"]["markitdown"]["command"] = ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"]
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
 
     def test_doctor_plugins_clean_when_absent(self):
         self._install()

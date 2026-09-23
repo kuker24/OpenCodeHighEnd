@@ -16,7 +16,7 @@ Optional:
 - `stitch` — `opencode-he stitch enable` (remote comp/mock source only; auth via `{env:STITCH_API_KEY}` or `--oauth`)
 - `reticle` — `opencode-he reticle enable` (local stdio via `npx -y @reticlehq/server mcp`; perception only, never auto-implementer)
 - `ui-skills` — `opencode-he ui-skills enable` (remote HTTP `https://www.ui-skills.com/mcp`; design-skill lookup only)
-- `markitdown` — `opencode-he markitdown enable` (local stdio via `uvx --from markitdown-mcp markitdown-mcp`; Markdown ingest only)
+- `markitdown` — `opencode-he markitdown enable` (local stdio via `uvx --from markitdown-mcp==0.1.8 markitdown-mcp`; Markdown ingest only)
 - `exa` — foreign; never add/remove/overwrite
 
 Merge is parse-aware. Comment-free JSON is rewritten with `json.dumps`. JSONC with comments is patched surgically (owned MCP keys only). If surgical merge cannot be verified, install fails closed instead of destroying comments.
@@ -31,7 +31,7 @@ Doctor reports `CONFIGURED` for owned MCP entries present in config. That is not
 
 `opencode-he ui-skills enable` configures UI Skills as an optional remote MCP server (`https://www.ui-skills.com/mcp`). It is `FOREIGN_ON_DEMAND` for design-skill lookup only (`list_skills`, `get_skill`). Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; `BANK_MISS` never generates from a random ui-skills document. `opencode-he ui-skills disable` surgically removes only the ui-skills server key. Absent is not a doctor failure; a malformed entry fails closed.
 
-`opencode-he markitdown enable` configures MarkItDown as an optional local stdio ingest MCP (`uvx --from markitdown-mcp markitdown-mcp`). It is `FOREIGN_ON_DEMAND`. Official server is for local trusted agents only; never `--http`, never bind `0.0.0.0`, never docker bind-all. The converter is not vendored into `lib/`. Missing `uvx` is documented in the skill (CLI/`pipx`/`enable`); enable still writes the stdio command like reticle. `opencode-he markitdown disable` surgically removes only the markitdown server key. Absent is not a doctor failure; a malformed entry (including `--http` / `0.0.0.0`) fails closed.
+`opencode-he markitdown enable` configures MarkItDown as an optional local stdio ingest MCP (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). It is `FOREIGN_ON_DEMAND`. Official server is for local trusted agents only; never `--http`, never bind `0.0.0.0`, never docker bind-all. The converter is not vendored into `lib/`. Missing `uvx` is documented in the skill (CLI/`pipx`/`enable`); enable still writes the stdio command like reticle. `opencode-he markitdown disable` surgically removes only the markitdown server key. Absent is not a doctor failure; a malformed entry (including `--http` / `0.0.0.0`) fails closed.
 
 ## Evaluated, Skipped & Rejected
 

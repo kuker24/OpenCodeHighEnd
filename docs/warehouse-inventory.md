@@ -377,7 +377,7 @@ Microsoft MarkItDown as an ingest converter, not a second document OS. SmartDoc 
 | Candidate / Repo | Decision | BestFriend Target | Reason |
 | :--- | :---: | :--- | :--- |
 | `microsoft/markitdown` CLI/lib | **NEW** | `skills/markitdown` | Thin first-party skill: convert Office/PDF/HTML/CSV/XLSX/PPTX/EPUB/ZIP to Markdown, then hand off. |
-| `markitdown-mcp` official | **FOREIGN_ON_DEMAND** | `mcp.markitdown` | Optional local stdio (`uvx --from markitdown-mcp markitdown-mcp`). Local trusted agents only. |
+| `markitdown-mcp` official | **FOREIGN_ON_DEMAND** | `mcp.markitdown` | Optional local stdio (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). Local trusted agents only. |
 | `opencode-markitdown` npm plugin | **REJECT** | `-` | Config-hook mutation forbidden. |
 | community `trsdn-markitdown-mcp` | **REJECT** | `-` | Not Microsoft. |
 | Azure Document Intelligence / Content Understanding | **DEFER** | `-` | No keys in config. |

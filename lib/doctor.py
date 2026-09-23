@@ -181,7 +181,11 @@ def mcp_status_map() -> dict[str, str]:
             if "--http" in joined or "0.0.0.0" in joined:
                 out[name] = "FAIL"
                 continue
-            if cmd[0] != "uvx" or "markitdown-mcp" not in cmd:
+            pinned = any(
+                part == "markitdown-mcp" or str(part).startswith("markitdown-mcp==")
+                for part in cmd
+            )
+            if cmd[0] != "uvx" or not pinned:
                 out[name] = "FAIL"
                 continue
             out[name] = "CONFIGURED"
