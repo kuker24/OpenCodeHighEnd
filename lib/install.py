@@ -1487,7 +1487,7 @@ def cmd_reticle_disable() -> int:
 def cmd_markitdown_enable() -> int:
     spec: dict[str, object] = {
         "type": "local",
-        "command": ["uvx", "--from", "markitdown-mcp", "markitdown-mcp"],
+        "command": ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
         "disabled": False,
     }
     return _optional_mcp_enable("markitdown", spec)

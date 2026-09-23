@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.3",
+  "productVersion": "0.1.4",
   "upstreamProduct": "OpenCodeBestFriend",
   "upstreamVersion": "1.8.6",
   "firstPartyLicense": "MIT",

@@ -573,7 +573,7 @@ class InstallTests(unittest.TestCase):
         self.assertIn("markitdown", data["mcp"]["servers"])
         md_spec = data["mcp"]["servers"]["markitdown"]
         self.assertEqual(md_spec["type"], "local")
-        self.assertEqual(md_spec["command"], ["uvx", "--from", "markitdown-mcp", "markitdown-mcp"])
+        self.assertEqual(md_spec["command"], ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"])
         self.assertIs(md_spec.get("disabled"), False)
 
         self.assertEqual(cmd_markitdown_enable(), 0)

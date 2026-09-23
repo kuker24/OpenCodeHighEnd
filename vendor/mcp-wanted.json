@@ -70,7 +70,7 @@
       "scope": "user",
       "transport": "stdio",
       "command": "uvx",
-      "args": ["--from", "markitdown-mcp", "markitdown-mcp"],
+      "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
       "status": "FOREIGN_ON_DEMAND"
     }
   }
