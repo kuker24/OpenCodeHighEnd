@@ -10,6 +10,7 @@
 - Consolidated Emil Kowalski motion doctrines into `skills/emil-design-eng/references/`: created `motion.md` (decision framework, compositor-only properties, production recipes, exit choreography), `apple-principles.md` (WWDC 2018 fluid interfaces, physics-based springs, velocity handoff, momentum projection, materials, SF Pro optical sizing), and `native-motion.md` (eliminating mobile web browser tells, 100dvh, safe area insets, touch-action, overscroll containment, and Expo / React Native Reanimated 3 worklets). Maintained zero new skill names, preserving catalog freeze at 62.
 - Refreshed upstream pins in `vendor/sources.json` for `pbakaus/impeccable` (tag `skill-v4.3.1` `cd12f8660e2d` / verified main `e0881d2de397`), `emilkowalski/skills` (`85e8e2363b71`), `microsoft/markitdown` (v0.1.8 `b8f79c57`, PIN_ONLY), and `kunchenguid/axi` (`85a8723276ca`, PIN_ONLY).
 - Updated `docs/source-wave.md`, `docs/mcp.md`, `README.md`, and `THIRD_PARTY_NOTICES.md` with complete attribution and license notices for merged doctrines.
+- Recorded `CODEBASE_MEMORY_BINARY_CHECKSUM_FAILED` in `docs/troubleshooting.md` (delete download cache and `components/codebase-memory`, then reinstall; v0.11 index rebuilds once). Vendored `vendor/licenses/IMPECCABLE-APACHE2.txt` and `vendor/licenses/EMILKOWALSKI-MIT.txt` so `licenseFile` pins are not empty pointers. `scroll-world` and `browser-act` stay **UPDATE** (not body-refreshed in this wave). markitdown `uvx` invocation stays unpinned (`PIN_ONLY` follow-up).
 
 ## 0.1.3 — 2026-09-23
 

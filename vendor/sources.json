@@ -108,7 +108,7 @@
       "commit": "cd12f8660e2d",
       "verifiedMainCommit": "e0881d2de397d5e9761d7b35ff5017d8f5ebf69b",
       "license": "Apache-2.0",
-      "copyright": "Copyright (c) Paul Bakaus",
+      "copyright": "Copyright 2025 Paul Bakaus",
       "licenseFile": "vendor/licenses/IMPECCABLE-APACHE2.txt",
       "note": "Adapted reference set with strict overlay gates (Design V2 atom shortlisting, taste-guard 4-tier, found-this-design world pin, BANK_MISS != generate, email design merge). No runtime plugin download."
     },
@@ -116,7 +116,7 @@
       "repository": "https://github.com/emilkowalski/skills",
       "commit": "85e8e2363b71",
       "license": "MIT",
-      "copyright": "Copyright (c) Emil Kowalski",
+      "copyright": "Copyright (c) 2026 Emil Kowalski",
       "licenseFile": "vendor/licenses/EMILKOWALSKI-MIT.txt",
       "note": "Emil Kowalski design engineering principles and motion doctrines merged into single specialist without catalog bloat (motion, apple-principles, native-motion, interface-feel)."
     },
