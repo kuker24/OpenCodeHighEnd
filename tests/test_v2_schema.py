@@ -23,6 +23,19 @@ class V2SchemaTests(unittest.TestCase):
             self.assertIn("disabled", entry)
             self.assertNotIn("enabled", entry)
 
+    def test_shadcn_mcp_invocation_and_pin(self):
+        spec = owned_mcp_spec(Path("/tmp/codebase-memory-mcp"))
+        self.assertIn("shadcn", spec)
+        shadcn = spec["shadcn"]
+        self.assertEqual(shadcn["type"], "local")
+        self.assertEqual(shadcn["command"], ["npx", "-y", "shadcn@4.21.0", "mcp"])
+        self.assertIn("mcp", shadcn["command"])
+        self.assertFalse(shadcn["disabled"])
+
+        sources = jsonc.load_path(ROOT / "vendor" / "sources.json")["sources"]["shadcn"]
+        self.assertEqual(sources["version"], "4.21.0")
+        self.assertEqual(sources["via"], "npx")
+
     def test_installer_rejects_opencode_1(self):
         prev = os.environ.get("OPENCODE_HE_MOCK_OPENCODE")
         with tempfile.TemporaryDirectory() as td:

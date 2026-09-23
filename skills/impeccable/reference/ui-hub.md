@@ -6,6 +6,7 @@ Load this after the visual world is settled and before installing a catalog comp
 
 - `components.json` in cwd: search the hub.
 - React + Tailwind, no `components.json`: offer `npx shadcn@<pinned> init`. Do not run it silently.
+- HTML email templates, newsletters, or email marketing: do not call the hub; route to [email.md](email.md). Email clients do not support shadcn/web UI component libraries.
 - GrokBestFriend itself, backend, Python, or a non-UI tree: do not init and do not call the hub.
 - Context7 is documentation. Web search is not an installer.
 

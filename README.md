@@ -154,7 +154,7 @@ Native OpenCode 2 shape (`mcp.servers`, every entry has `type`, `disabled` not V
       },
       "shadcn": {
         "type": "local",
-        "command": ["npx", "-y", "shadcn@4.18.0", "mcp"],
+        "command": ["npx", "-y", "shadcn@4.21.0", "mcp"],
         "disabled": false
       }
     }
@@ -166,7 +166,7 @@ Core (installed):
 
 - `codebase-memory-mcp` — downloaded, SHA-256 verified, Linux x86_64. If the binary will not run, doctor reports `DEGRADED`, never fake `CONNECTED`.
 - `context7` — `https://mcp.context7.com/mcp` (no secret stored)
-- `shadcn` — `npx -y shadcn@4.18.0 mcp`
+- `shadcn` — `npx -y shadcn@4.21.0 mcp`
 
 Optional:
 

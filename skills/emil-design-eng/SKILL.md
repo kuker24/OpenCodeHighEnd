@@ -675,12 +675,10 @@ When reviewing UI code, check for:
 | Same enter/exit transition speed           | Make exit faster than enter (e.g., enter 2s, exit 200ms)         |
 | Elements all appear at once                | Add stagger delay (30-80ms between items)                        |
 
-## Interface Feel & Tactile Polish
+## Reference Modules
 
-Beyond animation curves, great interfaces feel responsive and stable through tactile details:
-- **Typography**: Apply `tabular-nums` to numbers/metrics to eliminate layout jitter. Use `text-wrap: balance` on headlines and `text-wrap: pretty` on copy.
-- **Hit targets**: Maintain >=44×44px hit targets (using negative pseudo-element insets if visual element is smaller). Set `user-select: none` on clickable badges/controls.
-- **Surfaces**: Enforce concentric nested radius (`inner = max(0, outer - padding)`). Use layered diffuse shadows and 1px semi-transparent borders.
-- **Optical alignment**: Nudge icons in text containers up 0.5–1px for baseline harmony.
-
-See detailed checklist in [references/interface-feel.md](references/interface-feel.md).
+For deeper doctrine and production code recipes, consult the specialized references:
+- **[references/motion.md](references/motion.md)**: Web animation construction, decision gates, compositor-only rules, and ready-to-use component recipes.
+- **[references/apple-principles.md](references/apple-principles.md)**: WWDC 2018 fluid interface principles, spring physics, velocity handoff, and momentum projection.
+- **[references/native-motion.md](references/native-motion.md)**: Eradicating mobile browser tells (100dvh, safe-area-inset, tap-highlight, overscroll) and React Native / Expo Reanimated 3 motion.
+- **[references/interface-feel.md](references/interface-feel.md)**: Tactile polish checklist (tabular-nums, concentric radius, multi-layer shadows, hit target ergonomics).

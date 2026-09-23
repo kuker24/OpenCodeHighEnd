@@ -29,6 +29,7 @@ from lib.install import (  # noqa: E402
     cmd_ui_skills_disable,
     cmd_ui_skills_enable,
     cmd_uninstall,
+    download_codebase_memory,
 )
 from lib.doctor import cmd_doctor, cmd_skills_verify, isolation_check  # noqa: E402
 from lib.design_v2.bootstrap import BootstrapError  # noqa: E402
@@ -617,6 +618,46 @@ class InstallTests(unittest.TestCase):
         qfile = self.tmp / ".local" / "share" / "opencode-highend" / "quarantine" / "plugins" / "impeccable-live-poll.ts"
         self.assertTrue(qfile.is_file())
         self.assertTrue(user_plugin.is_file())
+
+    def test_cbm_pins_and_checksum_verification(self):
+        sources = jsonc.load_path(ROOT / "vendor" / "sources.json")["sources"]["codebase-memory"]
+        self.assertEqual(sources["version"], "0.11.0")
+        self.assertEqual(sources["artifactSha256"], "1f9e8293eb2bc5c05cfa27a7e8fc033da6d729ffad525ccfcdaa3fd606306683")
+        self.assertEqual(sources["innerBinarySha256"], "ce11c141431aeadd788506c3a7e6942db8fd438dec369d0707a39ec9fd8c6510")
+
+        with patch.dict(os.environ, {"OPENCODE_HE_TEST_CBM": ""}, clear=False):
+            os.environ.pop("OPENCODE_HE_TEST_CBM", None)
+            with patch("lib.install.urllib.request.urlretrieve"), \
+                 patch("lib.install.sha256_file", return_value="mismatched_archive_sha"), \
+                 self.assertRaises(SystemExit) as ctx:
+                download_codebase_memory()
+            self.assertEqual(ctx.exception.code, 1)
+
+    def test_cbm_inner_binary_checksum_verification(self):
+        with patch.dict(os.environ, {"OPENCODE_HE_TEST_CBM": ""}, clear=False):
+            os.environ.pop("OPENCODE_HE_TEST_CBM", None)
+            sources = jsonc.load_path(ROOT / "vendor" / "sources.json")["sources"]["codebase-memory"]
+            expected_archive_sha = sources["artifactSha256"]
+
+            import io
+            import tarfile
+
+            def fake_fetch(url, archive_path):
+                Path(archive_path).parent.mkdir(parents=True, exist_ok=True)
+                with tarfile.open(archive_path, "w:gz") as tf:
+                    content = b"fake-cbm-binary"
+                    ti = tarfile.TarInfo(name="codebase-memory-mcp")
+                    ti.size = len(content)
+                    ti.mode = 0o755
+                    tf.addfile(ti, io.BytesIO(content))
+
+            with patch("lib.install.urllib.request.urlretrieve", side_effect=fake_fetch), \
+                 patch("lib.install.sha256_file") as mock_sha, \
+                 self.assertRaises(SystemExit) as ctx:
+                mock_sha.side_effect = [expected_archive_sha, "mismatched_binary_sha"]
+                download_codebase_memory()
+            self.assertEqual(ctx.exception.code, 1)
+
 
 
 if __name__ == "__main__":

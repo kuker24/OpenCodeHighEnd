@@ -57,11 +57,16 @@ shadcn connected
 ●  ✓ context7 connected
 │      https://mcp.context7.com/mcp
 ●  ✓ shadcn connected
-│      npx -y shadcn@4.18.0 mcp
+│      npx -y shadcn@4.21.0 mcp
 """
         out = parse_mcp_list(text)
         self.assertEqual(out["codebase-memory-mcp"], "CONNECTED")
         self.assertEqual(out["context7"], "CONNECTED")
+        self.assertEqual(out["shadcn"], "CONNECTED")
+
+    def test_shadcn_mcp_subcommand_probe(self):
+        text = "●  ✓ shadcn connected\n│      npx -y shadcn@4.21.0 mcp\n"
+        out = parse_mcp_list(text)
         self.assertEqual(out["shadcn"], "CONNECTED")
 
 

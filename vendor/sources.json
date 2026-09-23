@@ -12,15 +12,16 @@
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
-      "version": "0.9.0",
+      "version": "0.11.0",
       "platform": "linux-x86_64",
-      "artifactUrl": "https://github.com/DeusData/codebase-memory-mcp/releases/download/v0.9.0/codebase-memory-mcp-linux-amd64-portable.tar.gz",
-      "artifactSha256": "8459d5c9d1457f2c82de3de307ffc7641ecbba2dde893427be1e62eca8ef9b25"
+      "artifactUrl": "https://github.com/DeusData/codebase-memory-mcp/releases/download/v0.11.0/codebase-memory-mcp-linux-amd64-portable.tar.gz",
+      "artifactSha256": "1f9e8293eb2bc5c05cfa27a7e8fc033da6d729ffad525ccfcdaa3fd606306683",
+      "innerBinarySha256": "ce11c141431aeadd788506c3a7e6942db8fd438dec369d0707a39ec9fd8c6510"
     },
     "shadcn": {
       "repository": "https://github.com/shadcn-ui/ui",
       "package": "shadcn",
-      "version": "4.18.0",
+      "version": "4.21.0",
       "via": "npx",
       "engines": {
         "node": ">=20.18.1"
@@ -42,7 +43,7 @@
     },
     "serena": {
       "repository": "https://github.com/oraios/serena",
-      "version": "1.6.1",
+      "version": "1.7.0",
       "package": "serena-agent",
       "status": "optional-on-demand"
     },
@@ -54,6 +55,7 @@
     },
     "reticle": {
       "package": "@reticlehq/server",
+      "version": "3.1.0",
       "transport": "stdio",
       "via": "npx",
       "license": "FSL-1.1-ALv2",
@@ -68,8 +70,8 @@
     },
     "markitdown": {
       "repository": "https://github.com/microsoft/markitdown",
-      "version": "0.1.7",
-      "commit": "945314a45ddbe02935f2fd287b797dc0ba4a01e4",
+      "version": "0.1.8",
+      "commit": "b8f79c57ebc0044be41323d89b2a45d3fda8460e",
       "license": "MIT",
       "package": "markitdown-mcp",
       "via": "uvx",
@@ -79,13 +81,15 @@
     },
     "browser-act": {
       "repository": "https://github.com/browser-act/skills",
+      "commit": "11c057b03f92101642cadc9f840564574120d184",
       "version": "1.3.0",
       "package": "browser-act-cli",
-      "status": "optional-host"
+      "status": "optional-host",
+      "note": "Three supported execution modes (chrome, stealth-fresh, stealth-fixed). Never chrome-direct. Host CLI pinned 1.3.0."
     },
     "semgrep": {
       "package": "semgrep",
-      "version": "1.171.0",
+      "version": "1.177.0",
       "status": "optional-host"
     },
     "gitleaks": {
@@ -95,8 +99,58 @@
     },
     "osv-scanner": {
       "repository": "https://github.com/google/osv-scanner",
-      "version": "2.4.0",
+      "version": "2.6.0",
       "status": "optional-host"
+    },
+    "impeccable": {
+      "repository": "https://github.com/pbakaus/impeccable",
+      "tag": "skill-v4.3.1",
+      "commit": "cd12f8660e2d",
+      "verifiedMainCommit": "e0881d2de397d5e9761d7b35ff5017d8f5ebf69b",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2025 Paul Bakaus",
+      "licenseFile": "vendor/licenses/IMPECCABLE-APACHE2.txt",
+      "note": "Adapted reference set with strict overlay gates (Design V2 atom shortlisting, taste-guard 4-tier, found-this-design world pin, BANK_MISS != generate, email design merge). No runtime plugin download."
+    },
+    "emil-design-eng": {
+      "repository": "https://github.com/emilkowalski/skills",
+      "commit": "85e8e2363b71",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 Emil Kowalski",
+      "licenseFile": "vendor/licenses/EMILKOWALSKI-MIT.txt",
+      "note": "Emil Kowalski design engineering principles and motion doctrines merged into single specialist without catalog bloat (motion, apple-principles, native-motion, interface-feel)."
+    },
+    "email-design-sources": {
+      "sources": [
+        "https://github.com/CosmoBlk/email-design (commit c56bfe0, MIT)",
+        "https://github.com/jayesh-bansal/email-pro-max (commit 6a28b31, MIT)",
+        "https://github.com/chunkydotdev/email-skills (commit dca18fc, MIT)",
+        "https://github.com/Olshansk/agent-skills (commit d43745c, MIT)"
+      ],
+      "note": "Merged into skills/impeccable/reference/email.md; zero new allowlist names."
+    },
+    "axi": {
+      "repository": "https://github.com/kunchenguid/axi",
+      "commit": "85a8723276ca",
+      "license": "MIT",
+      "note": "Surfaces for gh-axi and chrome-devtools-axi under 4-door browser hierarchy."
+    },
+    "hyperframes": {
+      "repository": "https://github.com/heygen-com/hyperframes",
+      "commit": "ed75203cb6aa",
+      "version": "0.8.64",
+      "license": "Apache-2.0"
+    },
+    "diagram-design": {
+      "repository": "https://github.com/cathrynlavery/diagram-design",
+      "commit": "dc1ace47b99a",
+      "version": "2.6.33",
+      "license": "MIT"
+    },
+    "humanizer": {
+      "repository": "https://github.com/blader/humanizer",
+      "version": "3.0.0",
+      "license": "MIT"
     },
     "matt-pocock-skills": {
       "repository": "https://github.com/mattpocock/skills",
