@@ -54,7 +54,10 @@ def cbm_cli(args: list[str]) -> tuple[int, object | None, str]:
     bin_path = cbm_bin()
     if not bin_path:
         return 2, None, "missing"
-    r = run([str(bin_path), "cli", *args])
+    cli_args = list(args)
+    if cli_args and cli_args[0] in {"list_projects", "index_status"} and "--format" not in cli_args:
+        cli_args.extend(["--format", "json"])
+    r = run([str(bin_path), "cli", *cli_args])
     text = (r.stdout or "") + (r.stderr or "")
     if r.returncode != 0:
         try:

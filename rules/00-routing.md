@@ -86,7 +86,7 @@ Never list unused tools or uncalled MCP methods as used.
 - Repository structure and impact: MCP `codebase-memory-mcp` first. If Codebase Memory has no project for cwd, skip it and use repo files. Do not retry.
 - Exact cross-file symbol work: MCP `serena` only if already registered and only after Codebase Memory and simpler repo evidence are not enough. Do not run Serena and Codebase Memory as the main brain at the same time. If Serena is absent, say so; do not `opencode mcp add serena` from a session unless the user asked. Helper: `opencode-he serena enable`.
 - Current library or framework docs: MCP `context7` only when repo evidence is insufficient.
-- Installable React/shadcn registry items: MCP `shadcn` (pinned CLI `shadcn@4.18.0`). Search, inspect, then install. Context7 stays documentation.
+- Installable React/shadcn registry items: MCP `shadcn` (pinned CLI `shadcn@4.21.0`). Search, inspect, then install. Context7 stays documentation.
 - Broader web research: built-in `WebSearch` and `WebFetch`. MCP `exa` is foreign/pre-existing and ON_DEMAND. Use it only if already connected and research needs it. Never add or remove `exa`.
 - Hard, high-impact, divergent decisions, fuzzy debugging, API or schema alternatives, trap detection: `/adhd` on demand only. Skip ADHD for typos, ordinary CRUD, or bugs with a known cause.
 - Official library, spec, or first-party API facts: `/research` (Context7 when repo evidence is not enough). Why *this repo* chose an approach: suggest `/why` (manual). Do not mix the two.

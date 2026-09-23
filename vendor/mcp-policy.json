@@ -15,7 +15,7 @@
       "enabled": true,
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "shadcn@4.18.0", "mcp"]
+      "args": ["-y", "shadcn@4.21.0", "mcp"]
     },
     "exa": {
       "enabled": false,

@@ -6,9 +6,9 @@ Owned:
 
 | Name | Type | Pin |
 | --- | --- | --- |
-| codebase-memory-mcp | local stdio | 0.9.0 SHA-256 verified |
+| codebase-memory-mcp | local stdio | 0.11.0 SHA-256 verified |
 | context7 | remote HTTP | https://mcp.context7.com/mcp |
-| shadcn | local stdio | `npx -y shadcn@4.18.0 mcp` |
+| shadcn | local stdio | `npx -y shadcn@4.21.0 mcp` |
 
 Optional:
 

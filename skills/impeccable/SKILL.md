@@ -77,6 +77,7 @@ Routing:
 
 - **No argument:** read [routing.md](reference/routing.md) and present its context-aware menu; never auto-run a command.
 - **Explicit or clearly implied command:** load its reference (native variant on native platforms) and follow it. Ask once if two commands fit.
+- **Email design / HTML email:** (newsletters, campaigns, transactional receipts, digests, marketing broadcasts) load [reference/email.md](reference/email.md). Modern web CSS, Tailwind, div-based layouts, and web components break email clients. Strict email-safe tables (or React Email/MJML components if using an email framework), inline CSS, 6-digit hex, and bulletproof CTA rules apply.
 - **Otherwise:** treat the request as general design work. Missing PRODUCT.md routes a new surface or replacement world through init, then new-work; a narrow refinement of existing code proceeds on the incumbent implementation as context.mjs directs, offering init afterward rather than blocking on it.
 - `teach` aliases `init`. `craft` is a deprecated alias for ordinary new-work and adds nothing. `shape` owns task discovery, then enters new-work only for visual-world and surface-concept decisions.
 

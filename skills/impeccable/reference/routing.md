@@ -1,4 +1,18 @@
-# No-argument routing: the context-aware menu
+# Command guidance
+
+## Workflow questions
+
+Give advice without executing commands; the menu below is only for bare invocations. Consult relevant command references as needed for prerequisites and scope. If the user asks general design workflow or staging questions, answer directly; if the user also requests execution, follow that request.
+
+## Email and newsletter routing
+
+When the user asks to design, draft, code, critique, or polish an email, newsletter, transactional receipt, or broadcast:
+- Direct immediately to [email.md](email.md).
+- Do not attempt web UI components, flexbox, CSS Grid, or shadcn components.
+- Do not generate Tailwind or external CSS stylesheets.
+- Enforce the 6 email archetypes and strict client-safe table markup (or React Email/MJML framework components if configured).
+
+## No-argument routing: the context-aware menu
 
 Read this when the user invokes `/impeccable` with no argument. They are asking "what should I do?" Make the menu context-aware instead of static.
 

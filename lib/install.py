@@ -243,6 +243,7 @@ def download_codebase_memory(offline: bool = False) -> Path:
     sources = load_json(repo_root() / "vendor" / "sources.json")["sources"]["codebase-memory"]
     url = sources["artifactUrl"]
     expected = sources["artifactSha256"]
+    expected_bin = sources.get("innerBinarySha256")
     version = sources["version"]
     target_dir = share_dir() / "components" / "codebase-memory" / "bin"
     target = target_dir / "codebase-memory-mcp"
@@ -287,6 +288,10 @@ def download_codebase_memory(offline: bool = False) -> Path:
             if not found:
                 die("codebase-memory binary missing from archive")
             bin_path = found[0]
+        if expected_bin:
+            got_bin = sha256_file(bin_path)
+            if got_bin != expected_bin:
+                die(f"CODEBASE_MEMORY_BINARY_CHECKSUM_FAILED expected={expected_bin} got={got_bin}")
         bin_path.chmod(bin_path.stat().st_mode | stat.S_IXUSR)
         ver = run([str(bin_path), "--version"])
         if ver.returncode != 0 or version not in (ver.stdout + ver.stderr):
@@ -313,7 +318,7 @@ def owned_mcp_spec(cbm_bin: Path) -> dict:
         },
         "shadcn": {
             "type": "local",
-            "command": ["npx", "-y", "shadcn@4.18.0", "mcp"],
+            "command": ["npx", "-y", "shadcn@4.21.0", "mcp"],
             "disabled": False,
         },
     }
@@ -1085,7 +1090,9 @@ def cmd_install(
             bank = (None, "not-requested", "DEGRADED_DESIGN_BANK")
         cbm = Path(os.environ.get("OPENCODE_HE_TEST_CBM") or "/nonexistent/codebase-memory-mcp")
         mcp_plan = merge_opencode_config(cbm, dry_run=True)
-        print(plan_text(meta, mcp_plan, bank, "download-or-reuse 0.9.0"))
+        sources = load_json(repo_root() / "vendor" / "sources.json")
+        cbm_ver = sources.get("sources", {}).get("codebase-memory", {}).get("version", "0.11.0")
+        print(plan_text(meta, mcp_plan, bank, f"download-or-reuse {cbm_ver}"))
         if with_design_bank:
             print("DESIGN_BOOTSTRAP would run after core install")
         print("DRY_RUN_NO_MUTATION")

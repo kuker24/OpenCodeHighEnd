@@ -1,2 +1,2 @@
 #!/bin/sh
-echo "codebase-memory-mcp 0.9.0"
+echo "codebase-memory-mcp 0.11.0"
