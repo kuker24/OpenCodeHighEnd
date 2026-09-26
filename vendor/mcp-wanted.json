@@ -72,6 +72,14 @@
       "command": "uvx",
       "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
       "status": "FOREIGN_ON_DEMAND"
+    },
+    "crawl4ai": {
+      "wanted": false,
+      "ownedIfAdded": false,
+      "scope": "user",
+      "transport": "http",
+      "url": "http://127.0.0.1:11235/mcp",
+      "status": "FOREIGN_ON_DEMAND"
     }
   }
 }

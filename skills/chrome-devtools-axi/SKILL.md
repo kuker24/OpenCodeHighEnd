@@ -30,7 +30,9 @@ If chrome-devtools-axi output shows a follow-up command starting with `chrome-de
 
 ## When to use
 
-Use chrome-devtools-axi after an observed browser issue needs diagnostics: click, form, console, or network. Start `opencode-chromium-cdp` first and attach with `CHROME_DEVTOOLS_AXI_BROWSER_URL`.
+Use chrome-devtools-axi after an observed browser issue needs diagnostics: click, form, console, network, or observed layout shift (CLS). Start `opencode-chromium-cdp` first (`127.0.0.1:9223`) and attach with `CHROME_DEVTOOLS_AXI_BROWSER_URL`.
+
+For layout shift diagnostics after a visual shift is observed, profile with `lighthouse` or `perf-start` / `perf-stop` on `127.0.0.1:9223`. Never fall back to Google Chrome. Do not treat this as a fifth browser door; it remains door 3 diagnostics.
 
 Skip it when a plain `fetch`/`curl` or `web_fetch` suffices. Do not use it for exploratory multi-role QA (`/browser-act`) and do not fall back to Google Chrome.
 

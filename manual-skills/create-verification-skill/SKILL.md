@@ -37,7 +37,7 @@ Create `.opencode/skills/verify-<app>/features/README.md` plus one file per user
 
 ## 4. Prove the generated skill before handing it over
 
-Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. A generated skill that was never executed is a **DRAFT**, not a PASS. Do not claim PASS until that live run succeeded.
+Run its own instructions end to end once: launch, doctor, drive ONE mapped feature (one is enough; the map exists so later runs can cover the rest), capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run the generated cleanup after every failed iteration too, so broken attempts don't strand processes and ports. Enforce the corrective loop in [`references/verification-loop.md`](references/verification-loop.md): if an assertion fails or evidence is missing, fix the product or the harness; never weaken tests, skip assertions, or drop checks to force a PASS. Copy this loop into the generated skill's failure section. A generated skill that was never executed is a **DRAFT**, not a PASS. Do not claim PASS until that live run succeeded.
 
 ## 5. Offer the maintenance loop
 

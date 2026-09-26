@@ -7,7 +7,7 @@ This contract defines the immutable boundary and governance for the OpenCodeHigh
 - **Retired in this wave and not to be revived**: `ask-matt`, `grilling`, `wait-what`, `matt-implement`.
 - **Kept on purpose**: `wizard` (target-app bash wizard), `codebase-design` (new module), `/improve-codebase-architecture` (scan + HTML report).
 - **Name collision remains**: `install-anti-slop` = Oxlint; UI/copy filter lives in `impeccable` taste-gate + `humanizer`; `/unslop` = `humanizer`.
-- **FOREIGN_ON_DEMAND stays out of the overlay**: `ECC`, `noodle`, `serena`, `stitch`, `reticle`, `ui-skills` MCP, `markitdown` MCP, `exa`, `Caliper`, `SkillEvaluator`. `doctor` must not fail when they are absent.
+- **FOREIGN_ON_DEMAND stays out of the overlay**: `ECC`, `noodle`, `serena`, `stitch`, `reticle`, `ui-skills` MCP, `markitdown` MCP, `crawl4ai` MCP, `exa`, `Caliper`, `SkillEvaluator`. `doctor` must not fail when they are absent.
 - **No new allowlist name without retiring one existing name in the same change.**
 - **No padding back to 64.**
 - **No `/how`, `/poteto-mode`, `/antislop`, `taste-skill`, `axi-core`, `human-atlas`, `awesome-design-md` vendor.**

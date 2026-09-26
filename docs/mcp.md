@@ -17,6 +17,7 @@ Optional:
 - `reticle` — `opencode-he reticle enable` (local stdio via `npx -y @reticlehq/server mcp`; perception only, never auto-implementer)
 - `ui-skills` — `opencode-he ui-skills enable` (remote HTTP `https://www.ui-skills.com/mcp`; design-skill lookup only)
 - `markitdown` — `opencode-he markitdown enable` (local stdio via `uvx --from markitdown-mcp==0.1.8 markitdown-mcp`; Markdown ingest only)
+- `crawl4ai` — `opencode-he crawl4ai enable` (remote HTTP `http://127.0.0.1:11235/mcp`; cloud via `--cloud` with `{env:CRAWL4AI_KEY}`)
 - `exa` — foreign; never add/remove/overwrite
 
 Merge is parse-aware. Comment-free JSON is rewritten with `json.dumps`. JSONC with comments is patched surgically (owned MCP keys only). If surgical merge cannot be verified, install fails closed instead of destroying comments.
@@ -33,8 +34,11 @@ Doctor reports `CONFIGURED` for owned MCP entries present in config. That is not
 
 `opencode-he markitdown enable` configures MarkItDown as an optional local stdio ingest MCP (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). It is `FOREIGN_ON_DEMAND`. Official server is for local trusted agents only; never `--http`, never bind `0.0.0.0`, never docker bind-all. The converter is not vendored into `lib/`. Missing `uvx` is documented in the skill (CLI/`pipx`/`enable`); enable still writes the stdio command like reticle. `opencode-he markitdown disable` surgically removes only the markitdown server key. Absent is not a doctor failure; a malformed entry (including `--http` / `0.0.0.0`) fails closed.
 
+`opencode-he crawl4ai enable` configures Crawl4AI as an optional web content extraction remote MCP (`http://127.0.0.1:11235/mcp`). It is `FOREIGN_ON_DEMAND` for content extraction, not exploratory browser QA (which remains `playwright-qa`). For Docker users, bind strictly to `127.0.0.1:11235` (e.g. `docker run -p 127.0.0.1:11235:11235 ...`); never bind `0.0.0.0`. OpenCodeHighEnd does not launch or manage the container. With `--cloud`, it configures `https://api.crawl4ai.com/mcp` using `{env:CRAWL4AI_KEY}` without writing secrets to disk. `opencode-he crawl4ai disable` surgically removes only the crawl4ai server key. Absent is not a doctor failure; binding to `0.0.0.0` or invalid URLs fails closed.
+
 ## Evaluated, Skipped & Rejected
 
+- **Scrapling** — Evaluated against Crawl4AI and documented as an unmanaged alternative pointer; not registered as an MCP server, CLI command, or skill to avoid redundant surface.
 - **TypeSafe Jev (`jev-mcp`)** — TypeSafe Jev / `jkudish/jev-mcp` was evaluated and is intentionally **SKIPPED** as a required runtime MCP. It is not vendored and not bundled in core MCPs. If ever manually configured by a user, it remains optional `FOREIGN_ON_DEMAND` only with `{env:TYPESAFE_API_KEY}`. Core verification, done-gates, and evidence ledgers operate fully offline without external Jev services.
 - **Agent-Reach (`Panniantong/Agent-Reach`)** — Agent-Reach was evaluated and is strictly **REJECTED** as a core MCP or skill. It is not an alternative to Playwright QA eyes, carries ToS/cookie/account risks, and relies on Exa which is already designated `FOREIGN_ON_DEMAND`. Never register Agent-Reach as a core or required tool.
 - **TypeSafe MCP (`itsmostafa/typesafe-mcp`)** — Evaluated and **REJECTED** as an extra core MCP. Core MCPs remain strictly `codebase-memory-mcp`, `context7`, and `shadcn`.

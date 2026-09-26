@@ -26,6 +26,8 @@
 
 Doctor `OPTIONAL_ABSENT` is not a core failure. `DEGRADED` is non-fatal unless `doctor --strict`. `EMPTY Design V2` means no user bank yet — not a failure. `DEGRADED_FTS` means JSONL search works without SQLite FTS.
 
+`FAIL mcp:crawl4ai` — Crawl4AI must bind to `http://127.0.0.1:11235/mcp` (or cloud `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`). Binding to `0.0.0.0`, using raw secret keys, or using non-standard URLs triggers a FAIL. Reconfigure with `opencode-he crawl4ai enable` (or `--cloud`).
+
 `doctor --deep` exit 1 with `NOT_CHECKED` — `opencode mcp list` failed or was empty; core MCP is not proven live.
 
 Restart OpenCode after install.

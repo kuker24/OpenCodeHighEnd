@@ -115,7 +115,7 @@ Default: repository evidence first. Then at most one specialist.
 | Scroll-led storytelling | `scroll-craft` |
 | Scroll-driven 3D / camera world | `scroll-world` |
 | Procedural Three.js object from image | `img2threejs` |
-| Deterministic HTML composition video | `hyperframes` |
+| Deterministic HTML composition video | `hyperframes` (18s brag card via `references/brag.md`) |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
 | Browser | `playwright-qa` (isolated verification edge; not builder self-attest) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
 | Documents (PDF/DOCX/answer/extract/review) | `smartdoc` |
@@ -178,6 +178,7 @@ Optional:
 - `reticle` — `opencode-he reticle enable` registers Reticle as a local perception server (`npx -y @reticlehq/server mcp`). `FOREIGN_ON_DEMAND`. Server package is FSL-1.1-ALv2 (competing-use clause); SDK packages (Apache-2.0) are not vendored. Never an auto-implementer; default verification remains `playwright-qa` / `chrome-devtools-axi`. `opencode-he reticle disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `ui-skills` — `opencode-he ui-skills enable` registers UI Skills (`https://www.ui-skills.com/mcp`) as an optional remote MCP server. `FOREIGN_ON_DEMAND` for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; `BANK_MISS` never generates from a random ui-skills document. `opencode-he ui-skills disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
+- `crawl4ai` — `opencode-he crawl4ai enable` registers Crawl4AI as an optional web content extraction remote MCP (`http://127.0.0.1:11235/mcp`; `--cloud` registers `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`). `FOREIGN_ON_DEMAND`. Docker users bind `127.0.0.1:11235`, never `0.0.0.0`. Web content extraction only; not an exploratory QA tool (`playwright-qa` remains default). `opencode-he crawl4ai disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry (or `0.0.0.0`) fails closed.
 - `jev-mcp` — TypeSafe Jev / `jkudish/jev-mcp` is intentionally SKIPPED as a required runtime MCP; core verification and done-gates operate offline without external server dependencies.
 - `exa` — `FOREIGN_ON_DEMAND`; installer never adds, removes, or overwrites it
 

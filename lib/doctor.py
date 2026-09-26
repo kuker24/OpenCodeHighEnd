@@ -118,14 +118,14 @@ def mcp_status_map() -> dict[str, str]:
         try:
             data = jsonc.load_path(cfg)
         except (OSError, json.JSONDecodeError, ValueError):
-            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "exa")}
+            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa")}
     mcp = data.get("mcp") or {}
     if not isinstance(mcp, dict):
-        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "exa")}
+        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa")}
     servers = jsonc.mcp_servers_from_config(data)
     owned = {"codebase-memory-mcp", "context7", "shadcn"}
-    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "exa"}
-    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "exa"):
+    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"}
+    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"):
         spec = servers.get(name)
         if spec is None:
             out[name] = "OPTIONAL_ABSENT" if name in optional else "FAIL"
@@ -188,6 +188,35 @@ def mcp_status_map() -> dict[str, str]:
             if cmd[0] != "uvx" or not pinned:
                 out[name] = "FAIL"
                 continue
+            out[name] = "CONFIGURED"
+            continue
+        if name == "crawl4ai":
+            typ = spec.get("type")
+            url = spec.get("url")
+            cmd = spec.get("command")
+            joined = " ".join(str(part) for part in cmd) if isinstance(cmd, list) else str(cmd or "")
+            url_str = str(url or "")
+            if "0.0.0.0" in url_str or "0.0.0.0" in joined:
+                out[name] = "FAIL"
+                continue
+            if typ != "remote":
+                out[name] = "FAIL"
+                continue
+            if url not in ("http://127.0.0.1:11235/mcp", "https://api.crawl4ai.com/mcp"):
+                out[name] = "FAIL"
+                continue
+            headers = spec.get("headers")
+            if url == "https://api.crawl4ai.com/mcp":
+                if not isinstance(headers, dict) or not headers:
+                    out[name] = "FAIL"
+                    continue
+                if not all("{env:CRAWL4AI_KEY}" in str(v) for v in headers.values()):
+                    out[name] = "FAIL"
+                    continue
+            else:
+                if headers is not None and not isinstance(headers, dict):
+                    out[name] = "FAIL"
+                    continue
             out[name] = "CONFIGURED"
             continue
         if name not in owned:
