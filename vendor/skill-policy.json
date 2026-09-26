@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "note": "allowlist = WHAT is owned. This file = HOW each owned skill may be invoked. provenance = WHERE it came from. Catalog frozen at 1.8.6 (62 names: 47 model, 15 manual; see docs/CATALOG-FREEZE.md).",
+  "note": "allowlist = WHAT is owned. This file = HOW each owned skill may be invoked. provenance = WHERE it came from. Catalog frozen at 62 names (47 model, 15 manual; see docs/CATALOG-FREEZE.md).",
   "skills": {
     "academic": {
       "invocation": "model"

@@ -1,8 +1,8 @@
 # Catalog Freeze Contract
 
-This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The name set is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen.
+This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The 62-skill catalog is strictly frozen.
 
-- **Product version**: 0.1.4
+- **Product version**: 0.1.5
 - **Catalog**: 62 names. 47 model-invoked under `skills/`. 15 manual under `manual-skills/` + `commands/`.
 - **Retired in this wave and not to be revived**: `ask-matt`, `grilling`, `wait-what`, `matt-implement`.
 - **Kept on purpose**: `wizard` (target-app bash wizard), `codebase-design` (new module), `/improve-codebase-architecture` (scan + HTML report).

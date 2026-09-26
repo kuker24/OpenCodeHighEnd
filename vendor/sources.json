@@ -1,14 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.4",
-  "adaptedFrom": {
-    "product": "OpenCodeBestFriend",
-    "version": "1.8.6",
-    "commit": "67142e4",
-    "repository": "https://github.com/kuker24/OpenCodeBestFriend",
-    "catalogFreeze": "docs/CATALOG-FREEZE.md (62 names)"
-  },
+  "productVersion": "0.1.5",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",

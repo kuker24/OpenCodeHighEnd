@@ -2,9 +2,9 @@
 
 OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
-Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/). It is **not** Claude Code, **not** GrokBuild, **not** OpenCodeBestFriend runtime, **not** a model provider, and **not** a dump of a developer home directory.
+Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.4**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8.6 (`67142e4` / PR #29) and stays frozen. This is a new product on a new host.
+Version **0.1.5**. The 62-skill catalog is strictly frozen.
 
 ## What it is
 
@@ -12,7 +12,7 @@ Version **0.1.4**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 - A thin `AGENTS.md` router (lazy, one primary specialist)
 - Core MCP: Codebase Memory, Context7, shadcn
 - 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
-- Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json` (HighEnd config, not legacy bestfriend)
+- Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
 - UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still 62 skills)
@@ -25,8 +25,7 @@ Version **0.1.4**. The 62-skill catalog is inherited from OpenCodeBestFriend 1.8
 
 ## What it is not
 
-- Not Claude Code configuration
-- Not Context Guard / Claude hooks / Claude autocompact
+- Not a model provider or credential store
 - Not your provider keys, models, or auth state
 - Not a Design Bank media repository
 - Not a multi-agent swarm (explicit, artifact-gated specialist graph)
@@ -323,18 +322,6 @@ Optional host tools: Chromium, `gh`, browser-act, serena, semgrep, osv-scanner, 
 
 See [docs/security.md](docs/security.md).
 
-## Provenance
+## Provenance & Licenses
 
-Capability source: [OpenCodeBestFriend](https://github.com/kuker24/OpenCodeBestFriend) 1.8.6 (`67142e4`, catalog freeze PR #29). That overlay targeted OpenCode 1.18.x; HighEnd rewrites the installer and config for OpenCode 2. Adapted ≠ first-party. Licenses: [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
-## Copied vs rewritten
-
-Copied from OCBF 1.8.6 then path-rewritten: 47 model skills, 15 manuals + commands, rules, Design Intelligence, Design V2 / SmartDoc libraries, CBM pin, allowlist/policy.
-
-Rewritten native V2: installer version gate, `mcp.servers` merge, `skills` array, doctor, AGENTS markers (`OPENCODEHIGHEND`), identity (`opencode-he`, `~/.config/opencode/highend`).
-
-Not copied: V1 plugins, `lsp` blocks, provider tokens, Design Bank media, GrokBuild / `~/.grok` runtime paths.
-
-## License
-
-MIT for first-party installer, docs, overlays, and tests. Vendored skills keep their upstream licenses.
+OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

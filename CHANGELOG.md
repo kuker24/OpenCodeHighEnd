@@ -1,7 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.5 — 2026-09-26
 
+- Refocused OpenCodeHighEnd public identity and documentation: neutralized legacy predecessor references across `README.md`, `docs/CATALOG-FREEZE.md`, vendor metadata, and install manifests into a standalone OpenCode 2 runtime overlay.
 - Integrated native verification corrective loop:
   - Created `manual-skills/create-verification-skill/references/verification-loop.md` with explicit When, Corrective action, and Evidence ledger protocols (requiring mechanical `FACT:` rows and banning test weakening).
   - Updated `manual-skills/create-verification-skill/SKILL.md` to require executing the corrective loop before claiming PASS and copying it into generated skill failure handling.
@@ -18,7 +19,7 @@
   - Added CLI options in `lib/cli.py` and enablement handlers in `lib/install.py`.
   - Added doctor unit tests in `tests/test_doctor.py` covering missing, zero-bind, invalid URL, cloud missing token, cloud raw secret, valid local, valid cloud, and enable/disable flows.
   - Documented configuration and boundaries in `docs/mcp.md`, `docs/CATALOG-FREEZE.md`, `docs/source-wave.md`, `docs/troubleshooting.md`, and `README.md` (documenting Scrapling as an unmanaged pointer and retaining Agent-Reach as rejected).
-  - Maintained frozen catalog of 62 skills (47 model-invoked, 15 manual slash commands) with zero new skill names. Product version remains 0.1.4.
+  - Maintained frozen catalog of 62 skills (47 model-invoked, 15 manual slash commands) with zero new skill names. Product version bumped to 0.1.5.
 
 ## 0.1.4 — 2026-09-23
 

@@ -20,7 +20,7 @@
 
 `INVALID_BACKUP_STAMP` / `BACKUP_PATH_ESCAPE` — restore stamps are `[A-Za-z0-9][A-Za-z0-9._-]{0,63}` only.
 
-`FAIL INSTALLED_VERSION` / `FAIL SOURCE_REPOSITORY` — runtime is not this OpenCodeHighEnd release. Re-run `./install.sh` from the matching clone (ClaudeBestFriend overlays migrate automatically).
+`FAIL INSTALLED_VERSION` / `FAIL SOURCE_REPOSITORY` — runtime is not this OpenCodeHighEnd release. Re-run `./install.sh` from the matching clone.
 
 `STALE AGENTS.md` — owned block missing USED / CONSIDERED_NOT_USED / MANUAL_NOT_INVOKED. Reinstall.
 

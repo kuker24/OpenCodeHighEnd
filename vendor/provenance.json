@@ -1,9 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.4",
-  "upstreamProduct": "OpenCodeBestFriend",
-  "upstreamVersion": "1.8.6",
+  "productVersion": "0.1.5",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -645,11 +643,5 @@
       "redistribution": "mit",
       "notes": "Adapted from affaan-m/ECC. Consumer/provider collaboration around one machine-checkable contract artifact."
     }
-  ],
-  "adaptedFrom": {
-    "product": "ClaudeBestFriend",
-    "version": "1.4.2-claude.1",
-    "commit": "05e6fdcdb70fe7f4420827e4df1a360f2152700c",
-    "repository": "https://github.com/kuker24/ClaudeBestFriend"
-  }
+  ]
 }

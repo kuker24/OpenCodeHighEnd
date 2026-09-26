@@ -956,12 +956,6 @@ def apply(meta: dict, cbm_bin: Path, bank: tuple[str | None, str, str]) -> list[
         "product": EXPECTED_PRODUCT,
         "productVersion": meta["productVersion"],
         "sourceRepository": EXPECTED_REPO,
-        "adaptedFrom": {
-            "product": "OpenCodeBestFriend",
-            "version": "1.8.6",
-            "commit": "67142e4",
-            "repository": "https://github.com/kuker24/OpenCodeBestFriend",
-        },
         "installedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "sourceCommit": git_head(),
         "opencodeVersion": ver,
