@@ -55,6 +55,11 @@
       "transport": "stdio",
       "command": "uvx",
       "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"]
+    },
+    "crawl4ai": {
+      "enabled": false,
+      "transport": "http",
+      "url": "http://127.0.0.1:11235/mcp"
     }
   }
 }

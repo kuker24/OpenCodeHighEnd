@@ -53,3 +53,4 @@ playwright-cli -s=task-ui close
 - Operational QA flow & assertions: [references/workflow.md](references/workflow.md)
 - Session isolation & cleanup: [references/sessions.md](references/sessions.md)
 - Setup, runtime discovery, & dependency boundaries: [references/setup.md](references/setup.md)
+- Layout shift (CLS) observation recipe: [references/cls.md](references/cls.md)

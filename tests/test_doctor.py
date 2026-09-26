@@ -15,7 +15,11 @@ from contextlib import redirect_stdout
 
 from lib import jsonc  # noqa: E402
 from lib.doctor import cmd_doctor, owned_agents_block, parse_mcp_list  # noqa: E402
-from lib.install import cmd_install  # noqa: E402
+from lib.install import (  # noqa: E402
+    cmd_crawl4ai_disable,
+    cmd_crawl4ai_enable,
+    cmd_install,
+)
 from lib.integrity import cmd_verify  # noqa: E402
 from tests.support import IsolatedHome  # noqa: E402
 
@@ -446,6 +450,156 @@ class DoctorDeepTests(IsolatedHome):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
+
+    def test_doctor_crawl4ai_missing_does_not_fail(self):
+        self._install()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_zero_bind_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "http://0.0.0.0:11235/mcp",
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_invalid_url_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "http://127.0.0.1:9999/mcp",
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_cloud_raw_secret_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "https://api.crawl4ai.com/mcp",
+            "headers": {"Authorization": "Bearer raw_secret_key_123"},
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_cloud_missing_token_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "https://api.crawl4ai.com/mcp",
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_valid_local_passes(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "http://127.0.0.1:11235/mcp",
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_valid_cloud_passes(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["crawl4ai"] = {
+            "type": "remote",
+            "url": "https://api.crawl4ai.com/mcp",
+            "headers": {"Authorization": "Bearer {env:CRAWL4AI_KEY}"},
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_enable_local_and_disable(self):
+        self._install()
+        rc = cmd_crawl4ai_enable()
+        self.assertEqual(rc, 0)
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertIn("crawl4ai", servers)
+        self.assertEqual(servers["crawl4ai"]["url"], "http://127.0.0.1:11235/mcp")
+        self.assertNotIn("0.0.0.0", str(servers["crawl4ai"]))
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:crawl4ai", buf.getvalue())
+        rc = cmd_crawl4ai_disable()
+        self.assertEqual(rc, 0)
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertNotIn("crawl4ai", servers)
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:crawl4ai", buf.getvalue())
+
+    def test_doctor_crawl4ai_enable_cloud(self):
+        self._install()
+        os.environ["CRAWL4AI_KEY"] = "super-secret-key-999"
+        try:
+            rc = cmd_crawl4ai_enable(cloud=True)
+            self.assertEqual(rc, 0)
+            cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+            raw_text = cfg.read_text(encoding="utf-8")
+            self.assertNotIn("super-secret-key-999", raw_text)
+            self.assertIn("{env:CRAWL4AI_KEY}", raw_text)
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                rc = cmd_doctor()
+            self.assertEqual(rc, 0, buf.getvalue())
+            self.assertIn("CONFIGURED             mcp:crawl4ai", buf.getvalue())
+        finally:
+            os.environ.pop("CRAWL4AI_KEY", None)
 
     def test_doctor_plugins_clean_when_absent(self):
         self._install()

@@ -13,4 +13,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Integrated into OpenCodeHighEnd as a single deterministic HTML-to-video specialist with local CLI/Chrome/FFmpeg execution boundaries.
+Integrated into OpenCodeHighEnd as a single deterministic HTML-to-video specialist with local CLI/Chrome/FFmpeg execution boundaries. Includes first-party deterministic 18-second brag card launch video recipes and offline rendering workflows.

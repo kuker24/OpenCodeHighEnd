@@ -972,7 +972,7 @@ def apply(meta: dict, cbm_bin: Path, bank: tuple[str | None, str, str]) -> list[
         "modelInvokedSkills": meta["model"],
         "manualSkills": meta["manual"],
         "ownedMcp": list(OWNED_MCP),
-        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "exa"],
+        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"],
         "designBank": {
             "root": bank_root,
             "source": bank_source,
@@ -1508,4 +1508,34 @@ def cmd_ui_skills_enable() -> int:
 
 def cmd_ui_skills_disable() -> int:
     return _optional_mcp_disable("ui-skills")
+
+
+def cmd_crawl4ai_enable(cloud: bool = False) -> int:
+    if cloud and not os.environ.get("CRAWL4AI_KEY", "").strip():
+        die("CRAWL4AI_KEY environment variable is empty (set CRAWL4AI_KEY to use --cloud)")
+    if cloud:
+        spec: dict[str, object] = {
+            "type": "remote",
+            "url": "https://api.crawl4ai.com/mcp",
+            "headers": {
+                "Authorization": "Bearer {env:CRAWL4AI_KEY}",
+            },
+            "disabled": False,
+        }
+    else:
+        spec = {
+            "type": "remote",
+            "url": "http://127.0.0.1:11235/mcp",
+            "disabled": False,
+        }
+    return _optional_mcp_enable(
+        "crawl4ai",
+        spec,
+        already_present_msg="crawl4ai MCP already present; not overwriting (run `crawl4ai disable` first to change endpoint)",
+    )
+
+
+def cmd_crawl4ai_disable() -> int:
+    return _optional_mcp_disable("crawl4ai")
+
 

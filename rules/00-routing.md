@@ -139,7 +139,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Scroll-led storytelling (scroll is the timeline, scrollytelling, signature interaction): `/scroll-craft`. Ordinary scrollable UI stays `/impeccable`. `/scroll-craft` plus Continuous World: Scroll Craft writes the brief, then `/scroll-world`.
 - Continuous camera fly-through, diorama, or 3D-world landing: `/scroll-world` even if the request says scroll.
 - Procedural Three.js object from image: `/img2threejs` (factory Group, editable primitives, visible vs inferred spec). Not `scroll-world` (camera fly-through), not `hyperframes` (HTML-to-MP4), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
-- Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
+- Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg; 18s brag/launch cards via `references/brag.md`). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
 - Demo video aplikasi, walkthrough layar, narasi Indonesia, demo lomba: skill `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`.
 - Photoreal stills / ads / identity with no UI surface: `/visual-studio`.
 - Motion after Impeccable: `/emil-design-eng`.

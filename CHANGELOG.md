@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased
+
+- Integrated native verification corrective loop:
+  - Created `manual-skills/create-verification-skill/references/verification-loop.md` with explicit When, Corrective action, and Evidence ledger protocols (requiring mechanical `FACT:` rows and banning test weakening).
+  - Updated `manual-skills/create-verification-skill/SKILL.md` to require executing the corrective loop before claiming PASS and copying it into generated skill failure handling.
+  - Added Corrective loop section to `rules/01-verification.md` referencing the verification loop protocol and anti-test-weakening constraints.
+  - Added exploratory visual layout shift (CLS) observation recipe in `skills/playwright-qa/references/cls.md` and linked reference in `skills/playwright-qa/SKILL.md` while strictly preserving the 200-newline budget.
+  - Documented `/chrome-devtools-axi` diagnostic entry point for observed layout shifts via `127.0.0.1:9223`.
+- Added 18-second brag launch video card pattern to HyperFrames:
+  - Created `skills/hyperframes/references/brag.md` specifying an 18-second, 60fps, 1080p deterministic video recipe across 4 narrative beats (Hook & Problem, Solution Reveal, Capability Highlight, Call to Action) with local-only assets and target output `brag-output/brag.mp4`.
+  - Updated `skills/hyperframes/SKILL.md` and `skills/hyperframes/NOTICE.md` to reference the brag card recipe.
+  - Updated `rules/00-routing.md` under `video_html` and `README.md` to route short launch video cards to `hyperframes` via `references/brag.md`.
+- Implemented optional Crawl4AI web extraction MCP:
+  - Registered `crawl4ai` as an optional `FOREIGN_ON_DEMAND` remote MCP (`http://127.0.0.1:11235/mcp`; `--cloud` using `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`) via `opencode-he crawl4ai enable [--cloud]` and `opencode-he crawl4ai disable`.
+  - Added strict doctor validation in `lib/doctor.py`: enforces `127.0.0.1:11235` local binding, rejects `0.0.0.0` or invalid URLs, prevents raw secret keys on cloud endpoints, and reports `OPTIONAL_ABSENT` when unconfigured.
+  - Added CLI options in `lib/cli.py` and enablement handlers in `lib/install.py`.
+  - Added doctor unit tests in `tests/test_doctor.py` covering missing, zero-bind, invalid URL, cloud missing token, cloud raw secret, valid local, valid cloud, and enable/disable flows.
+  - Documented configuration and boundaries in `docs/mcp.md`, `docs/CATALOG-FREEZE.md`, `docs/source-wave.md`, `docs/troubleshooting.md`, and `README.md` (documenting Scrapling as an unmanaged pointer and retaining Agent-Reach as rejected).
+  - Maintained frozen catalog of 62 skills (47 model-invoked, 15 manual slash commands) with zero new skill names. Product version remains 0.1.4.
+
 ## 0.1.4 — 2026-09-23
 
 - Upgraded `codebase-memory-mcp` pin to v0.11.0 with SHA-256 verified portable tarball download, and added automatic `--format json` argument propagation in `lib/cbm.py` for reliable JSON extraction across project listing and status commands.

@@ -62,3 +62,10 @@ Jev/Canny-shaped policy without calling Jev:
 Do not claim done while a required configured gate is unrun. Missing project command = `NOT_CONFIGURED`, not PASS.
 
 Distinguish mechanical facts (typecheck, tests, build actually ran) from reasoning quality (in-session review or `/matt-code-review`). Do not install Claude Code Stop hooks, learning-library mtime gates, or disk-space blockers. Those remain `FOREIGN_ON_DEMAND`.
+
+## Corrective loop
+
+When a required check in the active verification profile fails, proof evidence is missing, or assertions fail, follow the corrective loop (see `manual-skills/create-verification-skill/references/verification-loop.md`):
+1. Fix the product code or harness recipe, then rerun the verification pass from scratch.
+2. Anti-test-weakening: never delete assertions, add skip/xfail tags, widen numeric thresholds, or substitute internal setters to manufacture an artificial PASS.
+3. Record mechanical `FACT:` rows for reruns. A missing verification command remains `NOT_CONFIGURED`, not PASS.

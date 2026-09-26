@@ -24,6 +24,8 @@ from lib.install import (  # noqa: E402
     cmd_install,
     cmd_restore,
     cmd_restore_list,
+    cmd_crawl4ai_disable,
+    cmd_crawl4ai_enable,
     cmd_markitdown_disable,
     cmd_markitdown_enable,
     cmd_reticle_disable,
@@ -119,6 +121,10 @@ def build_parser() -> argparse.ArgumentParser:
     uis = sub.add_parser("ui-skills", help="optional UI Skills remote MCP")
     uis.add_argument("action", choices=["enable", "disable"])
 
+    c4 = sub.add_parser("crawl4ai", help="optional Crawl4AI web extraction MCP")
+    c4.add_argument("action", choices=["enable", "disable"])
+    c4.add_argument("--cloud", action="store_true", help="use cloud endpoint with CRAWL4AI_KEY instead of local container")
+
     sd = sub.add_parser("smartdoc", help="document profiles, extract, status")
     add_smartdoc_cli(sd)
     sb = sub.add_parser("smartbook", help="reusable SmartBook lifecycle")
@@ -190,6 +196,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.action == "enable":
             return cmd_ui_skills_enable()
         return cmd_ui_skills_disable()
+    if cmd == "crawl4ai":
+        if args.action == "enable":
+            return cmd_crawl4ai_enable(cloud=args.cloud)
+        return cmd_crawl4ai_disable()
     if cmd == "smartdoc":
         return dispatch_smartdoc(args)
     if cmd == "smartbook":

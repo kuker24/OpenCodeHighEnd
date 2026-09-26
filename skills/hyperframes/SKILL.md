@@ -39,6 +39,7 @@ Load the specific reference required for the task:
 - [references/composition.md](references/composition.md) — HTML composition layout, aspect ratios, seekable timeline contracts.
 - [references/render.md](references/render.md) — Headless Chrome capture, frame stepping, FFmpeg encoding parameters.
 - [references/workflows.md](references/workflows.md) — Workflow archetypes (product launch, animated explainer, motion graphics, data video).
+- [references/brag.md](references/brag.md) — 18-second product launch / brag card recipe, local assets, exact output path.
 
 ## Hard Rules
 
