@@ -10,7 +10,7 @@
         ┌───────────────────┼────────────────────┐
         ▼                   ▼                    ▼
       Skills               MCP                 Rules
-      47 automatic       Codebase Memory        Verification
+      50 automatic       Codebase Memory        Verification
       15 manual          Context7              Engineering
                        shadcn
         │
@@ -44,6 +44,9 @@ Instead of opaque multi-agent swarms or chat-based delegation, OpenCodeHighEnd o
 2. **Implementation Node -> Verification Node**: `impeccable` produces code, which hands off to `playwright-qa` across an isolated verification boundary. The verification agent operates in a clean session, proving claims with screenshots, traces, or test exit codes rather than relying on builder reasoning.
 3. **Data Nodes vs Agents**: Design Bank, Design V2, and shadcn are passive data sources and component registries, never pseudo-agents.
 4. **No Phantom Transitions**: Every inter-specialist edge requires a machine-readable artifact or ledger entry. Unbacked "and then" handoffs are strictly forbidden.
+5. **Generative UI Node (`json-render`)**: Handed off from `prototype` or `found-this-design` when UI must be generated from typed JSON schemas or component catalogs rather than freeform layout code.
+6. **Consulting Slide Decks Node (`deck-design`)**: Handed off from `smartdoc` for consulting PPTX and 16:9 HTML slide decks. `smartdoc` retains document contracts/OCR/PDF rendering; `markitdown` retains file-to-Markdown ingest.
+7. **Long-Document Navigation Node (`pageindex`)**: Handed off from `research` for navigating deep, structured documents (filings, manuals, technical specs) using hierarchical tree reasoning rather than naive vector similarity chunking. Primary-source citation rules remain strictly enforced.
 
 ## Harness Engineering Principles
 

@@ -9,13 +9,14 @@ Version **0.1.7**. The 65-skill catalog is strictly frozen.
 ## What it is
 
 - 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
-- A thin `AGENTS.md` router (lazy, one primary specialist)
+- A thin `AGENTS.md` router (lazy, one primary specialist, 23 closed intents)
 - Core MCP: Codebase Memory, Context7, shadcn
 - 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
-- UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still not extra skills)
+- UI polish checklists merged into `emil-design-eng` + practical a11y & React smell checklist in `impeccable` (`react-doctor` as on-demand `OPTIONAL_TOOL`)
+- Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`
 - Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
@@ -30,6 +31,8 @@ Version **0.1.7**. The 65-skill catalog is strictly frozen.
 - Not a Design Bank media repository
 - Not a multi-agent swarm (explicit, artifact-gated specialist graph)
 - Not vendoring external red-team playbooks like `deepteam` (optional external pointer only)
+- Not vendoring monolithic apps (`genoffice`, `monocode`, `openmuse`), external graph databases (`graphiti`, `cognee`), or Jev compose APIs
+- Not adding extra core MCP servers (core remains strictly Codebase Memory, Context7, and shadcn)
 - Not OpenCode 1.x (installer fails closed on 1.x)
 - Not claimed as macOS/Windows-tested (Linux x86_64 only for this release)
 
@@ -74,7 +77,7 @@ Restart OpenCode after install. Config is not hot-reloaded.
         ┌───────────────────┼────────────────────┐
         ▼                   ▼                    ▼
       Skills               MCP                 Rules
-      47 automatic       Codebase Memory        Verification
+      50 automatic       Codebase Memory        Verification
       15 manual          Context7              Engineering
                        shadcn
         │
@@ -108,6 +111,7 @@ Default: repository evidence first. Then at most one specialist.
 | UI registry | shadcn MCP |
 | Visual direction | `found-this-design` (emits `.impeccable/found-this-design.json` before implement) |
 | UI implementation after a direction | `impeccable` |
+| Generative UI (typed schema / catalog) | `json-render` |
 | Generic AI UI look | `impeccable` taste-gate (not `install-anti-slop`) |
 | Motion | `emil-design-eng` |
 | Photoreal / media | `visual-studio` |
@@ -116,8 +120,10 @@ Default: repository evidence first. Then at most one specialist.
 | Procedural Three.js object from image | `img2threejs` |
 | Deterministic HTML composition video | `hyperframes` (18s brag card via `references/brag.md`) |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
-| Browser | `playwright-qa` (isolated verification edge; not builder self-attest) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
+| Browser | `playwright-qa` (isolated verification edge; evidence ledger) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
 | Documents (PDF/DOCX/answer/extract/review) | `smartdoc` |
+| Consulting PPTX & 16:9 slide decks | `deck-design` |
+| Long structured doc tree navigation | `pageindex` |
 | File to Markdown ingest | `markitdown` |
 | Reusable book/module knowledge | `smartbook-ingest` |
 | Scholarly literature & manuscripts | `academic` |
@@ -126,7 +132,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics).
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation).
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 
@@ -179,6 +185,7 @@ Optional:
 - `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `crawl4ai` — `opencode-he crawl4ai enable` registers Crawl4AI as an optional web content extraction remote MCP (`http://127.0.0.1:11235/mcp`; `--cloud` registers `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`). `FOREIGN_ON_DEMAND`. Docker users bind `127.0.0.1:11235`, never `0.0.0.0`. Web content extraction only; not an exploratory QA tool (`playwright-qa` remains default). `opencode-he crawl4ai disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry (or `0.0.0.0`) fails closed.
 - `jev-mcp` — TypeSafe Jev / `jkudish/jev-mcp` is intentionally SKIPPED as a required runtime MCP; core verification and done-gates operate offline without external server dependencies.
+- `pageindex` — PageIndex Cloud MCP is `FOREIGN_ON_DEMAND` and omitted from core servers; skill `pageindex` operates offline or uses local SDK with graceful `NOT_CONFIGURED` degradation.
 - `exa` — `FOREIGN_ON_DEMAND`; installer never adds, removes, or overwrites it
 
 NVIDIA SkillEvaluator is `FOREIGN_ON_DEMAND` in the same sense: a maintainer may run it externally for embedding-based overlap scoring or live catalog evaluation. Caliper is `FOREIGN_ON_DEMAND` similarly: a maintainer may `pipx install caliper-eval` off-tree for prompt/agent benchmark evaluation. Neither is vendored into `lib/`, the installer never adds them, `doctor` does not fail when they are absent, and a malformed MCP entry fails closed like any other schema violation.
