@@ -115,8 +115,11 @@ browser-act or chrome-devtools-axi attached to that CDP. Never Google
 Chrome, `chrome-direct`, `--headed`, or `HEADED=1` unless the user asks
 to see a window.
 
-- Screenshot just before and after each seam. Judge composition, not
-  PSNR. A pop means the handoff used a still instead of a rendered frame,
+- Screenshot just before and after each seam. Calibration: judge seams by
+  *composition*, not raw PSNR — at 720p/1080p a correctly frame-locked seam
+  can read ~18–25 dB from detail shimmer alone (observed on a verified-good
+  build); a real mismatch shows as different composition or props, not just
+  softness. A pop means the handoff used a still instead of a rendered frame,
   or B's crossfade cannot hide a content jump.
 - Confirm `video.seekable.end(0) > 0` (blob URLs) and that `currentTime`
   tracks scroll.

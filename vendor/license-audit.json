@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.5",
+  "productVersion": "0.1.6",
   "note": "Evidence-based. A missing frontmatter license is not a grant. Adapted \u2260 first-party.",
   "skills": {
     "demo-video": {
@@ -196,7 +196,7 @@
     },
     "scroll-world": {
       "license": "MIT",
-      "evidence": "SKILL.md frontmatter + GrokBestFriend LICENSE; vendor/licenses/GROKBESTFRIEND-MIT.txt",
+      "evidence": "oso95/scroll-world 71cc36d + SKILL.md frontmatter + GrokBestFriend LICENSE; vendor/licenses/GROKBESTFRIEND-MIT.txt",
       "redistribution": "mit"
     },
     "visual-studio": {

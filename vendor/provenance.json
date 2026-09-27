@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.5",
+  "productVersion": "0.1.6",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -146,10 +146,11 @@
     {
       "component": "scroll-world",
       "path": "skills/scroll-world",
-      "upstream": "GrokBestFriend 1.3.1 skill snapshot",
+      "upstream": "oso95/scroll-world@71cc36d3bb150248ae36a2c552f9cbf88802a79c",
       "license": "MIT",
       "modified": true,
-      "redistribution": "mit"
+      "redistribution": "mit",
+      "notes": "Seam QA calibration note (~18–25 dB shimmer tolerance) merged. Continuous 3D fly-through landing with vanilla-JS scrub engine; paid video backends degrade to NOT_CONFIGURED."
     },
     {
       "component": "visual-studio",
