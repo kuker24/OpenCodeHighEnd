@@ -5,17 +5,17 @@
 `doctor --deep` = is live runtime proven?
 `doctor --strict` = treat DEGRADED/WARN as failure.
 
-A successful 0.1.6 install should report approximately:
+A successful 0.1.7 install should report approximately:
 
 ```text
 PASS INSTALLED_PRODUCT opencode-highend
-PASS INSTALLED_VERSION 0.1.6
+PASS INSTALLED_VERSION 0.1.7
 PASS SOURCE_REPOSITORY https://github.com/kuker24/OpenCodeHighEnd
 
 PASS OpenCode (major >= 2.x)
 PASS opencode.jsonc parseable
 PASS AGENTS.md thin owned-lines=…
-PASS skills TOTAL 62/62 MODEL 47/47 MANUAL 15/15
+PASS skills TOTAL 65/65 MODEL 50/50 MANUAL 15/15
 PASS rules 6 portable; 04-context-guard EXCLUDED_BY_DESIGN
 
 CONFIGURED mcp:codebase-memory-mcp

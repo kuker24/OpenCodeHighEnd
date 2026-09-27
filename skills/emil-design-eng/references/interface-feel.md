@@ -64,9 +64,11 @@ Tactile polish and interface feel principles merged from `make-interfaces-feel-b
 - [ ] **Press Feedback Discipline**: Interactive cards and buttons should respond with subtle downward scaling (`transform: scale(0.97)`) on pointerdown, resolving cleanly on pointerup within 100–150ms.
 - [ ] **Reduced-Motion Fallback**: When `prefers-reduced-motion: reduce` is enabled, zero out spatial translations and physical bounces while preserving opacity fades for state clarity.
 - [ ] **No Hairline-Only Affordances (better-interface MERGE)**: Interactive elements must not rely strictly on a 1px border to communicate clickable boundaries; use background contrast, elevation, or padded hit targets.
+- [ ] **Contrast boundaries**: Adjacent surfaces that are only separated by a 1px line must also differ in fill, elevation, or padding so the edge survives 200% zoom and grayscale.
+- [ ] **State is not hue-only**: hover / active / disabled / selected remain distinguishable without color (weight, icon, pattern, or copy).
 
 ## 6. Layered Shadows & Adaptive Flow (mengto/beautiful-shadows + pbakaus/adapt + superfuture/design-review MERGE)
 
 - [ ] **Multi-Stop Ambient Shadows**: Simulate realistic ambient illumination by layering multiple subtle box-shadows (sharp contact shadow + mid ambient diffusion) rather than single harsh offsets.
-- [ ] **Container-Adaptive Components**: Use CSS container queries (`@container`) on self-contained cards and modules so they adapt fluidly to local container width rather than global viewport size alone.
+- [ ] **Container-Adaptive Components**: Use CSS container queries (`@container`) on self-contained cards and modules so they adapt fluidly to local container width rather than global viewport size alone. Drop optional chrome before shrinking type below 14px inside a container.
 - [ ] **Pre-Verification Design Review**: Audit visual hierarchy, contrast ratios, concentric radius geometry, and hit targets before handing off to browser verification.

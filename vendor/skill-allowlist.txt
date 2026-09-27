@@ -15,6 +15,7 @@ contract-first
 cost-aware-llm-pipeline
 create-verification-skill
 decision-log
+deck-design
 demo-video
 diagnosing-bugs
 diagram-design
@@ -35,10 +36,12 @@ impeccable
 improve-codebase-architecture
 install-anti-slop
 interrogate
+json-render
 maintain-verification-skill
 markitdown
 matt-code-review
 mongodb-ops
+pageindex
 playwright-qa
 prompt-optimizer
 prototype

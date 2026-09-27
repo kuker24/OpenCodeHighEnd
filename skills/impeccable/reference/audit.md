@@ -35,6 +35,31 @@ Detailed checklist: [accessibility.md](accessibility.md).
 
 **Optional React Tooling**: When auditing a React project AND the user explicitly asks or audit depth warrants component-level static profiling, run `npx react-doctor@latest` (or `npx react-doctor@latest design --verbose`). This is strictly an optional on-demand check; never require network/npx during default installation, and never add as a required skill.
 
+### When to run react-doctor (OPTIONAL_TOOL, not a skill)
+
+Run only if **all** of these hold:
+
+- The tree is React (or Next/Remix with React).
+- The user asked, or Implementation Integrity / Performance scores are ≤2 and smells below are unconfirmed.
+- `npx` is available **and** the user accepts an on-demand network fetch.
+
+Skip when offline, when the project forbids npx, or when a default install/doctor run would pull packages. Absence is `OPTIONAL_ABSENT`, not FAIL.
+
+**React smell checklist** (confirm in source; do not auto-fix here):
+
+- Client components wrapping purely static trees
+- Sequential waterfalls (`await` in a loop, uncached fetches in render)
+- Missing list `key`, or index keys on reorderable lists
+- `useState` holding derived values that should be computed
+- `useEffect` used only to transform props into state
+- Unstable object/array/function identities in hook deps or child props
+- Barrel-importing a whole library for one symbol
+- Context value recreated every render without memo
+- Route/tree without an error boundary
+- Hydration mismatch from `Date.now()`, `Math.random()`, or locale-only markup
+- Premature `memo`/`useMemo` with no measured re-render cost
+- Effects that subscribe without cleanup
+
 **Score 0-4**: 0=Severe issues (layout thrash, unoptimized everything), 1=Major problems (no lazy loading, expensive animations), 2=Partial (some optimization, gaps remain), 3=Good (mostly optimized, minor improvements possible), 4=Excellent (fast, lean, well-optimized)
 
 ### 3. Theming

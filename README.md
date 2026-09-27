@@ -1,24 +1,24 @@
 # OpenCodeHighEnd
 
-OpenCode 2 overlay: 62 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
+OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.6**. The 62-skill catalog is strictly frozen.
+Version **0.1.7**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 
-- 62 skills: 47 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
+- 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
 - A thin `AGENTS.md` router (lazy, one primary specialist)
 - Core MCP: Codebase Memory, Context7, shadcn
 - 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
-- UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still 62 skills)
+- UI polish checklists merged into `emil-design-eng` + practical a11y into `impeccable` (still not extra skills)
 - Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
-- Emil motion doctrines live under `emil-design-eng` references (still 62 skills)
+- Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, transactional install, uninstall, restore
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`

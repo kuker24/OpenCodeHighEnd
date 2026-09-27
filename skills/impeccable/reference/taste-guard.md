@@ -53,6 +53,10 @@ Before shipping UI, verify against the four gates:
    - Review desktop and mobile renders together under observed browser inspection.
    - Confirm layout stability (e.g. `min-h-[100dvh]` to prevent viewport jumping).
    - Verify all packages exist in `package.json` before importing; no unrequested heavy dependencies.
+    - No leftover lorem, TODO, placeholder avatars, or fake logos in Persuade or Operate.
+    - LCP-relevant images declare width/height or CSS `aspect-ratio`.
+    - Above-the-fold copy includes at least one concrete product fact (liveliness), not a manifesto.
+    - Tone matches surface mode: Operate uses verbs and status; Persuade may be bolder but never fake proof.
 
 ---
 

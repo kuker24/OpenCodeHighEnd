@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.7 — 2026-09-28
+
+Unfreeze exception (human-written): catalog grows **62 → 65** to add modern specialists `json-render`, `deck-design`, and `pageindex`. **No twin retired.** No silent padding. UI doctrines remain MERGE’d into `impeccable` / `emil-design-eng`. `react-doctor` stays OPTIONAL_TOOL (not a 4th skill). Closed intent set grows by three: `generative_ui`, `slides_pptx`, `longdoc_nav`.
+
+- Power-up existing specialists (no duplicate UI skill folders):
+  - `impeccable/reference/audit.md`: unified React smell checklist and an explicit “when to run react-doctor” OPTIONAL_TOOL door.
+  - `impeccable/reference/taste-guard.md`: Delivery Gate liveliness / LCP / leftover-lorem items (net-new only).
+  - `emil-design-eng/references/interface-feel.md`: contrast boundaries, non-hue state, container-adaptive density (no duplicate hairline section).
+  - `playwright-qa`: evidence ledger + tracing FACT rows; remains door 1; browser-use not vendored.
+  - `prototype` + `found-this-design`: schema/JSON UI handoff → `json-render`.
+  - `smartdoc`: PPTX generation out of scope → `deck-design`.
+  - `research`: long structured docs → `pageindex`; primary-source rule kept.
+  - `eval-harness` + `full-audit-keamanan`: `deepteam` OPTIONAL_POINTER tightened (non-vendored, `OPTIONAL_ABSENT` when missing).
+- Added three model-invoked skills (catalog 50 model + 15 manual = 65):
+  - `json-render` — pin `vercel-labs/json-render@c2600d73` (Apache-2.0). Generative UI from typed catalog/JSON. After tokens/direction or internal schema UI. Never bypass Design Bank for marketing. Jev compose not ported.
+  - `deck-design` — pin `carnot-tech/consulting-pptx-skill@f50edac` (MIT). Consulting PPTX / 16:9 HTML decks. Upstream 62-type packs not vendored.
+  - `pageindex` — pin `VectifyAI/PageIndex@037a7dba` (MIT). Tree/reasoning long-doc nav. Not Graphiti/Cognee/second CBM. Degrade `NOT_CONFIGURED`. Not a core MCP.
+- Re-froze catalog at **65/65**. Product version 0.1.7. No new core MCP. No Jev.
+
 ## 0.1.6 — 2026-09-28
 
 - Closed remaining open `UPDATE` dispositions in `docs/source-wave.md` (`scroll-world`, `browser-act`, `impeccable`, `codebase-memory-mcp`):

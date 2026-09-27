@@ -22,7 +22,7 @@
    - Text content changes after action.
    - Error messages appear appropriately for invalid input.
    - Fresh snapshot confirms new DOM state.
-6. **Capture visual evidence**: When visual confirmation is needed:
+6. **Capture visual evidence**: When visual confirmation is needed. Ledger: snapshot + screenshot path + exit 0 = FACT; missing file = `NOT_CONFIGURED`. For flakes, `tracing start` / `tracing stop` and keep the zip off git. Never browser-use as door 0.
    ```bash
    playwright-cli -s=<task-session> screenshot --filename=artifacts/evidence.png
    ```

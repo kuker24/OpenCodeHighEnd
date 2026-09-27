@@ -17,9 +17,9 @@ Manual specialists stay behind slash commands. Suggest them when the user names 
 Every user request is classified into exactly one closed intent:
 
 ```text
-repo_understand | bug | security | perf | ui_direction | ui_implement
+repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
 motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
-academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id
+academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
 | Intent | Primary Route | Handoff Boundary / Rule |
@@ -31,14 +31,17 @@ academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_
 | `perf` | `full-performance-audit` | Measured LCP/INP/CLS/latency/bundle bottlenecks |
 | `ui_direction` | `found-this-design` | Stop after writing `.impeccable/found-this-design.json` |
 | `ui_implement` | `impeccable` | Requires pinned world or project `DESIGN.md` |
+| `generative_ui` | `json-render` | Typed catalog + JSON spec → components; after tokens/direction or internal schema UI; never bypass Design Bank for marketing |
 | `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
 | `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
 | `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
 | `img3d` | `img2threejs` | Procedural Three.js models from reference images |
 | `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
+| `slides_pptx` | `deck-design` | Consulting PPTX / 16:9 HTML decks; smartdoc keeps PDF/DOCX; markitdown keeps ingest |
 | `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
 | `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
 | `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
+| `longdoc_nav` | `pageindex` | Tree/reasoning nav of long structured docs; not Graphiti/Cognee/second CBM |
 | `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
 | `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
 | `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
@@ -76,11 +79,11 @@ MANUAL_NOT_INVOKED
 
 Never list unused tools as used.
 
-UI direction from the bank routes to `found-this-design` first, which stops before component implementation. Visual UI and UI atoms (buttons, inputs, cards, nav) route to `impeccable` after Design V2 shortlist; BANK_MISS ≠ generate (+ shadcn/Design V2 internal). Stitch MCP is for screen/comp generation only, then found-this-design or impeccable with Design V2 atom shortlisting; never implement production UI from Stitch alone. UI Skills MCP is design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Motion UI routes to `emil-design-eng`. Still/ads/non-UI surface route to `visual-studio`. Scroll-led stories route to `scroll-craft`, while continuous camera 3D fly-throughs route to `scroll-world`. Procedural Three.js object models from reference images route to `img2threejs`.
+UI direction from the bank routes to `found-this-design` first, which stops before component implementation. Visual UI and UI atoms (buttons, inputs, cards, nav) route to `impeccable` after Design V2 shortlist; BANK_MISS ≠ generate (+ shadcn/Design V2 internal). Stitch MCP is for screen/comp generation only, then found-this-design or impeccable with Design V2 atom shortlisting; never implement production UI from Stitch alone. UI Skills MCP is design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Motion UI routes to `emil-design-eng`. Still/ads/non-UI surface route to `visual-studio`. Scroll-led stories route to `scroll-craft`, while continuous camera 3D fly-throughs route to `scroll-world`. Procedural Three.js object models from reference images route to `img2threejs`. Schema/JSON generative UI from a typed catalog routes to `json-render` (after tokens/direction or internal schema UI; never bypass Design Bank for marketing).
 
 Browser verification follows four explicit doors: exploratory application UI routes to `playwright-qa`, persistent multi-account sessions route to `browser-act`, observed Chromium cause routes to `chrome-devtools-axi`, and button handler sequential undo / shared-store side effects route to `click-path-audit`.
 
-Documents (answer, create, transform, extract, review, PDF/DOCX) route to `smartdoc`. File-to-Markdown ingest routes to `markitdown`. Reusable book/module knowledge routes to `smartbook-ingest`. `/docx` and `/pdf` are missing aliases; nearest is `smartdoc`. `/pptx` is NOT_APPLICABLE. Do not add `commands/pdf.md` or `commands/docx.md`. Impeccable `document` remains DESIGN.md generation.
+Documents (answer, create, transform, extract, review, PDF/DOCX) route to `smartdoc`. Consulting PPTX / 16:9 slide decks route to `deck-design`. Long structured document tree/reasoning nav routes to `pageindex`. File-to-Markdown ingest routes to `markitdown`. Reusable book/module knowledge routes to `smartbook-ingest`. `/docx` and `/pdf` are missing aliases; nearest is `smartdoc`. `/pptx` routes to `deck-design`. Do not add `commands/pdf.md` or `commands/docx.md`. Impeccable `document` remains DESIGN.md generation.
 
 Prose AI-tell removal and natural tone polishing route to `humanizer` (`/unslop` is its manual alias). Scholarly research, academic manuscripts, and structured peer critique route to `academic`. Deterministic HTML composition rendered to video routes to `hyperframes`. Demo video aplikasi, walkthrough layar, narasi Indonesia, dan demo lomba route to `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`. Editorial technical diagrams (HTML/SVG) route to `diagram-design`.
 
