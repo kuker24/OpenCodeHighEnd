@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.5",
+  "productVersion": "0.1.6",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -160,6 +160,13 @@
       "copyright": "Copyright (c) 2026 Nate Herk",
       "licenseFile": "vendor/licenses/NATEHERK-SCROLL-CRAFT-MIT.txt",
       "note": "Adapted skill and engine with deterministic cleanup and split mechanism/theme CSS. No KIE/Higgsfield/Playwright core path. Worldflight runtime removed; Continuous World handed to scroll-world."
+    },
+    "scroll-world": {
+      "repository": "https://github.com/oso95/scroll-world",
+      "commit": "71cc36d3bb150248ae36a2c552f9cbf88802a79c",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 cyw",
+      "note": "Continuous camera fly-through landing with vanilla-JS scrub engine and seam QA calibration. Paid video backends degrade to NOT_CONFIGURED."
     },
     "pstack": {
       "repository": "https://github.com/cursor/plugins",

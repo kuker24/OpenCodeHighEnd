@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.6 — 2026-09-28
+
+- Closed remaining open `UPDATE` dispositions in `docs/source-wave.md` (`scroll-world`, `browser-act`, `impeccable`, `codebase-memory-mcp`):
+  - Refreshed `skills/scroll-world/SKILL.md` with upstream seam QA calibration from `oso95/scroll-world@71cc36d` (calibrating seam verification by composition rather than raw PSNR, with ~18–25 dB shimmer tolerance on verified-good builds). Retained boundary (`scroll-craft` = 2D timeline, `scroll-world` = 3D camera flight) and graceful degradation to `NOT_CONFIGURED` when video backends are unconfigured. Pinned `oso95/scroll-world` at `71cc36d3bb15` in `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, and `THIRD_PARTY_NOTICES.md`.
+  - Refreshed `skills/browser-act/SKILL.md` to explicitly document the three supported execution modes (`chrome`, `stealth-fresh`, `stealth-fixed`), reaffirmed strict ban on `--type chrome-direct`, confirmed `playwright-qa` as primary default QA adapter (door 1) with `browser-act` as adapter 2 in the 4-door hierarchy, and updated policy strings to OpenCodeHighEnd.
+  - Evaluated upstream tip deltas for `pbakaus/impeccable` (`e0881d2...9d715cc`): verified changes pertain to component-review subagents for the proprietary native Rust engine and test suite regexes, with no meaningful craft-floor, taste-guard, or audit changes. Retained pin at `skill-v4.3.1` / `e0881d2de397` without churn.
+  - Formally marked `codebase-memory-mcp` disposition DONE (binary pinned to v0.11.0 with SHA-256 verification and automatic `--format json` argument propagation).
+- Evaluated and dispositioned 11 starred repositories in `docs/source-wave.md` and `docs/mcp.md`:
+  - `genspark-ai/genoffice` (REJECT — multi-app Electron office suite).
+  - `hardbeat920/monocode` (REJECT — external desktop host GUI wrapping CLI agents).
+  - `CopilotKit/openmuse` (REJECT — full multi-service personal agent application stack).
+  - `tt-a1i/archify` (PIN_ONLY — editorial HTML/SVG diagrams already owned by `diagram-design`).
+  - `nilbuild/video-demo` (POINTER_ONLY — walkthrough recordings already owned by `id-demo-video` and `hyperframes`).
+  - `carnot-tech/consulting-pptx-skill` (POINTER_ONLY — slide factory; document contracts and ingest stay strictly under `smartdoc` and `markitdown`).
+  - `blixvip/NullMotion` (POINTER_ONLY — unlicensed launch-film preview; 18s brag launch card pattern already synthesized in `hyperframes/references/brag.md`).
+  - `latent-spaces/brag` (DONE — confirmed synthesis into `skills/hyperframes/references/brag.md`).
+  - `getzep/graphiti` & `topoteretes/cognee` (REJECT — external graph databases; codebase memory remains strictly `codebase-memory-mcp` v0.11.0; documented in `docs/mcp.md`).
+  - `THU-MAIC/OpenMAIC`, `Tencent/WeKnora`, `VectifyAI/PageIndex`, `open-webui/open-webui`, `QwenAudio/qwen-audio-agent` (REJECT — full RAG/apps/modal model platforms).
+  - `jakubkrehel/better-interface` (MERGE/DONE — key tactile guideline "No Hairline-Only Affordances" merged in `interface-feel.md`).
+- Confirmed zero catalog bloat, maintaining frozen catalog at exactly 62 skills (47 model-invoked, 15 manual slash commands).
+- Synchronized release acceptance fixtures (`docs/acceptance.md`), catalog freeze metadata (`docs/CATALOG-FREEZE.md`), compatibility targets (`docs/compatibility.md`), README front page, and vendor specifications to 0.1.6.
+
 ## 0.1.5 — 2026-09-26
 
 - Refocused OpenCodeHighEnd public identity and documentation: neutralized legacy predecessor references across `README.md`, `docs/CATALOG-FREEZE.md`, vendor metadata, and install manifests into a standalone OpenCode 2 runtime overlay.

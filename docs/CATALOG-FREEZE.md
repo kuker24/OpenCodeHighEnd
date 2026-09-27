@@ -2,8 +2,9 @@
 
 This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The 62-skill catalog is strictly frozen.
 
-- **Product version**: 0.1.5
+- **Product version**: 0.1.6
 - **Catalog**: 62 names. 47 model-invoked under `skills/`. 15 manual under `manual-skills/` + `commands/`.
+- **Wave 0.1.6 upgrade**: Body and reference refresh only (`scroll-world`, `browser-act`, `impeccable` delta evaluation); exact 62-skill catalog strictly reaffirmed.
 - **Retired in this wave and not to be revived**: `ask-matt`, `grilling`, `wait-what`, `matt-implement`.
 - **Kept on purpose**: `wizard` (target-app bash wizard), `codebase-design` (new module), `/improve-codebase-architecture` (scan + HTML report).
 - **Name collision remains**: `install-anti-slop` = Oxlint; UI/copy filter lives in `impeccable` taste-gate + `humanizer`; `/unslop` = `humanizer`.
