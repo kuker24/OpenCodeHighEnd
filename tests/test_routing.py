@@ -59,6 +59,9 @@ class RoutingTests(unittest.TestCase):
             "img2threejs": "img2threejs",
             "markitdown": "markitdown",
             "id-demo-video": "id-demo-video",
+            "json-render": "json-render",
+            "deck-design": "deck-design",
+            "pageindex": "pageindex",
         }
         for label, needle in expected.items():
             self.assertIn(needle, blob, label)
@@ -153,6 +156,9 @@ class RoutingTests(unittest.TestCase):
             "mongodb-ops",
             "vercel-ops",
             "id-demo-video",
+            "json-render",
+            "deck-design",
+            "pageindex",
         ]
         for spec in required_specialists:
             self.assertIn(spec, self.agents, f"Expected {spec} in AGENTS.md")
@@ -226,6 +232,34 @@ class RoutingTests(unittest.TestCase):
         self.assertIn(needle, self.agents)
         self.assertIn("UI Skills MCP: design-skill lookup only", self.routing)
         self.assertIn("BANK_MISS ≠ generate from a random ui-skills document", (ROOT / "docs" / "routing.md").read_text(encoding="utf-8"))
+
+    def test_json_render_routing_boundary(self):
+        self.assertIn("Schema/JSON generative UI → skill `json-render`", self.agents)
+        self.assertIn("`generative_ui` | `json-render`", self.routing)
+        docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
+        self.assertIn("json-render", docs)
+        skill = (ROOT / "skills" / "json-render" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Never bypass Design Bank for marketing UI", skill)
+        self.assertIn("Jev", skill)
+
+    def test_deck_design_routing_boundary(self):
+        self.assertIn("Consulting PPTX / slide decks → `deck-design`", self.agents)
+        self.assertIn("`slides_pptx` | `deck-design`", self.routing)
+        docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
+        self.assertIn("`/pptx` routes to `deck-design`", docs)
+        skill = (ROOT / "skills" / "deck-design" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("smartdoc keeps PDF/DOCX", skill)
+        smartdoc = (ROOT / "skills" / "smartdoc" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("deck-design", smartdoc)
+
+    def test_pageindex_routing_boundary(self):
+        self.assertIn("Long structured docs (tree/reasoning nav) → `pageindex`", self.agents)
+        self.assertIn("`longdoc_nav` | `pageindex`", self.routing)
+        skill = (ROOT / "skills" / "pageindex" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("Not Graphiti/Cognee", skill)
+        self.assertIn("NOT_CONFIGURED", skill)
+        research = (ROOT / "skills" / "research" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("pageindex", research)
 
     def test_no_context_guard_rule(self):
         self.assertFalse((ROOT / "rules" / "04-context-guard.md").exists())

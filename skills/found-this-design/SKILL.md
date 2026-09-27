@@ -32,6 +32,7 @@ Generate a high-fidelity first-viewport photo of **this product** in each recomm
 ## Hard rules
 
 - Stop before component atoms; atoms are impeccable + Design V2.
+- Schema/JSON generative UI (typed catalog → spec → components) routes to `json-render`. This skill remains visual direction from the Design Bank.
 - **Search with the scripts only.** Never read any `catalog.json` into context.
 - External brand pattern corpora (e.g. `awesome-design-md`) may be referenced by humans as styling ideas, but never fetched, cloned, or vendored into the project. Product UI direction flows strictly from the local Design Bank → `impeccable`.
 - Do not implement UI, copy a Motion prompt into code, or overwrite the project's `DESIGN.md` unless the user asked to pin files.

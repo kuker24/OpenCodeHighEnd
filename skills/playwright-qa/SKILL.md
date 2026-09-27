@@ -48,6 +48,10 @@ playwright-cli -s=task-ui screenshot --filename=artifacts/qa-verify.png
 playwright-cli -s=task-ui close
 ```
 
+## Evidence ledger
+
+A PASS claim needs FACT rows: snapshot (or path), screenshot path, process exit 0. Optional flake: `playwright-cli -s=task-ui tracing start` then `tracing stop`. Missing artifact = `NOT_CONFIGURED`, not PASS. Never vendor browser-use; never make it door 0. Door 1 remains this skill.
+
 ## References
 
 - Operational QA flow & assertions: [references/workflow.md](references/workflow.md)

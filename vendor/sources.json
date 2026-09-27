@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.6",
+  "productVersion": "0.1.7",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -201,6 +201,27 @@
       "copyright": "Copyright (c) 2026 Dillon Mulroy",
       "licenseFile": "vendor/licenses/DMMULROY-ANTI-SLOP-MIT.txt",
       "note": "Vendored rule snapshot for TS/JS projects with 4 modes (audit, recommended, strict, custom) and opt-in Effect rules."
+    },
+    "json-render": {
+      "repository": "https://github.com/vercel-labs/json-render",
+      "commit": "c2600d73908ed505e6d726f5b6f969ba8f597ce7",
+      "license": "Apache-2.0",
+      "copyright": "Copyright 2025 Vercel Inc.",
+      "note": "First-party skill wrapper. npm packages not vendored. Experimental Jev composition not ported."
+    },
+    "deck-design": {
+      "repository": "https://github.com/carnot-tech/consulting-pptx-skill",
+      "commit": "f50edac656d34636f026afec9e6dbb3697f4c6d4",
+      "license": "MIT",
+      "copyright": "Copyright (c) carnot-tech contributors",
+      "note": "First-party skill wrapper. Upstream 62-type HTML/PPTX packs not vendored."
+    },
+    "pageindex": {
+      "repository": "https://github.com/VectifyAI/PageIndex",
+      "commit": "037a7dbacfb9a19f38b354ce60cee5094b3f854c",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 PageIndex AI / VectifyAI",
+      "note": "First-party skill wrapper. SDK/Cloud/MCP not vendored and not core MCP."
     }
   }
 }

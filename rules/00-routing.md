@@ -26,9 +26,9 @@ Do not infer a model provider from a logical model name. Treat custom-gateway al
 The router classifies every user task into exactly one closed intent:
 
 ```text
-repo_understand | bug | security | perf | ui_direction | ui_implement
+repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
 motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
-academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_id
+academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
 | Intent | Primary Route | Handoff Boundary / Rule |
@@ -40,14 +40,17 @@ academic | browser_qa | architecture | warehouse | ops_data | video_html | demo_
 | `perf` | `full-performance-audit` | Measured LCP/INP/CLS/latency/bundle bottlenecks |
 | `ui_direction` | `found-this-design` | Stop after writing `.impeccable/found-this-design.json` |
 | `ui_implement` | `impeccable` | Requires pinned world or project `DESIGN.md` |
+| `generative_ui` | `json-render` | Typed catalog + JSON spec → components; after tokens/direction or internal schema UI; never bypass Design Bank for marketing |
 | `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
 | `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
 | `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
 | `img3d` | `img2threejs` | Procedural Three.js models from reference images |
 | `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
+| `slides_pptx` | `deck-design` | Consulting PPTX / 16:9 HTML decks; smartdoc keeps PDF/DOCX; markitdown keeps ingest |
 | `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
 | `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
 | `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
+| `longdoc_nav` | `pageindex` | Tree/reasoning nav of long structured docs; not Graphiti/Cognee/second CBM |
 | `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
 | `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
 | `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
@@ -93,10 +96,10 @@ Never list unused tools or uncalled MCP methods as used.
 - Scholarly literature surveys, academic manuscripts (IMRaD/thesis/proposal), and structured peer critique: `/academic` (not `research`, not `smartdoc` unless file extract/render).
 - Fuzzy or conflicting domain terms, glossary, CONTEXT.md / ADR writing: `/domain-modeling`. Full product interviews that should leave CONTEXT.md/ADRs: `/grill-with-docs`.
 - Module, interface, seam, testability, abstraction: `/codebase-design` (distinct from `/api-design` for REST and `/contract-first` for machine schemas). Multi-sketch bake-off: suggest `/architect` (manual). Do not auto-start `/architect`.
-- Throwaway evidence for one design question: `/prototype`. Not for production UI; skip ordinary implementation, ADHD, and `/arena`.
+- Throwaway evidence for one design question: `/prototype`. Not for production UI; skip ordinary implementation, ADHD, and `/arena`. Schema/JSON generative UI: `/json-render`.
 - Unknown / hard bugs, regressions, measured slowdown: `/diagnosing-bugs`. Skip typos, known-cause, and test-first known fixes (`/tdd`).
 - Authoring SKILL.md / AGENTS.md / skill descriptions / context pointers: `/writing-for-agents` (distinct from `/skill-stocktake` which audits catalog hygiene). Workflow choice is handled directly by the router without a specialist.
-- Documents (answer, create, transform, extract, review, PDF/DOCX): `/smartdoc`. File to Markdown ingest: `/markitdown`. Reusable book/module knowledge: `/smartbook-ingest`. SmartDoc may read an existing SmartBook; that is not a second implementation specialist. Impeccable `document` stays DESIGN.md.
+- Documents (answer, create, transform, extract, review, PDF/DOCX): `/smartdoc`. Consulting PPTX / 16:9 slide decks: `/deck-design`. Long structured document tree/reasoning nav: `/pageindex`. File to Markdown ingest: `/markitdown`. Reusable book/module knowledge: `/smartbook-ingest`. SmartDoc may read an existing SmartBook; that is not a second implementation specialist. Impeccable `document` stays DESIGN.md.
 - Prose AI-tell removal and natural tone polishing: `/humanizer`. Manual `/unslop` is an alias to the same specialist body. Do not auto-apply on ordinary code or diffs. Technical documentation structure stays `/technical-writing`. Code linting stays `/install-anti-slop`. Prompt structure stays `/prompt-optimizer`.
 - Editorial HTML and inline SVG diagrams (architecture, sequence, ER, flowcharts, Wardley): `/diagram-design`. Mermaid/draw.io are inputs to redraw, not final output. Frontend UI implementation stays `/impeccable`. Code-level seams stay `/codebase-design`.
 - Agent architecture diagnosis, autonomous loop failures, context leakage, wrapper regressions: `/agent-architecture-audit`. Load only when user names the agent stack job. Defensive security and secrets auditing stay `/full-audit-keamanan`.
@@ -130,7 +133,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 ## UI and browser
 
 - Matching or choosing a visual direction from the local design bank (Refero / Motionsites): `/found-this-design` first. Stop before component implementation. Then `/impeccable` after a pick. Bank root comes from `~/.config/opencode/highend/config/design-bank.json` (optional override `OPENCODE_DESIGN_BANK`).
-- Visual UI once a world is chosen, the brief is already visual, or creating UI atoms (buttons, inputs, cards, nav): UI atoms → impeccable after Design V2 shortlist; BANK_MISS ≠ generate. Design V2 shortlist `kind=component` is an internal stage, never a separate specialist route. Do not run `/found-this-design` for atomic components.
+- Visual UI once a world is chosen, the brief is already visual, or creating UI atoms (buttons, inputs, cards, nav): UI atoms → impeccable after Design V2 shortlist; BANK_MISS ≠ generate. Design V2 shortlist `kind=component` is an internal stage, never a separate specialist route. Do not run `/found-this-design` for atomic components. Schema-driven generative UI from a typed catalog: `/json-render` after tokens/direction exist, or for internal schema UI; never bypass Design Bank for marketing; never Jev compose.
 - Design Intelligence is an internal, lazy retrieval stage of Impeccable `new-work`, never a primary route or specialist. Design V2 is the same: an offline user bank, never a specialist.
 - Stitch MCP: screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. Treat existing Stitch screens as approved comps; local atom shortlist remains mandatory.
 - UI Skills MCP: design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn. BANK_MISS ≠ generate from a random ui-skills document.
@@ -173,7 +176,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 | `/review` `/code-review` | in-session review; `/matt-code-review` if two-axis |
 | `/imagine` | NOT_APPLICABLE; directors stay visual-studio / scroll-craft / scroll-world |
 | `/docx` `/pdf` | missing alias; nearest = `smartdoc` (do not add `commands/pdf.md` or `commands/docx.md`) |
-| `/pptx` | NOT_APPLICABLE |
+| `/pptx` | `deck-design` |
 | `/pr-babysit` | `/gh-axi` |
 | `game-asset-*` `/resume-*` `/build-with-ai` | NOT_APPLICABLE |
 

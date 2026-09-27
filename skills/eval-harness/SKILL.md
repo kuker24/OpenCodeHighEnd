@@ -50,5 +50,5 @@ Consult [references/methodology.md](references/methodology.md) for detailed scor
    - `A ≈ B` on the skill's claimed task is evidence for `RETIRE` or `COMPRESS`; route that verdict to `skill-stocktake`.
 
 6. **Adversarial & Safety Probes (External Playbook):**
-   - For agent red-teaming or multi-turn vulnerability probing aligned with OWASP LLM Top 10, maintainers may optionally consult external frameworks such as `confident-ai/deepteam` (Apache-2.0).
-   - This framework is external only; do not vendor it into the overlay or add it to project runtime dependencies.
+   - For agent red-teaming or multi-turn vulnerability probing aligned with OWASP LLM Top 10, maintainers may optionally consult `confident-ai/deepteam` (Apache-2.0) **outside** this overlay.
+   - OPTIONAL_POINTER only: never `pip install` into the overlay venv, never add an MCP or skill folder, never list it as CONFIGURED. Missing binary/package is `OPTIONAL_ABSENT`, not FAIL.

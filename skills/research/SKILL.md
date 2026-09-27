@@ -13,3 +13,5 @@ Current library or framework docs: MCP `context7` when repo evidence is not enou
 If the user asked for a note, write one Markdown file in the repo (match existing convention). Cite each claim. If they only wanted an answer, do not create a file.
 
 This is not `/why`. Repo history, PRs, and local design rationale stay on `/why`. Scholarly papers, literature surveys, and academic peer review route to `academic`.
+
+Long structured professional documents (filings, manuals, textbooks) that need tree/section navigation before answering route to `pageindex`. Keep this skill's primary-source rule: every claim still traces to the owning doc, spec, or API. `pageindex` output is a map, not a citation owner.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.6",
+  "productVersion": "0.1.7",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -150,7 +150,7 @@
       "license": "MIT",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Seam QA calibration note (~18–25 dB shimmer tolerance) merged. Continuous 3D fly-through landing with vanilla-JS scrub engine; paid video backends degrade to NOT_CONFIGURED."
+      "notes": "Seam QA calibration note (~18\u201325 dB shimmer tolerance) merged. Continuous 3D fly-through landing with vanilla-JS scrub engine; paid video backends degrade to NOT_CONFIGURED."
     },
     {
       "component": "visual-studio",
@@ -643,6 +643,33 @@
       "modified": true,
       "redistribution": "mit",
       "notes": "Adapted from affaan-m/ECC. Consumer/provider collaboration around one machine-checkable contract artifact."
+    },
+    {
+      "component": "json-render",
+      "path": "skills/json-render",
+      "upstream": "vercel-labs/json-render@c2600d73908ed505e6d726f5b6f969ba8f597ce7",
+      "license": "Apache-2.0",
+      "modified": true,
+      "redistribution": "apache-2.0",
+      "notes": "First-party wrapper. npm not vendored. Jev experimental compose not ported."
+    },
+    {
+      "component": "deck-design",
+      "path": "skills/deck-design",
+      "upstream": "carnot-tech/consulting-pptx-skill@f50edac656d34636f026afec9e6dbb3697f4c6d4",
+      "license": "MIT",
+      "modified": true,
+      "redistribution": "mit",
+      "notes": "First-party wrapper. 62-type template packs not vendored."
+    },
+    {
+      "component": "pageindex",
+      "path": "skills/pageindex",
+      "upstream": "VectifyAI/PageIndex@037a7dbacfb9a19f38b354ce60cee5094b3f854c",
+      "license": "MIT",
+      "modified": true,
+      "redistribution": "mit",
+      "notes": "First-party wrapper. Not a core MCP; Cloud/SDK not vendored."
     }
   ]
 }

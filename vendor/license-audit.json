@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.6",
+  "productVersion": "0.1.7",
   "note": "Evidence-based. A missing frontmatter license is not a grant. Adapted \u2260 first-party.",
   "skills": {
     "demo-video": {
@@ -312,6 +312,21 @@
     "img2threejs": {
       "license": "MIT",
       "evidence": "SKILL.md frontmatter (first-party MIT rewrite; NOTICE.md)",
+      "redistribution": "mit"
+    },
+    "json-render": {
+      "license": "Apache-2.0",
+      "evidence": "vercel-labs/json-render c2600d73 + SKILL.md frontmatter + skills/json-render/NOTICE.md",
+      "redistribution": "apache-2.0"
+    },
+    "deck-design": {
+      "license": "MIT",
+      "evidence": "carnot-tech/consulting-pptx-skill f50edac + SKILL.md frontmatter + skills/deck-design/NOTICE.md",
+      "redistribution": "mit"
+    },
+    "pageindex": {
+      "license": "MIT",
+      "evidence": "VectifyAI/PageIndex 037a7dba + SKILL.md frontmatter + skills/pageindex/NOTICE.md",
       "redistribution": "mit"
     }
   }

@@ -45,6 +45,7 @@ Load [references/qa.md](references/qa.md) after content exists. Load [references
 - Identity only when the artifact needs it and no profile is selected.
 - Academic literature synthesis, scholarly papers, and peer critique route to `academic`; SmartDoc handles file intake, OCR, and output rendering.
 - Bulk PPTX/XLSX/EPUB/HTML/ZIP → Markdown first may use `markitdown`, then resume SmartDoc modes. Native PDF/DOCX extract via `opencode-he smartdoc` stays default when it already works. markitdown output is a source file, not a contract.
+- Creating or mechanically checking consulting PPTX / 16:9 slide decks routes to `deck-design`. SmartDoc does not generate PPTX. Ingest of an existing deck still uses `markitdown`.
 - Ask only HIGH/CRITICAL questions whose answers change the artifact. HIGH confidence → proceed.
 - Never call a local score Turnitin. Never promise 0%. Never run a detector-evasion loop.
 - Handwriting is a renderer, not a skill.
