@@ -33,7 +33,7 @@ from lib.cli import main as cli_main
 from tests.support import IsolatedHome
 
 
-ARCHIVE_NAME = "OpenCodeHighEnd-DesignBank-v2.zip"
+ARCHIVE_NAME = "OpenCodeHighEnd-DesignBank-v3.zip"
 
 
 class BootstrapTests(IsolatedHome):
@@ -138,13 +138,13 @@ class BootstrapTests(IsolatedHome):
         default, sources = load_bootstrap_sources()
         self.assertEqual(default, "personal-google-drive-v1")
         source = sources[default]
-        self.assertEqual(source.archive_name, "OpenCodeHighEnd-DesignBank-v2.zip")
-        self.assertEqual(source.bank_version, "v2")
-        self.assertEqual(source.archive_file_id, "130IbcQVWNuo3RV2qsSRLJJxMapWSa_Rj")
-        self.assertEqual(source.checksum_file_id, "1dLzT1CRsag5fzEMu_q4-iBpVefoO9ima")
+        self.assertEqual(source.archive_name, "OpenCodeHighEnd-DesignBank-v3.zip")
+        self.assertEqual(source.bank_version, "v3")
+        self.assertEqual(source.archive_file_id, "1B8opwdkBDkYR6-5EZnvKtEuaV1esDB_M")
+        self.assertEqual(source.checksum_file_id, "186k6k2pNzVPwkBi_DmFEP6660UvsAon_")
         self.assertEqual(
             source.pinned_sha256,
-            "43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2",
+            "91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53",
         )
         url = google_drive_public_url(source.archive_file_id)
         self.assertEqual(url.split("?", 1)[0], "https://drive.usercontent.google.com/download")

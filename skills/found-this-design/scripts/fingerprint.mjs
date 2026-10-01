@@ -181,6 +181,7 @@ function detectPreferredBanks(surface, blob) {
   if (surface === "micro-interaction") banks.push("bencho");
   if (surface === "3d-website") banks.push("layers", "motionsites");
   if (surface === "dashboard") banks.push("aura", "refero");
+  if (surface === "landing-page") banks.push("aura", "oversightsupply");
   if (surface === "component") banks.push("21st");
   return banks;
 }

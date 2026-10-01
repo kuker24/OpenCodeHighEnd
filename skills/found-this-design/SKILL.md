@@ -1,19 +1,19 @@
 ---
 name: found-this-design
-description: "Find 3 or 5 matching UI designs from the local design bank (12 banks: Refero, Aura, Motionsites, Supahero, Scrolltide, Bencho, Layers, Navbar/Footer/CTA/404 galleries) for the current web project or redesign brief, then generate a high-fidelity first-viewport photo of this product in each recommended world. Use when the user runs /found-this-design or /found_this_design, or asks to find a design, cari desain, rekomendasi desain, design yang cocok, preview desain, prototype visual, design bank, Refero, Motionsites, or which visual direction fits this site. Not for implementing UI (use impeccable after a pick) or photoreal product/ad video (use visual-studio)."
+description: "Find 3 or 5 matching UI designs from the local design bank (12 universal banks plus Oversight Supply templates and sections) for the current web project or redesign brief, then generate a high-fidelity first-viewport photo of this product in each recommended world. Use when the user runs /found-this-design or /found_this_design, or asks to find a design, cari desain, rekomendasi desain, design yang cocok, preview desain, prototype visual, design bank, Refero, Motionsites, Oversight, or which visual direction fits this site. Not for implementing UI (use impeccable after a pick) or photoreal product/ad video (use visual-studio)."
 compatibility: opencode
 license: MIT
 ---
 
 # Found This Design
 
-Find a visual direction from the 12 universal local design banks. Recommend 3 (default) or 5.
+Find a visual direction from the 12 universal local design banks plus Oversight Supply. Recommend 3 (default) or 5.
 Generate a high-fidelity first-viewport photo of **this product** in each recommended world, then stop.
 `/impeccable` builds after the user picks. Stop before component atoms; atoms are impeccable + Design V2.
 
 `/found_this_design` is the same command.
 
-## 🧭 The 12 Design Banks
+## 🧭 Design Banks
 
 | Level | Banks | Role | Output Assets |
 |---|---|---|---|
@@ -21,6 +21,7 @@ Generate a high-fidelity first-viewport photo of **this product** in each recomm
 | **Motion** (`motion`) | **Motionsites**, **Scrolltide**, **Bencho**, **Layers** | Dynamic movement, scrollytelling & 3D | `prompt.md`, `preview.mp4`, WebGL/Shader specs |
 | **Section** (`section`) | **Supahero**, **Navbar**, **Footer**, **CTA**, **404s** | Dedicated viewport zone blueprints | `prompt.md`, `source.html`, responsive headers/menus/cards |
 | **Atomic** (`atomic`) | **21st** | Buttons, inputs, bento blocks | Component atoms (handed off to Impeccable) |
+| **Oversight** (`identity` / `section`) | **Oversight Supply**, **Oversight Sections** | Webflow/Framer website templates and 32 free interactive sections | `prompt.md`, `preview.webp` |
 
 ## Load
 

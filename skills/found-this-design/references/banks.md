@@ -29,6 +29,8 @@ Catalog requirements:
 | **ctagallery** | `section` | Cta.gallery | `ctagallery/library/catalog.json` | `prompt.md`, `source.html`, `meta.json`, `preview.png` | High-impact CTA sections, conversion banners |
 | **404sdesign** | `section` | 404s.design | `404sdesign/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | Playful 404 error pages, empty states, recovery flows |
 | **21st** | `atomic` | 21st.dev | `21st/library/catalog.json` | `prompt.md`, `meta.json`, `preview.png` | Atomic UI components, inputs, buttons (handoff to Impeccable) |
+| **oversightsupply** | `identity` | Oversight Supply | `oversightsupply/library/catalog.json` | `prompt.md`, `meta.json`, `preview.webp` | Webflow & Framer website templates (192). Operator bank, not one of the 12 universal catalogs. |
+| **oversightsections** | `section` | Oversight Supply Sections | `oversightsupply/library/catalog-sections.json` | `prompt.md`, `meta.json`, `preview.webp` | 32 free interactive sections (10 studio originals + 22 Evergrid). Same folder as templates. |
 
 ---
 

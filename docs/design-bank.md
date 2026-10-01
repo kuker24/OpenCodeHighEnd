@@ -33,7 +33,7 @@ Publish the ZIP (or `.tgz`) on Google Drive as anyone-with-the-link, or keep it 
 Compute the digest of the **archive file**, not of a folder:
 
 ```bash
-sha256sum OpenCodeHighEnd-DesignBank-v2.zip
+sha256sum OpenCodeHighEnd-DesignBank-v3.zip
 ```
 
 Accepted URL shapes:
@@ -58,6 +58,6 @@ Missing bank is `DEGRADED` in `opencode-he doctor`, not `FAIL`.
 
 After commit, Design V2 pointer-ingests Refero, Motionsites, 21st, and Aura, then dedupes, rebuilds, and doctors. Preview media remains only under the Design root.
 
-The offline suite indexes up to 12 universal design banks (Refero, Aura, Motionsites, Scrolltide, Bencho, Layers, Supahero, NavbarGallery, FooterDesign, CtaGallery, 404sDesign, 21st) when discovered by `found-this-design`. Engine bootstrap (`REQUIRED_CATALOGS`) strictly gates on the 4 foundational core catalogs (21st, Aura, Refero, Motionsites).
+The offline suite indexes the 12 universal design banks (Refero, Aura, Motionsites, Scrolltide, Bencho, Layers, Supahero, NavbarGallery, FooterDesign, CtaGallery, 404sDesign, 21st) when discovered by `found-this-design`. Operator banks that live under the same Design root are also indexed when their catalogs exist — currently Oversight Supply (`oversightsupply/library/catalog.json` + `catalog-sections.json`). Engine bootstrap (`REQUIRED_CATALOGS`) strictly gates on the 4 foundational core catalogs (21st, Aura, Refero, Motionsites).
 
 Design Intelligence ships in-tree (`design-intelligence/`) and stays lazy inside Impeccable.
