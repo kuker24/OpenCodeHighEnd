@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.8 — 2026-10-01
+
+Unfreeze terbatas 0.1.8. Katalog tetap 65.
+RETIRE allowlist name: img2threejs (ilmu Three.js pindah, nama skill dihapus).
+ADD model-invoked: business-motion-film (dari echris6/motion-video-kit, MIT, pin commit yang kamu verifikasi di vendor/sources.json + provenance + license-audit + THIRD_PARTY_NOTICES).
+ADD model-invoked gateway: ninerouter (first-party stub, bukan salinan 9 file upstream).
+RETIRE kedua: prompt-optimizer (tumpang tindih research + humanizer).
+Hasil: 50 model + 15 manual = 65. Tidak ada padding.
+
+- Intent `img3d` diganti dua intent tertutup: `launch_film` dan `gateway_llm` (total intent tertutup: 24).
+- `business-motion-film`: Iklan, launch film, explainer bisnis, sample reel, dan pitch video. Render tetap lewat `hyperframes`. Pola Three.js product-hero pindah ke referensi `business-motion-film`, bukan skill sendiri. Brag 18s tetap `skills/hyperframes/references/brag.md`. Narasi Indonesia tetap `id-demo-video`.
+- `ninerouter`: First-party stub untuk gateway 9Router user via `NINEROUTER_URL` (default `http://127.0.0.1:20128`) dan `NINEROUTER_KEY`. Fail-closed jika URL mengandung `0.0.0.0`. Bukan core MCP; absen gateway menghasilkan `NOT_CONFIGURED`, bukan kegagalan doctor. Capability on-demand, tidak divendor.
+- Pensiun `img2threejs` dan `prompt-optimizer`: dihapus dari allowlist, policy, routing, AGENTS.md, docs, dan warehouse inventory. Kritik prompt ditangani `humanizer` (prosa), `research` / Context7 (fakta), `writing-for-agents` (struktur agent), dan `eval-harness` (benchmark pass@k).
+- Katalog kembali dibekukan pada 65 (50 model + 15 manual). Versi produk 0.1.8.
+
 ## 0.1.7 — 2026-09-28
 
 Unfreeze exception (human-written): catalog grows **62 → 65** to add modern specialists `json-render`, `deck-design`, and `pageindex`. **No twin retired.** No silent padding. UI doctrines remain MERGE’d into `impeccable` / `emil-design-eng`. `react-doctor` stays OPTIONAL_TOOL (not a 4th skill). Closed intent set grows by three: `generative_ui`, `slides_pptx`, `longdoc_nav`.

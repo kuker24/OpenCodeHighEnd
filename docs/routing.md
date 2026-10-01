@@ -18,7 +18,7 @@ Every user request is classified into exactly one closed intent:
 
 ```text
 repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
-motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
+motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose
 academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
@@ -35,7 +35,8 @@ academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | vide
 | `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
 | `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
 | `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
-| `img3d` | `img2threejs` | Procedural Three.js models from reference images |
+| `launch_film` | `business-motion-film` | Commercials, launch films, business explainers, sample reels; render via hyperframes; product-hero Three.js in references |
+| `gateway_llm` | `ninerouter` | 9Router gateway (chat, image, video, TTS, STT, embeddings, web) via NINEROUTER_URL; foreign on-demand stub |
 | `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
 | `slides_pptx` | `deck-design` | Consulting PPTX / 16:9 HTML decks; smartdoc keeps PDF/DOCX; markitdown keeps ingest |
 | `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
@@ -79,7 +80,7 @@ MANUAL_NOT_INVOKED
 
 Never list unused tools as used.
 
-UI direction from the bank routes to `found-this-design` first, which stops before component implementation. Visual UI and UI atoms (buttons, inputs, cards, nav) route to `impeccable` after Design V2 shortlist; BANK_MISS ≠ generate (+ shadcn/Design V2 internal). Stitch MCP is for screen/comp generation only, then found-this-design or impeccable with Design V2 atom shortlisting; never implement production UI from Stitch alone. UI Skills MCP is design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Motion UI routes to `emil-design-eng`. Still/ads/non-UI surface route to `visual-studio`. Scroll-led stories route to `scroll-craft`, while continuous camera 3D fly-throughs route to `scroll-world`. Procedural Three.js object models from reference images route to `img2threejs`. Schema/JSON generative UI from a typed catalog routes to `json-render` (after tokens/direction or internal schema UI; never bypass Design Bank for marketing).
+UI direction from the bank routes to `found-this-design` first, which stops before component implementation. Visual UI and UI atoms (buttons, inputs, cards, nav) route to `impeccable` after Design V2 shortlist; BANK_MISS ≠ generate (+ shadcn/Design V2 internal). Stitch MCP is for screen/comp generation only, then found-this-design or impeccable with Design V2 atom shortlisting; never implement production UI from Stitch alone. UI Skills MCP is design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Motion UI routes to `emil-design-eng`. Still/ads/non-UI surface route to `visual-studio`. Scroll-led stories route to `scroll-craft`, while continuous camera 3D fly-throughs route to `scroll-world`. Commercials, launch films, business explainers, sample reels, and pitch videos route to `business-motion-film` (render via hyperframes; Three.js product-hero patterns in references; 18s brag cards stay in `hyperframes/references/brag.md`). Schema/JSON generative UI from a typed catalog routes to `json-render` (after tokens/direction or internal schema UI; never bypass Design Bank for marketing).
 
 Browser verification follows four explicit doors: exploratory application UI routes to `playwright-qa`, persistent multi-account sessions route to `browser-act`, observed Chromium cause routes to `chrome-devtools-axi`, and button handler sequential undo / shared-store side effects route to `click-path-audit`.
 
@@ -87,7 +88,7 @@ Documents (answer, create, transform, extract, review, PDF/DOCX) route to `smart
 
 Prose AI-tell removal and natural tone polishing route to `humanizer` (`/unslop` is its manual alias). Scholarly research, academic manuscripts, and structured peer critique route to `academic`. Deterministic HTML composition rendered to video routes to `hyperframes`. Demo video aplikasi, walkthrough layar, narasi Indonesia, dan demo lomba route to `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`. Editorial technical diagrams (HTML/SVG) route to `diagram-design`.
 
-Warehouse diagnostics load only when the user names the job: `agent-architecture-audit` (architecture layers), `cost-aware-llm-pipeline` (token budgeting), `eval-harness` (benchmarks), `prompt-optimizer` (prompt refinement), and `skill-stocktake` (catalog hygiene). Wave 3 warehouse procedures route to `api-design` (REST resources), `contract-first` (consumer/provider contracts), `automation-audit-ops` (live inventory), and `code-tour` (guided tours). Foreign harnesses (such as ECC control plane) remain `FOREIGN_ON_DEMAND`; never vendored, auto-merged, or shadowed.
+Warehouse diagnostics load only when the user names the job: `agent-architecture-audit` (architecture layers), `cost-aware-llm-pipeline` (token budgeting), `eval-harness` (benchmarks), and `skill-stocktake` (catalog hygiene; `prompt-optimizer` retired in 0.1.8 with prompt critique splitting to `humanizer` / `research` / `writing-for-agents`). Gateway 9Router routing (chat, image, video, TTS, STT, embeddings, web search) routes to `ninerouter` via `NINEROUTER_URL` (not an extra core MCP). Wave 3 warehouse procedures route to `api-design` (REST resources), `contract-first` (consumer/provider contracts), `automation-audit-ops` (live inventory), and `code-tour` (guided tours). Foreign harnesses (such as ECC control plane) remain `FOREIGN_ON_DEMAND`; never vendored, auto-merged, or shadowed.
 
 Operational stack adapters route to `supabase-ops` (Supabase Auth/RLS/migrations/Edge Functions), `mongodb-ops` (MongoDB schemas/indexing/aggregation), and `vercel-ops` (Vercel hosting/deploy config). These operational skills never generate visual UI and never replace `found-this-design` or `impeccable`. FOREIGN vendor packs stay off the overlay; user may npx skills add mongodb/agent-skills|supabase/agent-skills locally; never frontend-design for product UI.
 

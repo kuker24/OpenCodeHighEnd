@@ -46,7 +46,6 @@ class RoutingTests(unittest.TestCase):
             "agent-architecture-audit": "agent-architecture-audit",
             "eval-harness": "eval-harness",
             "cost-aware-llm-pipeline": "cost-aware-llm-pipeline",
-            "prompt-optimizer": "prompt-optimizer",
             "skill-stocktake": "skill-stocktake",
             "api-design": "api-design",
             "contract-first": "contract-first",
@@ -56,7 +55,8 @@ class RoutingTests(unittest.TestCase):
             "supabase-ops": "supabase-ops",
             "mongodb-ops": "mongodb-ops",
             "vercel-ops": "vercel-ops",
-            "img2threejs": "img2threejs",
+            "business-motion-film": "business-motion-film",
+            "ninerouter": "ninerouter",
             "markitdown": "markitdown",
             "id-demo-video": "id-demo-video",
             "json-render": "json-render",
@@ -100,17 +100,17 @@ class RoutingTests(unittest.TestCase):
         self.assertIn("agent-architecture-audit", self.agents)
         self.assertIn("eval-harness", self.agents)
         self.assertIn("cost-aware-llm-pipeline", self.agents)
-        self.assertIn("prompt-optimizer", self.agents)
+        self.assertIn("ninerouter", self.agents)
         self.assertIn("skill-stocktake", self.agents)
         self.assertIn("Agent stack diagnostics / context leak / wrapper regression → skill `agent-architecture-audit`", self.agents)
         self.assertIn("Benchmark agent / pass@k → skill `eval-harness`", self.agents)
         self.assertIn("Token budget / model tier / prompt cache → skill `cost-aware-llm-pipeline`", self.agents)
-        self.assertIn("Structural prompt critique → skill `prompt-optimizer`", self.agents)
+        self.assertIn("Gateway 9router / NINEROUTER_URL / gambar / TTS / STT / embeddings / web search lewat gateway → skill `ninerouter`", self.agents)
         self.assertIn("Skill catalog hygiene → skill `skill-stocktake`", self.agents)
         self.assertIn("Agent architecture diagnosis, autonomous loop failures", self.routing)
         self.assertIn("Evaluation harness, prompt/agent benchmarks", self.routing)
         self.assertIn("Cost-aware LLM architectures, complexity model tiering", self.routing)
-        self.assertIn("Prompt critique, structural optimization", self.routing)
+        self.assertIn("Gateway 9Router models, multi-provider routing", self.routing)
         self.assertIn("OpenCodeHighEnd skill catalog hygiene", self.routing)
 
         # Warehouse Wave 3 specialists
@@ -140,11 +140,12 @@ class RoutingTests(unittest.TestCase):
             "agent-architecture-audit",
             "eval-harness",
             "cost-aware-llm-pipeline",
-            "prompt-optimizer",
+            "ninerouter",
             "skill-stocktake",
             "found-this-design",
             "impeccable",
             "hyperframes",
+            "business-motion-film",
             "scroll-craft",
             "scroll-world",
             "diagram-design",
@@ -208,14 +209,23 @@ class RoutingTests(unittest.TestCase):
         self.assertIn("alone are not enough", skill)
         self.assertIn("Do not implement worldflight here.", skill)
 
-    def test_img2threejs_routing_boundary(self):
-        self.assertIn("Object image to procedural Three.js → `img2threejs`", self.agents)
-        self.assertIn("Procedural Three.js object from image: `/img2threejs`", self.routing)
-        self.assertIn("Procedural Three.js object models from reference images route to `img2threejs`", (ROOT / "docs" / "routing.md").read_text(encoding="utf-8"))
-        skill = (ROOT / "skills" / "img2threejs" / "SKILL.md").read_text(encoding="utf-8")
-        self.assertIn("Not for scroll-led pages (scroll-craft)", skill)
-        self.assertIn("camera/diorama worlds (scroll-world)", skill)
-        self.assertIn("product UI (impeccable / found-this-design)", skill)
+    def test_business_motion_film_routing_boundary(self):
+        self.assertIn("business-motion-film", self.agents)
+        self.assertIn("Commercials, launch films, business explainers, sample reels, pitch videos: `/business-motion-film`", self.routing)
+        self.assertIn("Commercials, launch films, business explainers, sample reels, and pitch videos route to `business-motion-film`", (ROOT / "docs" / "routing.md").read_text(encoding="utf-8"))
+        skill = (ROOT / "skills" / "business-motion-film" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("hyperframes", skill.lower())
+        self.assertIn("scroll-world", skill)
+        self.assertIn("id-demo-video", skill)
+
+    def test_ninerouter_routing_boundary(self):
+        self.assertIn("ninerouter", self.agents)
+        self.assertIn("`gateway_llm` | `ninerouter`", self.routing)
+        docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
+        self.assertIn("ninerouter", docs)
+        skill = (ROOT / "skills" / "ninerouter" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("NINEROUTER_URL", skill)
+        self.assertIn("NOT_CONFIGURED", skill)
 
     def test_markitdown_routing_boundary(self):
         self.assertIn("File → Markdown ingest → `markitdown`", self.agents)

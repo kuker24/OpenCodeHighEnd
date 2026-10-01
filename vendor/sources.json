@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.7",
+  "productVersion": "0.1.8",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -222,6 +222,22 @@
       "license": "MIT",
       "copyright": "Copyright (c) 2026 PageIndex AI / VectifyAI",
       "note": "First-party skill wrapper. SDK/Cloud/MCP not vendored and not core MCP."
+    },
+    "business-motion-film": {
+      "repository": "https://github.com/echris6/motion-video-kit",
+      "commit": "255562b04b1e5ecaa4ba98e5c9aa191d5ba7f6fa",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 echris6",
+      "licenseFile": "vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt",
+      "note": "First-party skill wrapper. Pointers reference pinned upstream files; large reference packs not vendored. Rendered via hyperframes."
+    },
+    "9router": {
+      "repository": "https://github.com/decolua/9router",
+      "commit": "f01fb909e37189008080632ddaf404f096345cde",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 decolua",
+      "status": "foreign-on-demand",
+      "note": "Multi-provider LLM gateway and capability skills. First-party stub in skills/ninerouter; capability skills fetched on-demand; not an extra core MCP."
     }
   }
 }

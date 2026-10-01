@@ -60,7 +60,7 @@ class SkillPolicyTests(unittest.TestCase):
         self.assertEqual(len(model), 50)
         self.assertEqual(len(manual), 15)
         self.assertEqual(set(allow), set(skills))
-        for name in ("supabase-ops", "mongodb-ops", "vercel-ops", "img2threejs", "markitdown", "id-demo-video", "json-render", "deck-design", "pageindex"):
+        for name in ("supabase-ops", "mongodb-ops", "vercel-ops", "business-motion-film", "ninerouter", "markitdown", "id-demo-video", "json-render", "deck-design", "pageindex"):
             self.assertIn(name, allow)
             self.assertIn(name, model)
         self.assertIn("demo-video", manual)

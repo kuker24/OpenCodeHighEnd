@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.7",
+  "productVersion": "0.1.8",
   "note": "Evidence-based. A missing frontmatter license is not a grant. Adapted \u2260 first-party.",
   "skills": {
     "demo-video": {
@@ -259,9 +259,9 @@
       "evidence": "SKILL.md frontmatter + affaan-m/ECC MIT; NOTICE.md",
       "redistribution": "mit"
     },
-    "prompt-optimizer": {
+    "ninerouter": {
       "license": "MIT",
-      "evidence": "SKILL.md frontmatter + affaan-m/ECC MIT; NOTICE.md",
+      "evidence": "SKILL.md frontmatter + skills/ninerouter/NOTICE.md (first-party MIT stub; decolua/9router)",
       "redistribution": "mit"
     },
     "skill-stocktake": {
@@ -309,9 +309,9 @@
       "evidence": "SKILL.md frontmatter (first-party MIT adapter)",
       "redistribution": "mit"
     },
-    "img2threejs": {
+    "business-motion-film": {
       "license": "MIT",
-      "evidence": "SKILL.md frontmatter (first-party MIT rewrite; NOTICE.md)",
+      "evidence": "SKILL.md frontmatter + echris6/motion-video-kit MIT; NOTICE.md; vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt",
       "redistribution": "mit"
     },
     "json-render": {

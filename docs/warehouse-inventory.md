@@ -276,7 +276,7 @@ This inventory establishes the contract for warehouse skills across the five ana
 | `affaan-m/ECC` | `production-audit` | **MERGE** | `full-audit-keamanan` | MERGE into full-audit-keamanan / performance-audit | `-` |
 | `affaan-m/ECC` | `production-scheduling` | **REJECT** | `-` | Third-party vendor operations and niche business workflows; reject proprietary automation | `-` |
 | `affaan-m/ECC` | `project-flow-ops` | **DEFER** | `-` | Specialized domain procedure deferred for future warehouse wave evaluation | `-` |
-| `affaan-m/ECC` | `prompt-optimizer` | **NEW** | `prompt-optimizer` | Advisory prompt optimizer for structural clarity and boundary constraints; does not auto-mutate installed skills | `2a` |
+| `affaan-m/ECC` | `prompt-optimizer` | **RETIRED** | `-` | Advisory prompt optimizer retired in wave 0.1.8; capability absorbed by humanizer, research, and writing-for-agents | `2a` |
 | `affaan-m/ECC` | `python-patterns` | **REJECT** | `-` | Language/framework pattern sprawl already covered by repo context + Context7 docs | `-` |
 | `affaan-m/ECC` | `python-testing` | **REJECT** | `-` | Language/framework pattern sprawl already covered by repo context + Context7 docs | `-` |
 | `affaan-m/ECC` | `pytorch-patterns` | **REJECT** | `-` | Harness control plane / autonomous loop / host adapter runtime; reject vendor runtime | `-` |
@@ -359,7 +359,7 @@ Evaluation and disposition contract for the AI LABS 8-repo wave (procedural 3D, 
 
 | Candidate / Repo | Decision | BestFriend Target | Reason |
 | :--- | :---: | :--- | :--- |
-| `img2threejs` | **NEW** | `skills/img2threejs` | Procedural Three.js TypeScript Group reconstruction from reference object image; quality-gated, no downloaded mesh blobs. |
+| `img2threejs` | **RETIRED** | `-` | Procedural Three.js patterns transferred to business-motion-film references; standalone skill retired in wave 0.1.8. |
 | `reticle` | **FOREIGN_ON_DEMAND** | `mcp.reticle` | Optional visual perception MCP (`npx -y @reticlehq/server mcp`). Server licensed under FSL-1.1-ALv2; not vendored. Perception only, never auto-implementer. |
 | `chisel` (hooks) | **REJECT** | `-` | Session/prompt/tool hooks coupled to Claude Code runtime. Context Guard remains NOT_PORTED. |
 | `ui-skills` | **FOREIGN_ON_DEMAND** | `mcp.ui-skills` | Optional remote MCP (`https://www.ui-skills.com/mcp`) for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 + shadcn. |

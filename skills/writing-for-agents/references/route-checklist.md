@@ -8,10 +8,10 @@ Preserved from the router checklist reference.
 - **Plan:** `grill-with-docs` (with frontier rounds), `to-spec`, `to-tickets`, `tdd` · Architecture DAG: OpenCode plan agent
 - **Write:** Current session. Test-first: `tdd`. Spec/ticket implementation stays in-session with `tdd`.
 - **Review:** In-session review (default). Two-axis Standards + Spec: `matt-code-review`. Adversarial multi-review: `/interrogate` (manual).
-- **Design:** `found-this-design` (direction/bank) → `impeccable` (atoms/composition) → `emil-design-eng` (motion/interactions). Continuous 3D world: `scroll-world`. Scrollytelling: `scroll-craft`. Media/stills: `visual-studio`.
-- **Documents:** `smartdoc` (per-job doc intelligence), `markitdown` (file-to-markdown ingest), `smartbook-ingest` (reusable library compilation).
-- **Engineering (Model-invoked on match):** `diagnosing-bugs`, `domain-modeling`, `codebase-design`, `writing-for-agents`, `research`, `prototype`, `diagram-design`.
-- **Diagnostics & Governance (Model-invoked on match):** `agent-architecture-audit`, `cost-aware-llm-pipeline`, `eval-harness`, `prompt-optimizer`, `skill-stocktake`, `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit`.
+- **Design:** `found-this-design` (direction/bank) → `impeccable` (atoms/composition) → `emil-design-eng` (motion/interactions). Continuous 3D world: `scroll-world`. Scrollytelling: `scroll-craft`. Media/stills: `visual-studio`. Launch films / commercials: `business-motion-film`. Generative UI: `json-render`.
+- **Documents & Media:** `smartdoc` (per-job doc intelligence), `deck-design` (consulting decks), `pageindex` (tree longdoc nav), `markitdown` (file-to-markdown ingest), `smartbook-ingest` (reusable library compilation), `hyperframes` (HTML-to-MP4 video), `id-demo-video` (Indonesian demo tours).
+- **Engineering (Model-invoked on match):** `diagnosing-bugs`, `domain-modeling`, `codebase-design`, `writing-for-agents`, `research`, `prototype`, `diagram-design`, `humanizer`.
+- **Diagnostics & Governance (Model-invoked on match):** `agent-architecture-audit`, `cost-aware-llm-pipeline`, `eval-harness`, `skill-stocktake`, `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit`, `ninerouter`.
 - **Vendor / Cloud (Model-invoked on match):** `supabase-ops`, `mongodb-ops`, `vercel-ops`.
 - **Browser / GitHub / Risk:** `playwright-qa` (primary QA), `browser-act` (multi-account/stealth), `chrome-devtools-axi` (CDP diagnostics), `gh-axi`, `full-audit-keamanan` (security), `full-performance-audit` (performance), `adhd` (divergent ideation).
 - **Engineering (Manual / Slash-only):** `/architect`, `/arena`, `/blast-radius`, `/create-verification-skill`, `/decision-log`, `/demo-video`, `/figure-it-out`, `/improve-codebase-architecture`, `/interrogate`, `/maintain-verification-skill`, `/reflect`, `/technical-writing`, `/unslop`, `/why`, `/wizard`.

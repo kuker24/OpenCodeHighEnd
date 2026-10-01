@@ -76,6 +76,6 @@ High overlap plus a shared intent is `MERGE → <target>`; name the residue that
 
 - `UPDATE`, `MERGE`, and `RETIRE` cite a path listing, a `--help` or version probe, a checksum, an upstream doc, or an `eval-harness` no-skill baseline.
 - Unproven claims downgrade to `KEEP` with a follow-up note.
-- `COMPRESS` / `UPDATE` → `writing-for-agents` or `prompt-optimizer`. Security → `full-audit-keamanan`. Application code style → `matt-code-review`. Utility measurement → `eval-harness`.
+- `COMPRESS` / `UPDATE` → `writing-for-agents` or `humanizer`. Security → `full-audit-keamanan`. Application code style → `matt-code-review`. Utility measurement → `eval-harness`.
 
 Report verdicts. Do not delete files and do not rewrite another skill's body from this audit.
