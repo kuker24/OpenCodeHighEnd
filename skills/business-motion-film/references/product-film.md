@@ -5,9 +5,17 @@ Used when the user requests a launch film, teaser, or product promo of a real ap
 
 ## 1. Real App Interface & Device Boundaries
 
-- **Real Code or Screenshots Only**: Rebuild screens directly from repository components, styling tokens, icons, and layout, or use verified repository screenshots. Generic mockups, stock UI, and ungrounded templates are rejected.
-- **Mobile in Device Chrome**: Mobile interfaces remain inside an iPhone frame with dynamic island or status bar for the entire film. Never show mobile app UI full-bleed without device context. Close-ups may crop vertically but must retain horizontal device bounds.
-- **Desktop in Window Chrome**: Desktop apps remain inside their application window (with title bar, traffic lights/caption controls, dock/menu bar context). The cursor moves only when demonstrating a specific user interaction. Never let the pointer drift randomly.
+- **Real Code or Screenshots Only**: Rebuild screens directly from repository components, styling tokens, icons, and layout, or use verified repository screenshots (e.g. 3× iOS simulator captures or desktop snapshots). Generic mockups, stock UI, and ungrounded templates are rejected.
+- **Mobile in Device Chrome**:
+  - Screen dimensions: 402 × 874 pt (iPhone 16 Pro / 17 Pro standard), corner radius `R: 55`, bezel: 5 pt, titanium frame: 3 pt.
+  - Overlay chrome: Status bar (time 9:41, cellular, wifi, battery), Dynamic Island (125 × 37 pt at `y: 11`), Home indicator (134 × 5 pt at `y: 861`). Set `--sb` to `#fff` over dark scenes.
+  - Framing: Both side edges must remain visible in frame (`s ≤ 3.3` on 1440 stage); crop only vertically for close-ups. Never display app UI full-bleed without device context.
+  - Legibility: 13 pt app text requires camera scale `s ≥ 1.55` (~20 px on stage).
+- **Desktop in Window Chrome**:
+  - Screen dimensions: 1512 × 982 pt (14" laptop standard) or floating application window (`WIN` e.g. 1200 pt).
+  - Window chrome: Title bar, native window controls (traffic lights red `#FF5F56`, yellow `#FFBD2E`, green `#27C93F` on macOS; platform caption controls on Windows/Linux).
+  - Pointer choreography: Arrive one beat early, click squarely on the beat, pause for UI reaction before moving. Typing pace: 60–90 ms per keystroke; hide cursor while typing. The cursor moves only when demonstrating intentional interaction—never wander or idle-wiggle.
+  - Legibility: 13–14 pt desktop labels need zoom `1.15–1.9` on the active pane. Never cut text labels at frame edges.
 - **No Style Kits**: Do not adopt foreign upstream style kits (Meadow, Midnight, Warm Ink, Field Guide, Paper and Ink, Color Block). Derive visual tokens directly from the app itself or from `emil-design-eng` motion principles.
 
 ## 2. Deterministic Frame Contract: `seek(t)`
@@ -19,11 +27,26 @@ Used when the user requests a launch film, teaser, or product promo of a real ap
 ## 3. Beat-Map & Sound Direction
 
 - **Beat-Driven Choreography**: Map the story across tempo (BPM), bars, and musical drops.
+  - Calculate beat timestamps: `t_beat = (60 / BPM) * beat_index`.
+  - Align scene cuts to bar boundaries (e.g. every 4 or 8 beats).
 - **Drop Synchronization**: Core product actions, key reveals, and major value transitions must land squarely on musical drops.
+- **Micro-Drift on Holds**: During a hold scene, apply a subtle camera ease-in (2–3% zoom drift over the hold) so the screen never looks like a frozen video frame.
 - **Soundtrack Priority**: Prioritize the user-provided audio track.
 - **Optional Heavy Models**: Heavy audio generation models (ACE-Step ~11 GB) and speech synthesizers (Chatterbox, Kokoro) are `OPTIONAL_POINTER`. Never execute upstream `install.sh` and never auto-download models. When absent, report `NOT_CONFIGURED`.
 
-## 4. The Four-Still Approval Gate
+## 4. Rights, Claims & Data Honesty
+
+- **Real Features Only**: Feature claims must reflect real code paths in the repository. Opt-in features (notifications, AI, permissions) appear as user-enabled actions, not default states.
+- **Fictional Plausible Data**: All names, merchants, amounts, balances, dates, and account numbers must be fictional and plausible. Never use real personal or customer data.
+- **Audio Rights & Licensing**:
+  - Record audio title, artist, source URL, and license terms in the evidence ledger.
+  - Prioritize user-provided tracks, CC0, or verified MIT-licensed stems. Never use unlicensed copyrighted music.
+  - Generated sound effects for UI clicks and transitions should be synthetic or licensed.
+- **Marketing Film vs App Store Preview**:
+  - Marketing films (built via HTML/hyperframes) are tailored for product launches, landing pages, Twitter/X, and social media.
+  - If the user specifically requests an Apple App Store App Preview (Guideline 2.3.4), note that it requires raw simulator video captures without external device frames, exactly 30 fps, and portrait 886 × 1920 px.
+
+## 5. The Four-Still Approval Gate
 
 Before writing implementation code or starting a build, you must define the story beats and present four distinct still frames for explicit user review:
 1. **Opening Still**: Hook and initial device entrance.
@@ -33,7 +56,7 @@ Before writing implementation code or starting a build, you must define the stor
 
 *Halt Gate:* Without explicit approval of the four stills from the user, stop and do not proceed to build.
 
-## 5. QA Loop & Mechanical Ledger
+## 6. QA Loop & Mechanical Ledger
 
 - **Contact Sheets**: Generate visual contact sheets of the film (timeline overview every 0.5 s, transitions every 0.05 s) to review cadence, cropping, and legibility.
 - **Failure Catalogue**: Audit against common flaws:
@@ -49,12 +72,12 @@ Before writing implementation code or starting a build, you must define the stor
   - `FACT:` Integrated audio loudness (LUFS) and true peak (dBFS) if audio is rendered.
 - **Tooling Gate**: If `ffmpeg` or `chromium` is missing from the local environment, report `NOT_CONFIGURED`. Never emit a false `PASS`.
 
-## 6. Rendering Engine Hierarchy
+## 7. Rendering Engine Hierarchy
 
 - **Default Engine**: Rendering is executed through `hyperframes` (deterministic HTML/CSS/canvas to seekable frames). 18-second brag cards remain strictly in `skills/hyperframes/references/brag.md`.
 - **Alternative Upstream Pipeline**: Direct DevTools-driven Chrome frame capture into ffmpeg is used only when explicitly requested by the user and Chrome is verified available on the machine.
 
-## 7. Neighbor Boundaries
+## 8. Neighbor Boundaries
 
 - Spoken Indonesian app walkthroughs and demo contests: strictly `id-demo-video`.
 - 2D timeline scrollytelling websites: `scroll-craft`.
