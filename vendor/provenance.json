@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.8",
+  "productVersion": "0.1.9",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -679,7 +679,7 @@
       "copyright": "Copyright (c) 2026 echris6",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Adapted from echris6/motion-video-kit. Launch-style business commercials, independent critic loop, and product hero 3D realism; render executed via hyperframes."
+      "notes": "Adapted from echris6/motion-video-kit. Launch-style business commercials, independent critic loop, and product hero 3D realism; render executed via hyperframes. Wave 0.1.9 merges product-film mode (real app UI) from kaventro/motion-designer@0cf0ba92d3db7d8d5ae603a65b56a99a2866311c (MIT, Copyright (c) 2026 kaventro)."
     }
   ]
 }

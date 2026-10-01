@@ -4,7 +4,7 @@ OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.8**. The 65-skill catalog is strictly frozen.
+Version **0.1.9**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 
@@ -117,7 +117,7 @@ Default: repository evidence first. Then at most one specialist.
 | Photoreal / media | `visual-studio` |
 | Scroll-led storytelling | `scroll-craft` |
 | Scroll-driven 3D / camera world | `scroll-world` |
-| Commercial launch films & business explainers | `business-motion-film` (render via `hyperframes`; absorbs Three.js product-hero patterns) |
+| Commercial launch films & business explainers | `business-motion-film` (render via `hyperframes`; absorbs Three.js product-hero patterns; real app UI launch films stay `launch_film` → `business-motion-film`) |
 | 9Router gateway (inference/image/video/TTS/STT/web) | `ninerouter` |
 | Deterministic HTML composition video | `hyperframes` (18s brag card via `references/brag.md`) |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
@@ -133,7 +133,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`).
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film mode; catalog strictly 65/65).
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 

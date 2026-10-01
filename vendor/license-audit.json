@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.8",
+  "productVersion": "0.1.9",
   "note": "Evidence-based. A missing frontmatter license is not a grant. Adapted \u2260 first-party.",
   "skills": {
     "demo-video": {
@@ -311,7 +311,7 @@
     },
     "business-motion-film": {
       "license": "MIT",
-      "evidence": "SKILL.md frontmatter + echris6/motion-video-kit MIT; NOTICE.md; vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt",
+      "evidence": "SKILL.md frontmatter + echris6/motion-video-kit MIT; kaventro/motion-designer MIT; NOTICE.md; vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt; vendor/licenses/KAVENTRO-MOTION-DESIGNER-MIT.txt",
       "redistribution": "mit"
     },
     "json-render": {
