@@ -11,12 +11,12 @@ Version **0.1.9**. The 65-skill catalog is strictly frozen.
 - 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
 - A thin `AGENTS.md` router (lazy, one primary specialist, 24 closed intents)
 - Core MCP: Codebase Memory, Context7, shadcn
-- 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
+- 12 Universal Design Banks + Operator Banks (34,700+ items across Identity, Motion, Section, Atomic, and Oversight) with zero-token local search & Google Drive v3 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
 - UI polish checklists merged into `emil-design-eng` + practical a11y & React smell checklist in `impeccable` (`react-doctor` as on-demand `OPTIONAL_TOOL`)
-- Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`, commercial launch films via `business-motion-film`, gateway routing via `ninerouter`
+- Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`, commercial launch films & real app UI product-film mode via `business-motion-film`, gateway routing via `ninerouter`
 - Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
@@ -83,10 +83,10 @@ Restart OpenCode after install. Config is not hot-reloaded.
         │
         ▼
      Design / Documents
-      ├─ Design Bank (12 universal banks; 4 bootstrap required: Refero, Motionsites, 21st, Aura)
-      │  ├─ Identity: Refero, Aura
+      ├─ Design Bank (12 universal banks + operator banks; 4 bootstrap required: Refero, Motionsites, 21st, Aura)
+      │  ├─ Identity: Refero, Aura, Oversight Supply (templates)
       │  ├─ Motion: Motionsites, Scrolltide, Bencho, Layers
-      │  ├─ Section: Supahero, Navbar, Footer, CTA, 404s
+      │  ├─ Section: Supahero, Navbar, Footer, CTA, 404s, Oversight Sections
       │  └─ Atoms: 21st
       ├─ Design Intelligence
       ├─ Design V2 (offline user bank, ~/DesignV2)
@@ -133,7 +133,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film mode; catalog strictly 65/65).
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film doctrine for real app UI; catalog strictly 65/65) and pins Google Drive bootstrap to DesignBank v3.
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 
@@ -214,14 +214,14 @@ OpenCode model providers belong to the user. The installer never overwrites your
 
 Never hardcode secret keys or bind all interfaces.
 
-## Design Bank (12 Universal Banks)
+## Design Bank (12 Universal Banks + Operator Banks)
 
 Design Bank media is **not** vendored in this repository. Redistribution of the media archive is not cleared as first-party content.
 
-OpenCodeHighEnd connects to an offline collection of **12 Design Banks** (34,500+ curated items) across four architectural tiers:
-- **Identity**: `Refero` (design systems, CSS tokens, typography, colors), `Aura` (complete landing & dashboard templates)
+OpenCodeHighEnd connects to an offline collection of **12 Design Banks + Operator Banks** (34,700+ curated items) across four architectural tiers:
+- **Identity**: `Refero` (design systems, CSS tokens, typography, colors), `Aura` (complete landing & dashboard templates), `Oversight Supply` (192 Webflow & Framer website templates)
 - **Motion**: `Motionsites` (motion direction & UI animation), `Scrolltide` (scrollytelling & timeline pinning), `Bencho` (micro-interactions & widgets), `Layers` (3D Three.js & WebGL shaders)
-- **Section**: `Supahero` (SaaS hero headers), `NavbarGallery` (navigation bars & mega menus), `FooterDesign` (footers & sitemaps), `CtaGallery` (call-to-action blocks), `404sDesign` (empty states & error pages)
+- **Section**: `Supahero` (SaaS hero headers), `NavbarGallery` (navigation bars & mega menus), `FooterDesign` (footers & sitemaps), `CtaGallery` (call-to-action blocks), `404sDesign` (empty states & error pages), `Oversight Sections` (32 interactive sections)
 - **Atomic**: `21st` (atomic components; handed off to Impeccable)
 
 Normal `./install.sh` installs the engine only and never starts the multi-gigabyte download. Full setup with the design suite is explicit:
