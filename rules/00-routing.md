@@ -44,7 +44,7 @@ academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | vide
 | `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
 | `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
 | `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
-| `launch_film` | `business-motion-film` | Commercials, launch films, business explainers, sample reels; render via hyperframes; product-hero Three.js in references |
+| `launch_film` | `business-motion-film` | Commercials, launch films (including real app UI product-film), business explainers, sample reels; render via hyperframes; product-hero Three.js in references |
 | `gateway_llm` | `ninerouter` | 9Router gateway (chat, image, video, TTS, STT, embeddings, web) via NINEROUTER_URL; foreign on-demand stub |
 | `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
 | `slides_pptx` | `deck-design` | Consulting PPTX / 16:9 HTML decks; smartdoc keeps PDF/DOCX; markitdown keeps ingest |
@@ -142,7 +142,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Use the hub only when cwd has `components.json`. Never silent `shadcn init` on this adapter, a backend or Python tree, or a non-UI cwd.
 - Scroll-led storytelling (scroll is the timeline, scrollytelling, signature interaction): `/scroll-craft`. Ordinary scrollable UI stays `/impeccable`. `/scroll-craft` plus Continuous World: Scroll Craft writes the brief, then `/scroll-world`.
 - Continuous camera fly-through, diorama, or 3D-world landing: `/scroll-world` even if the request says scroll.
-- Commercials, launch films, business explainers, sample reels, pitch videos: `/business-motion-film` (render via `hyperframes`; Three.js product-hero patterns in references, not a standalone skill; 18s brag cards stay `hyperframes/references/brag.md`). Indonesian narrated tours stay `/id-demo-video`. Not `scroll-world` (camera fly-through), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
+- Commercials, launch films, business explainers, sample reels, pitch videos: `/business-motion-film` (render via `hyperframes`; includes real app UI product-film mode; Three.js product-hero patterns in references, not a standalone skill; 18s brag cards stay `hyperframes/references/brag.md`). Indonesian narrated tours stay `/id-demo-video`. Not `scroll-world` (camera fly-through), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
 - Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg; 18s brag/launch cards via `references/brag.md`). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
 - Demo video aplikasi, walkthrough layar, narasi Indonesia, demo lomba: skill `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`.
 - Photoreal stills / ads / identity with no UI surface: `/visual-studio`.

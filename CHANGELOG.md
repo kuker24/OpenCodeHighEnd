@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.9 — 2026-10-01
+
+Wave 0.1.9 body-only. Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist. Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.
+MERGE: `kaventro/motion-designer` (`0cf0ba92d3db7d8d5ae603a65b56a99a2866311c`, MIT) ke `skills/business-motion-film`.
+
+- `business-motion-film`: Penambahan mode `product-film` untuk membuat film peluncuran (launch film, teaser, product promo) dari UI aplikasi nyata (iOS, macOS/Windows/Linux desktop, Electron/Tauri, web app) di dalam wadah perangkat asli (iPhone / window desktop), bukan iklan komersial abstrak.
+- Layar dibangun langsung dari kode sumber atau tangkapan layar terverifikasi di repo. Mockup generik ditolak. Mobile selalu di dalam frame iPhone (dynamic island / status bar); desktop selalu di dalam jendela aplikasi dengan pergerakan kursor yang bermakna.
+- Kontrak frame deterministik murni `seek(t)`: dilarang menggunakan timer (`setTimeout`/`setInterval`), `Date.now()`, `Math.random()`, maupun transisi/animasi CSS. Loop timeline harus menutup rapat; frame identik dari arah scrub manapun.
+- Beat-map audio: struktur narasi mengikuti tempo (BPM), bar, dan drop musik; aksi kunci mendarat tepat pada drop. Track audio pengguna selalu didahulukan.
+- Gerbang 4 still (buka, momen produk utama, drop, frame akhir) wajib disetujui pengguna sebelum build; berhenti jika belum disetujui.
+- QA & ledger bukti (`FACT:`): contact sheet + audit daftar kesalahan umum (label terpotong, UI full-bleed, crossfade sembarangan, pointer melayang, klaim tanpa bukti). Pelaporan wajib menyertakan path mp4, status ketersediaan ffmpeg dan Chrome, serta loudness LUFS jika ada audio. Ketiadaan ffmpeg atau Chrome dilaporkan sebagai `NOT_CONFIGURED`, bukan PASS palsu.
+- Pipeline render: pintu default tetap `hyperframes` (brag card 18 detik tetap `skills/hyperframes/references/brag.md`). Pipeline render Chrome DevTools upstream hanya digunakan jika diminta secara eksplisit dan Chrome tersedia.
+- Model audio/suara upstream (ACE-Step ~11 GB, Chatterbox, Kokoro) adalah `OPTIONAL_POINTER`. Tidak ada pengunduhan model dan script `install.sh` upstream tidak dijalankan. Ketiadaan model = `NOT_CONFIGURED`.
+- Peran spesialis tetangga tidak berubah: `id-demo-video` (demo narasi Indonesia), `scroll-craft` (scrollytelling 2D), `scroll-world` (kamera 3D), `emil-design-eng` (motion physics UI; token film memakai token Emil, bukan style kit Meadow/Midnight), `impeccable`, `found-this-design`, `ninerouter`.
+- Pin sumber dan lisensi dicatat di `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `vendor/licenses/KAVENTRO-MOTION-DESIGNER-MIT.txt`, `THIRD_PARTY_NOTICES.md`, dan `docs/source-wave.md`. Versi produk 0.1.9.
+
 ## 0.1.8 — 2026-10-01
 
 Unfreeze terbatas 0.1.8. Katalog tetap 65.

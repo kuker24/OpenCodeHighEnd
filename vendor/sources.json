@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.8",
+  "productVersion": "0.1.9",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -230,6 +230,14 @@
       "copyright": "Copyright (c) 2026 echris6",
       "licenseFile": "vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt",
       "note": "First-party skill wrapper. Pointers reference pinned upstream files; large reference packs not vendored. Rendered via hyperframes."
+    },
+    "motion-designer": {
+      "repository": "https://github.com/kaventro/motion-designer",
+      "commit": "0cf0ba92d3db7d8d5ae603a65b56a99a2866311c",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 kaventro",
+      "licenseFile": "vendor/licenses/KAVENTRO-MOTION-DESIGNER-MIT.txt",
+      "note": "Merged into skills/business-motion-film as product-film mode. Real app UI in device chrome, seek(t) frame determinism, 4-still approval gate. Models and plugin not vendored."
     },
     "9router": {
       "repository": "https://github.com/decolua/9router",

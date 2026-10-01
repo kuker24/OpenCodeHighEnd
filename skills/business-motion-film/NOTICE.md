@@ -5,4 +5,9 @@
 - License: MIT
 - Copyright: Copyright (c) 2026 echris6
 - Local license copy: `vendor/licenses/ECHRIS6-MOTION-VIDEO-KIT-MIT.txt`
-- Notes: Adapted into first-party OpenCode skill stub. Pointers reference pinned upstream files rather than vendoring large reference corpuses. Rendering is executed via hyperframes.
+- Merged upstream repository: [kaventro/motion-designer](https://github.com/kaventro/motion-designer)
+- Merged upstream commit: `0cf0ba92d3db7d8d5ae603a65b56a99a2866311c`
+- License: MIT
+- Copyright: Copyright (c) 2026 kaventro
+- Local license copy: `vendor/licenses/KAVENTRO-MOTION-DESIGNER-MIT.txt`
+- Notes: Adapted into first-party OpenCode skill stub. Wave 0.1.9 merges product-film mode (real app UI in device chrome, seek(t) deterministic frames, 4-still approval gate, beat mapping). Pointers reference pinned upstream files rather than vendoring large reference corpuses, heavy models, or full plugins. Rendering executes through hyperframes.
