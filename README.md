@@ -195,15 +195,18 @@ The installer merges only owned MCP keys. Provider, model, permissions, plugins,
 
 ### Provider configuration (User-owned)
 
-OpenCode model providers belong to the user. The installer never overwrites your `provider` block. If you use a 9Router gateway instance (`skills/ninerouter`), configure your provider in `~/.config/opencode/opencode.jsonc` using environment variables only:
+OpenCode model providers belong to the user. The installer never overwrites your `provider` block. If you use a 9Router gateway instance (`skills/ninerouter`), configure your provider in `~/.config/opencode/opencode.json` (or `opencode.jsonc`) using environment variables only:
 
 ```jsonc
 {
   "provider": {
     "9router": {
-      "type": "openai",
-      "baseUrl": "{env:NINEROUTER_URL}/v1",
-      "apiKey": "{env:NINEROUTER_KEY}"
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "9router",
+      "options": {
+        "baseURL": "{env:NINEROUTER_URL}/v1",
+        "apiKey": "{env:NINEROUTER_KEY}"
+      }
     }
   }
 }
