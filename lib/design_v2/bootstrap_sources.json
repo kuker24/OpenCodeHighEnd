@@ -4,11 +4,11 @@
   "sources": {
     "personal-google-drive-v1": {
       "type": "google-drive-public",
-      "bankVersion": "v2",
-      "archiveName": "OpenCodeHighEnd-DesignBank-v2.zip",
-      "archiveFileId": "130IbcQVWNuo3RV2qsSRLJJxMapWSa_Rj",
-      "checksumFileId": "1dLzT1CRsag5fzEMu_q4-iBpVefoO9ima",
-      "archiveSha256": "43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2"
+      "bankVersion": "v3",
+      "archiveName": "OpenCodeHighEnd-DesignBank-v3.zip",
+      "archiveFileId": "1B8opwdkBDkYR6-5EZnvKtEuaV1esDB_M",
+      "checksumFileId": "186k6k2pNzVPwkBi_DmFEP6660UvsAon_",
+      "archiveSha256": "91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53"
     }
   }
 }

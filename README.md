@@ -236,7 +236,7 @@ OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design 
 
 Download sources (SHA-256 fail-closed; URL without SHA is refused):
 
-1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (`OpenCodeHighEnd-DesignBank-v2.zip`, SHA-256 `43b36134c35c476bcdeb633aa55f58ada18a163ade4e867d8fcf9380433b54d2`). Google Drive is contacted only during bootstrap.
+1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (`OpenCodeHighEnd-DesignBank-v3.zip`, SHA-256 `91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53`). Google Drive is contacted only during bootstrap.
 2. **Fallback GitHub artifact** in `vendor/sources.json` (`GrokBestFriend` `Design-bank.tgz`, sha256 `9866f5a8…`). Used when the Drive pin is unavailable.
 
 Operator override: `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. Drive view links (`/file/d/ID/view`) resolve to `uc?export=download`. A valid local bank (at `OPENCODE_DESIGN_BANK` or `~/Design`) is used as-is — no download.
