@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.7",
+  "productVersion": "0.1.8",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -575,14 +575,14 @@
       "notes": "Adapted from affaan-m/ECC. Eval-driven development (EDD), benchmark dataset construction, and pass@k metric tracking."
     },
     {
-      "component": "prompt-optimizer",
-      "path": "skills/prompt-optimizer",
-      "upstream": "https://github.com/affaan-m/ECC",
+      "component": "ninerouter",
+      "path": "skills/ninerouter",
+      "upstream": "https://github.com/decolua/9router@f01fb909e37189008080632ddaf404f096345cde",
       "license": "MIT",
-      "copyright": "Copyright (c) 2024-2026 affaan-m and ECC contributors",
+      "copyright": "Copyright (c) 2026 decolua",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Adapted from affaan-m/ECC. Advisory prompt engineering review, structural framing, and negative constraint enforcement with zero auto-mutation."
+      "notes": "First-party gateway stub. Connects to user-managed 9Router; capability skills fetched on demand, not vendored into overlay."
     },
     {
       "component": "skill-stocktake",
@@ -670,6 +670,16 @@
       "modified": true,
       "redistribution": "mit",
       "notes": "First-party wrapper. Not a core MCP; Cloud/SDK not vendored."
+    },
+    {
+      "component": "business-motion-film",
+      "path": "skills/business-motion-film",
+      "upstream": "https://github.com/echris6/motion-video-kit@255562b04b1e5ecaa4ba98e5c9aa191d5ba7f6fa",
+      "license": "MIT",
+      "copyright": "Copyright (c) 2026 echris6",
+      "modified": true,
+      "redistribution": "mit",
+      "notes": "Adapted from echris6/motion-video-kit. Launch-style business commercials, independent critic loop, and product hero 3D realism; render executed via hyperframes."
     }
   ]
 }

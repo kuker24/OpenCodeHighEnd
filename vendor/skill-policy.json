@@ -29,6 +29,9 @@
     "browser-act": {
       "invocation": "model"
     },
+    "business-motion-film": {
+      "invocation": "model"
+    },
     "chrome-devtools-axi": {
       "invocation": "model"
     },
@@ -101,9 +104,6 @@
     "id-demo-video": {
       "invocation": "model"
     },
-    "img2threejs": {
-      "invocation": "model"
-    },
     "impeccable": {
       "invocation": "model"
     },
@@ -131,13 +131,13 @@
     "mongodb-ops": {
       "invocation": "model"
     },
+    "ninerouter": {
+      "invocation": "model"
+    },
     "pageindex": {
       "invocation": "model"
     },
     "playwright-qa": {
-      "invocation": "model"
-    },
-    "prompt-optimizer": {
       "invocation": "model"
     },
     "prototype": {

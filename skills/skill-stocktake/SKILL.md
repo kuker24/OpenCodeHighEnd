@@ -1,6 +1,6 @@
 ---
 name: skill-stocktake
-description: Audit and maintain quality, hygiene, and boundary integrity across OpenCodeHighEnd skills. Checks frontmatter schema, trigger keywords, exclusivity fences, path references, and test coverage. Use when reviewing installed or warehouse skills, auditing catalog health, or cleaning up skill bloat. Not for code-level security audits (full-audit-keamanan), code style review (matt-code-review), or prompt text optimization (prompt-optimizer).
+description: Audit and maintain quality, hygiene, and boundary integrity across OpenCodeHighEnd skills. Checks frontmatter schema, trigger keywords, exclusivity fences, path references, and test coverage. Use when reviewing installed or warehouse skills, auditing catalog health, or cleaning up skill bloat. Not for code-level security audits (full-audit-keamanan), code style review (matt-code-review), or prose humanizing (humanizer).
 compatibility: opencode
 license: MIT
 ---
@@ -18,7 +18,7 @@ This skill inspects installed skills (`~/.config/opencode/skills/`), manual comm
 | Reviewing application source code quality or standards | `matt-code-review` |
 | Auditing code security, secrets, permissions, or supply chain | `full-audit-keamanan` |
 | Authoring or rewriting SKILL.md bodies and descriptions | `writing-for-agents` |
-| Optimizing prompt wording and instructional clarity | `prompt-optimizer` |
+| Optimizing prompt wording and instructional clarity | `humanizer` / `writing-for-agents` |
 | Measuring whether a skill actually beats no-skill | `eval-harness` |
 | **Auditing skill catalog hygiene, boundaries, and schema conformance** | **`skill-stocktake`** |
 
@@ -77,6 +77,6 @@ Report a single table, one row per audited item, plus a short list of follow-ups
 | Skill | Verdict | Evidence | Handoff |
 ```
 
-Handoffs: `COMPRESS` and `UPDATE` go to `writing-for-agents` (structure, description, pointers) or `prompt-optimizer` (instruction phrasing). Security findings go to `full-audit-keamanan`. Application code style goes to `matt-code-review`. Utility measurement goes to `eval-harness`.
+Handoffs: `COMPRESS` and `UPDATE` go to `writing-for-agents` (structure, description, pointers) or `humanizer` (instruction phrasing). Security findings go to `full-audit-keamanan`. Application code style goes to `matt-code-review`. Utility measurement goes to `eval-harness`.
 
 Never auto-delete a file, never auto-edit another skill's body, and never mutate a catalog from a learning log.

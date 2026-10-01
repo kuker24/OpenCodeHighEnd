@@ -27,7 +27,7 @@ The router classifies every user task into exactly one closed intent:
 
 ```text
 repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
-motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose
+motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose
 academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
@@ -44,7 +44,8 @@ academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | vide
 | `motion` | `emil-design-eng` | Micro-interactions, spring physics, touch feel |
 | `scroll_2d` | `scroll-craft` | Scrollytelling, pinned 2D timelines, scroll triggers |
 | `scroll_3d` | `scroll-world` | Continuous 3D fly-through, camera-scrub worlds |
-| `img3d` | `img2threejs` | Procedural Three.js models from reference images |
+| `launch_film` | `business-motion-film` | Commercials, launch films, business explainers, sample reels; render via hyperframes; product-hero Three.js in references |
+| `gateway_llm` | `ninerouter` | 9Router gateway (chat, image, video, TTS, STT, embeddings, web) via NINEROUTER_URL; foreign on-demand stub |
 | `docs` | `smartdoc` | Technical docs, OCR/PDF/DOCX extraction & contracts |
 | `slides_pptx` | `deck-design` | Consulting PPTX / 16:9 HTML decks; smartdoc keeps PDF/DOCX; markitdown keeps ingest |
 | `ingest_md` | `markitdown` | Structure-preserving Markdown ingest from Office/PDF |
@@ -100,12 +101,12 @@ Never list unused tools or uncalled MCP methods as used.
 - Unknown / hard bugs, regressions, measured slowdown: `/diagnosing-bugs`. Skip typos, known-cause, and test-first known fixes (`/tdd`).
 - Authoring SKILL.md / AGENTS.md / skill descriptions / context pointers: `/writing-for-agents` (distinct from `/skill-stocktake` which audits catalog hygiene). Workflow choice is handled directly by the router without a specialist.
 - Documents (answer, create, transform, extract, review, PDF/DOCX): `/smartdoc`. Consulting PPTX / 16:9 slide decks: `/deck-design`. Long structured document tree/reasoning nav: `/pageindex`. File to Markdown ingest: `/markitdown`. Reusable book/module knowledge: `/smartbook-ingest`. SmartDoc may read an existing SmartBook; that is not a second implementation specialist. Impeccable `document` stays DESIGN.md.
-- Prose AI-tell removal and natural tone polishing: `/humanizer`. Manual `/unslop` is an alias to the same specialist body. Do not auto-apply on ordinary code or diffs. Technical documentation structure stays `/technical-writing`. Code linting stays `/install-anti-slop`. Prompt structure stays `/prompt-optimizer`.
+- Prose AI-tell removal and natural tone polishing: `/humanizer`. Manual `/unslop` is an alias to the same specialist body. Do not auto-apply on ordinary code or diffs. Technical documentation structure stays `/technical-writing`. Code linting stays `/install-anti-slop`. Prompt structure and AI-tells split between `/humanizer`, `/research` / Context7, `/writing-for-agents`, and `/eval-harness`.
 - Editorial HTML and inline SVG diagrams (architecture, sequence, ER, flowcharts, Wardley): `/diagram-design`. Mermaid/draw.io are inputs to redraw, not final output. Frontend UI implementation stays `/impeccable`. Code-level seams stay `/codebase-design`.
 - Agent architecture diagnosis, autonomous loop failures, context leakage, wrapper regressions: `/agent-architecture-audit`. Load only when user names the agent stack job. Defensive security and secrets auditing stay `/full-audit-keamanan`.
 - Evaluation harness, prompt/agent benchmarks, pass@k metrics, regression suites: `/eval-harness`. Load only when user names benchmark work. Project code unit tests stay `/tdd`.
 - Cost-aware LLM architectures, complexity model tiering, token budgets, prompt caching: `/cost-aware-llm-pipeline`. Load only when user names cost/token budget work. Application bundle and page latency profiling stay `/full-performance-audit`.
-- Prompt critique, structural optimization, negative constraints, format locks: `/prompt-optimizer`. General prose polishing stays `/humanizer`.
+- Gateway 9Router models, multi-provider routing, image/video gen, TTS, STT, embeddings, web search: `/ninerouter`. Core MCP remains codebase-memory-mcp, context7, shadcn.
 - OpenCodeHighEnd skill catalog hygiene, frontmatter validation, boundary integrity: `/skill-stocktake`. Code standards review stays `/matt-code-review`.
 - REST resource, status, pagination, and versioning design: `/api-design`. Library docs stay Context7. Shared schema ownership stays `/contract-first`. Seam design stays `/codebase-design`.
 - Consumer/provider OpenAPI, AsyncAPI, or Protobuf contracts: `/contract-first`. Module seams stay `/codebase-design`.
@@ -141,7 +142,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Use the hub only when cwd has `components.json`. Never silent `shadcn init` on this adapter, a backend or Python tree, or a non-UI cwd.
 - Scroll-led storytelling (scroll is the timeline, scrollytelling, signature interaction): `/scroll-craft`. Ordinary scrollable UI stays `/impeccable`. `/scroll-craft` plus Continuous World: Scroll Craft writes the brief, then `/scroll-world`.
 - Continuous camera fly-through, diorama, or 3D-world landing: `/scroll-world` even if the request says scroll.
-- Procedural Three.js object from image: `/img2threejs` (factory Group, editable primitives, visible vs inferred spec). Not `scroll-world` (camera fly-through), not `hyperframes` (HTML-to-MP4), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
+- Commercials, launch films, business explainers, sample reels, pitch videos: `/business-motion-film` (render via `hyperframes`; Three.js product-hero patterns in references, not a standalone skill; 18s brag cards stay `hyperframes/references/brag.md`). Indonesian narrated tours stay `/id-demo-video`. Not `scroll-world` (camera fly-through), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
 - Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg; 18s brag/launch cards via `references/brag.md`). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
 - Demo video aplikasi, walkthrough layar, narasi Indonesia, demo lomba: skill `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`.
 - Photoreal stills / ads / identity with no UI surface: `/visual-studio`.
@@ -184,7 +185,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 
 - No extra marketplace plugins. Foundation = skills + MCP + thin AGENTS.md + runtime helpers.
 - User MCP: `codebase-memory-mcp`, `context7`, and `shadcn` on; `serena`, `stitch`, `reticle`, and `ui-skills` absent until a human enables them; `exa` foreign.
-- ECC / other harness overlays: `FOREIGN_ON_DEMAND`. Never add, remove, or merge foreign harness control planes or continuous-learning runtimes. Individual warehouse procedures ported in Wave 2 (agent-architecture-audit, cost-aware-llm-pipeline, eval-harness, prompt-optimizer, skill-stocktake) and Wave 3 (api-design, contract-first, automation-audit-ops, code-tour, click-path-audit) are first-party MIT skills. If external ECC is already present in user environment, do not merge and do not shadow.
+- ECC / other harness overlays: `FOREIGN_ON_DEMAND`. Never add, remove, or merge foreign harness control planes or continuous-learning runtimes. Individual warehouse procedures ported in Wave 2 (agent-architecture-audit, cost-aware-llm-pipeline, eval-harness, skill-stocktake; prompt-optimizer retired in 0.1.8) and Wave 3 (api-design, contract-first, automation-audit-ops, code-tour, click-path-audit) are first-party MIT skills. If external ECC is already present in user environment, do not merge and do not shadow.
 - FOREIGN vendor packs (e.g. `mongodb/agent-skills`, `supabase/agent-skills`, `vercel-labs/agent-skills`) stay off the overlay; user may `npx skills add mongodb/agent-skills|supabase/agent-skills` locally; never `frontend-design` for product UI.
 - Never auto-edit rules or skills from a learning log (no `/learn`, `/evolve`, or session-end skill writers).
 

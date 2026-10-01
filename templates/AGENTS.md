@@ -10,7 +10,7 @@ Availability is not a reason to use a tool. One primary specialist. At most one 
 ## Closed Intent & Default
 
 Classify into exactly one intent before acting:
-`repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui | motion | scroll_2d | scroll_3d | img3d | docs | ingest_md | prose | academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx`
+`repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui | motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose | academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx`
 
 1. Repo evidence is enough → do the work. No specialist.
 2. User typed a slash command → load that command's specialist. Do not substitute.
@@ -37,7 +37,7 @@ Code Mode host is OpenCode 2: session tools are strictly `tools.opencode.session
 
 ## Specialists (load one)
 
-UI direction → skill `found-this-design` (must write `.impeccable/found-this-design.json` before implement) then `impeccable`. UI atoms (button, input, card, nav) after world/brief → impeccable after Design V2 shortlist; BANK_MISS ≠ generate (never `found-this-design` for buttons). Motion UI (easing, hover, seam) → `emil-design-eng`. Still/ads/non-UI surface → `visual-studio`. Scroll-led story → `scroll-craft`. Camera/3D world/diorama → `scroll-world`. Object image to procedural Three.js → `img2threejs`. Registry → shadcn MCP. Design Intelligence and Design V2 are internal to Impeccable `new-work`, never a route. Stitch MCP = screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. UI Skills MCP = design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Schema/JSON generative UI → skill `json-render` (after tokens/direction or internal schema UI; never bypass Design Bank for marketing; never Jev compose).
+UI direction → skill `found-this-design` (must write `.impeccable/found-this-design.json` before implement) then `impeccable`. UI atoms (button, input, card, nav) after world/brief → impeccable after Design V2 shortlist; BANK_MISS ≠ generate (never `found-this-design` for buttons). Motion UI (easing, hover, seam) → `emil-design-eng`. Still/ads/non-UI surface → `visual-studio`. Scroll-led story → `scroll-craft`. Camera/3D world/diorama → `scroll-world`. Iklan / launch film / explainer bisnis / sample reel / pitch video → `business-motion-film` (render lewat hyperframes; pola Three.js product-hero di references, bukan skill sendiri; brag 18s tetap hyperframes/brag.md). Registry → shadcn MCP. Design Intelligence and Design V2 are internal to Impeccable `new-work`, never a route. Stitch MCP = screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. UI Skills MCP = design-skill lookup only; product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; BANK_MISS ≠ generate from a random ui-skills document. Schema/JSON generative UI → skill `json-render` (after tokens/direction or internal schema UI; never bypass Design Bank for marketing; never Jev compose).
 
 Browser QA → skill `playwright-qa` (isolated verification session; builder does not self-attest). Explicit/session BrowserAct → `browser-act`. Observed cause → `chrome-devtools-axi` after `opencode-chromium-cdp` (`127.0.0.1:9223`). Never Google Chrome. Project E2E suites (Playwright Test/Cypress) stay authoritative for regressions.
 
@@ -47,7 +47,7 @@ Prose AI-tells / humanize → skill `humanizer`. Slash `/unslop` is the same spe
 
 REST resource/status/pagination/versioning → skill `api-design`. Consumer/provider OpenAPI/AsyncAPI/Protobuf → skill `contract-first`. Live cron/CI/hook/MCP inventory keep-merge-cut → skill `automation-audit-ops`. CodeTour .tour + anchor file → skill `code-tour`. Handler vs shared-store sequential-undo → skill `click-path-audit` (not `playwright-qa`).
 
-Agent stack diagnostics / context leak / wrapper regression → skill `agent-architecture-audit`. Benchmark agent / pass@k → skill `eval-harness` (project unit tests stay `tdd`). Token budget / model tier / prompt cache → skill `cost-aware-llm-pipeline` (not `full-performance-audit`). Structural prompt critique → skill `prompt-optimizer` (not `humanizer`). Skill catalog hygiene → skill `skill-stocktake`.
+Agent stack diagnostics / context leak / wrapper regression → skill `agent-architecture-audit`. Benchmark agent / pass@k → skill `eval-harness` (project unit tests stay `tdd`). Token budget / model tier / prompt cache → skill `cost-aware-llm-pipeline` (not `full-performance-audit`). Gateway 9router / NINEROUTER_URL / gambar / TTS / STT / embeddings / web search lewat gateway → skill `ninerouter` (bukan Exa core, bukan MCP baru). Skill catalog hygiene → skill `skill-stocktake`.
 
 Supabase Auth/RLS/migrations/Edge → skill `supabase-ops` (Context7; not impeccable). Mongo schema/index/aggregation → skill `mongodb-ops`. Vercel/Next hosting/deploy config → skill `vercel-ops` (not visual UI). Library facts remain Context7. These three never replace found-this-design or impeccable.
 

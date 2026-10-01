@@ -1,6 +1,6 @@
 ---
 name: cost-aware-llm-pipeline
-description: Design and optimize cost-efficient LLM application architectures. Covers model tiering, task complexity routing, prompt caching strategies, token budget fences, and retry backoff. Use when reducing API spend, establishing token budgets, or architecting multi-model fallback cascades. Not for client runtime latency/bundle audits (full-performance-audit) or prompt phrasing refinement (prompt-optimizer).
+description: Design and optimize cost-efficient LLM application architectures. Covers model tiering, task complexity routing, prompt caching strategies, token budget fences, and retry backoff. Use when reducing API spend, establishing token budgets, or architecting multi-model fallback cascades. Not for client runtime latency/bundle audits (full-performance-audit) or prompt phrasing refinement (humanizer / writing-for-agents).
 compatibility: opencode
 license: MIT
 ---
@@ -16,7 +16,7 @@ This skill balances output quality against token expenditure using complexity-ba
 | Need | Route |
 |---|---|
 | Application bundle size, page latency, web vitals, database query profiling | `full-performance-audit` |
-| Refining individual prompt wording, instructions, or negative constraints | `prompt-optimizer` |
+| Refining individual prompt wording, instructions, or negative constraints | `humanizer` / `writing-for-agents` |
 | Benchmarking accuracy tradeoffs across cheaper models or prompt versions | `eval-harness` |
 | Investigating failure loops or context pollution in an agent loop | `agent-architecture-audit` |
 | **Engineering cost-optimized LLM architectures, routing, and token budgets** | **`cost-aware-llm-pipeline`** |

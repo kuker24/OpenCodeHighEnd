@@ -4,19 +4,19 @@ OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.7**. The 65-skill catalog is strictly frozen.
+Version **0.1.8**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 
 - 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
-- A thin `AGENTS.md` router (lazy, one primary specialist, 23 closed intents)
+- A thin `AGENTS.md` router (lazy, one primary specialist, 24 closed intents)
 - Core MCP: Codebase Memory, Context7, shadcn
 - 12 Universal Design Banks (34,500+ items across Identity, Motion, Section, Atomic) with zero-token local search & Google Drive v2 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
 - UI polish checklists merged into `emil-design-eng` + practical a11y & React smell checklist in `impeccable` (`react-doctor` as on-demand `OPTIONAL_TOOL`)
-- Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`
+- Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`, commercial launch films via `business-motion-film`, gateway routing via `ninerouter`
 - Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
@@ -117,7 +117,8 @@ Default: repository evidence first. Then at most one specialist.
 | Photoreal / media | `visual-studio` |
 | Scroll-led storytelling | `scroll-craft` |
 | Scroll-driven 3D / camera world | `scroll-world` |
-| Procedural Three.js object from image | `img2threejs` |
+| Commercial launch films & business explainers | `business-motion-film` (render via `hyperframes`; absorbs Three.js product-hero patterns) |
+| 9Router gateway (inference/image/video/TTS/STT/web) | `ninerouter` |
 | Deterministic HTML composition video | `hyperframes` (18s brag card via `references/brag.md`) |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
 | Browser | `playwright-qa` (isolated verification edge; evidence ledger) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
@@ -132,7 +133,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation).
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`).
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 
@@ -191,6 +192,24 @@ Optional:
 NVIDIA SkillEvaluator is `FOREIGN_ON_DEMAND` in the same sense: a maintainer may run it externally for embedding-based overlap scoring or live catalog evaluation. Caliper is `FOREIGN_ON_DEMAND` similarly: a maintainer may `pipx install caliper-eval` off-tree for prompt/agent benchmark evaluation. Neither is vendored into `lib/`, the installer never adds them, `doctor` does not fail when they are absent, and a malformed MCP entry fails closed like any other schema violation.
 
 The installer merges only owned MCP keys. Provider, model, permissions, plugins, and foreign MCP stay yours.
+
+### Provider configuration (User-owned)
+
+OpenCode model providers belong to the user. The installer never overwrites your `provider` block. If you use a 9Router gateway instance (`skills/ninerouter`), configure your provider in `~/.config/opencode/opencode.jsonc` using environment variables only:
+
+```jsonc
+{
+  "provider": {
+    "9router": {
+      "type": "openai",
+      "baseUrl": "{env:NINEROUTER_URL}/v1",
+      "apiKey": "{env:NINEROUTER_KEY}"
+    }
+  }
+}
+```
+
+Never hardcode secret keys or bind all interfaces.
 
 ## Design Bank (12 Universal Banks)
 
