@@ -194,7 +194,8 @@ function scoreGeneric(item, bankId, tier, brief, qTokens) {
     (surface === "micro-interaction" && bankId === "bencho") ||
     (surface === "3d-website" && bankId === "layers") ||
     (surface === "dashboard" && bankId === "aura") ||
-    (surface === "landing-page" && (bankId === "aura" || bankId === "motionsites"));
+    (surface === "landing-page" &&
+      (bankId === "aura" || bankId === "motionsites" || bankId === "oversightsupply"));
 
   if (isSpecialist) {
     score += 20;

@@ -31,6 +31,7 @@ When a query targets a specific surface zone, dedicated banks receive specialist
 - `micro-interaction` → `bencho`
 - `3d-website` / `shader` → `layers`, `motionsites`
 - `dashboard` → `refero`, `aura`
+- `landing-page` → `aura`, `oversightsupply`
 
 ### 2. Token Overlap (0 to +24 pts)
 Calculated against normalized stemmed words across item title, tags, description, category, and author.
@@ -53,8 +54,8 @@ Rank-based boost for top community-ranked designs (`popular_rank` #1 through #50
 
 ## 🧭 Lanes & Diversity
 
-- `identity`: Focuses on complete brand worlds, design systems, tokens, and templates (`refero`, `aura`).
-- `section`: Focuses on structural UI parts (`supahero`, `navbargallery`, `footerdesign`, `ctagallery`, `404sdesign`).
+- `identity`: Focuses on complete brand worlds, design systems, tokens, and templates (`refero`, `aura`, `oversightsupply`).
+- `section`: Focuses on structural UI parts (`supahero`, `navbargallery`, `footerdesign`, `ctagallery`, `404sdesign`, `oversightsections`).
 - `motion`: Focuses on animation, scrollytelling, physics, and WebGL (`motionsites`, `scrolltide`, `bencho`, `layers`).
 - `atomic`: Individual UI components and buttons (`21st` — handed off to Impeccable).
 - `both` / `all`: Balanced synthesis ensuring at least 1 identity world and 1 dynamic surface/motion candidate, filled out by top overall scores.

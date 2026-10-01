@@ -165,6 +165,24 @@ export const BANK_REGISTRY = {
     itemKey: "items",
     description: "Atomic UI components, React/Tailwind elements, shaders",
   },
+  oversightsupply: {
+    id: "oversightsupply",
+    name: "Oversight Supply",
+    tier: "identity",
+    catalogRel: "oversightsupply/library/catalog.json",
+    baseRel: "oversightsupply",
+    itemKey: "items",
+    description: "Handcrafted Webflow and Framer website templates from Oversight Supply",
+  },
+  oversightsections: {
+    id: "oversightsections",
+    name: "Oversight Supply Sections",
+    tier: "section",
+    catalogRel: "oversightsupply/library/catalog-sections.json",
+    baseRel: "oversightsupply",
+    itemKey: "items",
+    description: "Free interactive Oversight sections: studio originals plus Evergrid blocks",
+  },
 };
 
 export function getAvailableBanks(bankRoot) {
