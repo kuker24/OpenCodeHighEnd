@@ -51,6 +51,7 @@ cd OpenCodeHighEnd
 # or after install:
 # opencode-he design bootstrap
 # OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design bootstrap
+# Bank lokal yang sudah lengkap: OPENCODE_DESIGN_BANK=/path/ke/bank (atau ~/Design). Tidak di-download. Urutan prioritas: docs/design-bank.md.
 
 # pick up OPENCODE_DISABLE_CLAUDE_CODE=1
 exec "$SHELL"

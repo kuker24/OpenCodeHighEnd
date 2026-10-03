@@ -10,6 +10,8 @@
 
 `CODEBASE_MEMORY_BINARY_CHECKSUM_FAILED` — archive hash matched, extracted `codebase-memory-mcp` did not. Delete `~/.local/share/opencode-highend/cache/downloads/` and `~/.local/share/opencode-highend/components/codebase-memory`, then re-run `./install.sh`. A 0.9.0 → 0.11.0 upgrade rebuilds the index once. Do not ignore a mismatch.
 
+`CURRENT_REPO_NOT_INDEXED` / Rebuild index — rebuilding the index is not reinstalling. Index cwd with `opencode-he cbm status`, then `opencode-he cbm index .` (CLI adapter, `--mode fast`), or MCP `index_repository` (`mode: full` for full graph). Checksum failures above remain the only case requiring cache deletion and `./install.sh`.
+
 `DESIGN_BANK_INVALID` — bootstrap requires parseable 21st, Aura, Refero, and Motionsites catalogs (the 4 foundational bootstrap catalogs; `found-this-design` indexes up to 12 banks once present). Fix the configured target or choose a new empty `--target`.
 
 `DOWNLOAD_FAILED` / `CHECKSUM_MISMATCH` — core installation remains valid. Retry `opencode-he design bootstrap`; an unverified archive is never extracted.

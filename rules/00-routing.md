@@ -83,7 +83,7 @@ Never list unused tools or uncalled MCP methods as used.
 
 1. **Host Identity**: OpenCodeHighEnd runs on OpenCode 2. Never assume foreign host/gateway namespaces (e.g. `tools.antigravity.*`) in Code Mode execution scripts.
 2. **Session Tools**: Session manipulation in Code Mode is strictly `tools.opencode.session_move` and `tools.opencode.session_rename`. Always call `search()` before executing unknown tool paths.
-3. **Codebase Memory Path Verification**: Codebase Memory MCP operations (`index_repository`, `index_status`) strictly require verified, existing filesystem directory paths matching cwd or an explicit user path. Never guess or invent unverified sibling directory paths (e.g. `AntigravityHighEnd`). If an indexing worker reports an error or the path is missing, verify `cwd` or run `list_projects` first rather than retrying arbitrary paths.
+3. **Codebase Memory Path Verification**: Index cwd: verify the directory exists, then `opencode-he cbm status`. If CURRENT_REPO_NOT_INDEXED, `opencode-he cbm index .` (CLI adapter, `--mode fast`). Full graph is MCP `index_repository` with `mode: full` on that same verified path. Never invent a sibling path.
 
 ## Knowledge
 

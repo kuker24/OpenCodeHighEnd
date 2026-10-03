@@ -10,6 +10,8 @@ Owned:
 | context7 | remote HTTP | https://mcp.context7.com/mcp |
 | shadcn | local stdio | `npx -y shadcn@4.21.0 mcp` |
 
+Codebase indexing uses two adapters: CLI `opencode-he cbm status` and `opencode-he cbm index [path]` (runs `index_repository --mode fast` after path check), or MCP `index_repository` (`mode: full` for semantic graph). Rebuilding the index does not require reinstalling.
+
 Optional:
 
 - `serena` — `opencode-he serena enable` if the binary is on PATH
