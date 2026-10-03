@@ -10,7 +10,7 @@ Version **0.1.9**. The 65-skill catalog is strictly frozen.
 
 - 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
 - A thin `AGENTS.md` router (lazy, one primary specialist, 24 closed intents)
-- Core MCP: Codebase Memory, Context7, shadcn
+- Core MCP: Codebase Memory (dual CLI and MCP graph adapters), Context7, shadcn
 - 12 Universal Design Banks + Operator Banks (34,700+ items across Identity, Motion, Section, Atomic, and Oversight) with zero-token local search & Google Drive v3 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
 - Explicit specialist handoff graph (`found-this-design` pin → `impeccable` → `playwright-qa` verify edge)
@@ -21,7 +21,7 @@ Version **0.1.9**. The 65-skill catalog is strictly frozen.
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
-- `opencode-he doctor`, transactional install, uninstall, restore
+- `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not
@@ -61,6 +61,7 @@ exec "$SHELL"
 opencode-he verify
 opencode-he doctor
 opencode-he doctor --deep
+opencode-he cbm status
 opencode
 ```
 
