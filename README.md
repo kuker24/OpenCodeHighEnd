@@ -22,6 +22,7 @@ Version **0.1.9**. The 65-skill catalog is strictly frozen.
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
+- Selected skills adapted from Matt Pocock (`9c9f36c`) and pstack `23e4138` (0.15.6) with OpenCode host isolation and verification-loop rigor
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not
@@ -30,6 +31,7 @@ Version **0.1.9**. The 65-skill catalog is strictly frozen.
 - Not your provider keys, models, or auth state
 - Not a Design Bank media repository
 - Not a multi-agent swarm (explicit, artifact-gated specialist graph)
+- Not adopting foreign autopilot loops, swarms, or Cursor model rules: pstack selected skills are pinned to `23e4138` with OpenCode host adaptation; `poteto-mode`, `/how`, and `~/.cursor/rules/pstack-models.mdc` are rejected
 - Not vendoring external red-team playbooks like `deepteam` (optional external pointer only)
 - Not vendoring monolithic apps (`genoffice`, `monocode`, `openmuse`), external graph databases (`graphiti`, `cognee`), or Jev compose APIs
 - Not adding extra core MCP servers (core remains strictly Codebase Memory, Context7, and shadcn)
@@ -135,7 +137,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film doctrine for real app UI; catalog strictly 65/65) and pins Google Drive bootstrap to DesignBank v3.
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film doctrine for real app UI; catalog strictly 65/65) and pins Google Drive bootstrap to DesignBank v3. Upstream pin refresh: pstack selected skills pinned to `23e4138` (0.15.6) with host adaptation (`poteto-mode` rejected); mattpocock/skills pinned to `9c9f36c`.
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 
@@ -175,7 +177,7 @@ Native OpenCode 2 shape (`mcp.servers`, every entry has `type`, `disabled` not V
 
 Core (installed):
 
-- `codebase-memory-mcp` — downloaded, SHA-256 verified (archive and extracted binary), Linux x86_64, pin **0.11.0**. If the binary will not run, doctor reports `DEGRADED`, never fake `CONNECTED`. A 0.9.0 install must delete the download cache and `components/codebase-memory`, then re-run `./install.sh` (index rebuilds once).
+- `codebase-memory-mcp` — downloaded, SHA-256 verified (archive and extracted binary), Linux x86_64, pin **0.11.0**. Dual indexing adapters: CLI `opencode-he cbm index .` (`--mode fast`) and MCP tool `index_repository` (`mode: full`). If the binary will not run, doctor reports `DEGRADED`, never fake `CONNECTED`. Rebuilding the index does not require reinstalling unless checksums fail.
 - `context7` — `https://mcp.context7.com/mcp` (no secret stored)
 - `shadcn` — `npx -y shadcn@4.21.0 mcp`
 
@@ -355,4 +357,4 @@ See [docs/security.md](docs/security.md).
 
 ## Provenance & Licenses
 
-OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Selected skills are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (`9c9f36c`, MIT) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` pinned to `23e4138` (pstack 0.15.6, MIT) under OpenCode host conventions. Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
