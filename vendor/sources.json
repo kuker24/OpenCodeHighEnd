@@ -170,11 +170,12 @@
     },
     "pstack": {
       "repository": "https://github.com/cursor/plugins",
-      "commit": "60c641e4fad674784b30abcf9f8915dea39df38d",
+      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
       "subdir": "pstack",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
-      "licenseFile": "vendor/licenses/PSTACK-MIT.txt"
+      "licenseFile": "vendor/licenses/PSTACK-MIT.txt",
+      "note": "Evaluated at tip 23e4138 (pstack 0.15.6). Pstack selected skills retained with OpenCode host adaptation. Rejected upstream: poteto-mode, /how, /automate-me, /make-bot-ui, /bro, swarm, autopilot loops (ralph-loop, orchestrate, continual-learning), and ~/.cursor/rules/pstack-models.mdc model configuration."
     },
     "playwright-cli": {
       "repository": "https://github.com/microsoft/playwright-cli",
