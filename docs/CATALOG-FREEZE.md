@@ -2,8 +2,9 @@
 
 This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The 65-skill catalog is strictly frozen.
 
-- **Product version**: 0.1.9
+- **Product version**: 0.1.10
 - **Catalog**: 65 names. 50 model-invoked under `skills/`. 15 manual under `manual-skills/` + `commands/`.
+- **Wave 0.1.10**: catalog stays frozen at 65. No new exception. `found-this-design` indexes Oversight Supply; Design Bank bootstrap pin is DesignBank v3. pstack selected-skill provenance moves to `23e4138`; owned skill bodies are host adaptations, not an upstream body copy. `poteto-mode` stays rejected.
 - **Wave 0.1.9 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions; 0.1.8 exception is spent. Upstream `kaventro/motion-designer` merged into `business-motion-film` (product-film mode).
 - **Wave 0.1.8 limited unfreeze exception** (CHANGELOG 0.1.8): catalog stays 65 (50 model + 15 manual). Retired names: `img2threejs` (Three.js product-hero patterns moved to `business-motion-film` references), `prompt-optimizer` (overlaps `research` + `humanizer`). Added model-invoked: `business-motion-film` (from `echris6/motion-video-kit`, MIT), `ninerouter` (first-party gateway stub). Intent `img3d` replaced by `launch_film | gateway_llm`. This exception is spent.
 - **Wave 0.1.7 unfreeze exception** (CHANGELOG 0.1.7): catalog grew 62 → 65 to add `json-render`, `deck-design`, `pageindex`. No twin retired. (Spent).

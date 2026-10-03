@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.10 — 2026-10-03
+
+Rilis ini menutup kerja yang sudah di `main` setelah tag `v0.1.9`. Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist. Tidak ada penambahan atau pensiun skill.
+
+- `found-this-design`: badan skill diindeks ke Oversight Supply (template + 32 section) di samping 12 bank universal. Perubahan ini ada di `aa747fa`, setelah tag `v0.1.9`.
+- Design Bank bootstrap: pin default pindah ke `OpenCodeHighEnd-DesignBank-v3.zip` (SHA-256 `91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53`). Catatan rilis `v0.1.9` sudah menyebut pin ini, tetapi commit-nya belum masuk tag itu.
+- Adaptor indeks Codebase Memory didokumentasikan dua jalur: CLI `opencode-he cbm index .` (`--mode fast`) dan tool MCP `index_repository` (`mode: full`).
+- Pin pstack selected skills pindah `60c641e` → `23e4138` (0.15.6) di `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `THIRD_PARTY_NOTICES.md`, dan `docs/source-wave.md`. Badan skill lokal tidak disalin ulang dari upstream. Verification skills tetap menulis `.opencode/skills/verify-*`, bukan `.cursor/skills`. Statusnya adapted-from, bukan byte-identical.
+- Ditolak: `poteto-mode`, `/how`, `~/.cursor/rules/pstack-models.mdc`, konektor SaaS asing, dan loop autopilot (`ralph-loop`, `orchestrate`, `continual-learning`).
+- Versi produk 0.1.10.
+
 ## 0.1.9 — 2026-10-01
 
 Wave 0.1.9 body-only. Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist. Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.
