@@ -2,7 +2,7 @@
 
 This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The 65-skill catalog is strictly frozen.
 
-- **Product version**: 0.1.15
+- **Product version**: 0.1.16
 - **Catalog**: 65 names. 50 model-invoked under `skills/`. 15 manual under `manual-skills/` + `commands/`.
 - **Wave 0.1.16 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions. Post-release correction and Playwright emulation refinement: restored c44ef22 upstream deferral record in docs/source-wave.md and corrected attribution of anti-slop asset synchronization (restoring 0.1.0 local drift to upstream e8c4880, not fixing upstream); documented mandatory permissions array for Playwright QA geolocation emulation and clarified runtime split (cross-browser grantPermissions/setGeolocation vs Chromium CDP timezone/locale overrides).
 - **Wave 0.1.15 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions. Upstream sync and hygiene: synchronized vendored Oxlint ruleset assets in `skills/install-anti-slop` from `dmmulroy/anti-slop@e8c4880471b23ab7f216fba7b27d173a6ef07d4c` (v0.1.2) restoring upstream no-widen-then-assert.ts (local drift since 0.1.0); standardized Playwright QA timezone/locale/geolocation emulation doctrine with `.playwright/cli.config.json` context options as primary cross-browser method and `run-code` as Chromium CDP runtime alternative; removed dead imports `repo_root` from `lib/design_v2/bootstrap.py` and `tarfile` from `tests/test_design_bootstrap.py`.
