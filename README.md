@@ -22,7 +22,7 @@ Version **0.1.12**. The 65-skill catalog is strictly frozen.
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
-- Selected skills adapted from Matt Pocock (`9c9f36c`) and pstack `23e4138` (0.15.6) with OpenCode host isolation and verification-loop rigor
+- Selected skills adapted from Matt Pocock (`d81f3a1`) and pstack `23e4138` (0.15.6) with OpenCode host isolation and verification-loop rigor
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not
@@ -37,6 +37,18 @@ Version **0.1.12**. The 65-skill catalog is strictly frozen.
 - Not adding extra core MCP servers (core remains strictly Codebase Memory, Context7, and shadcn)
 - Not OpenCode 1.x (installer fails closed on 1.x)
 - Not claimed as macOS/Windows-tested (Linux x86_64 only for this release)
+
+## What's new (0.1.11 + 0.1.12)
+
+- **Web research intent & backend ladder (0.1.11)**: Added `web_research` closed intent (25 closed intents total) mapped to `research` with primary-source discipline and ethical data gathering (`references/web-data.md`).
+- **Scrapling optional MCP (0.1.11)**: Added `scrapling` as local stdio `FOREIGN_ON_DEMAND` MCP (`uvx --from scrapling[ai]==0.4.15 scrapling mcp`) with fail-closed safety (no `--http`, no `0.0.0.0`, no `scrapling install`).
+- **Agent-Reach host pointer (0.1.11)**: Documented `agent-reach` as pointer-only host CLI; doctor detects unmanaged skill shadowing.
+- **HyperFrames declarative render refresh (0.1.12)**: Upstream v0.8.119 (`3a0299e`) declarative data attributes (`data-composition-id`, `.clip` with `data-start`/`data-duration`), official CLI render pipeline, and Node ≥22 / local FFmpeg requirement.
+- **Code-driven animation prompt patterns (0.1.12)**: First-party `POINTER_ONLY` prompt patterns in `skills/hyperframes/references/prompt-patterns.md` (inspired by `awesome-opus5-5-videos` without vendoring third-party assets).
+- **Matt Pocock cluster GLOSSARY migration (0.1.12)**: Domain modeling conventions aligned to upstream v1.3 (`GLOSSARY.md` / `GLOSSARY-MAP.md` format) across all specialists and rules with backward compatibility for existing `CONTEXT.md` files; pin updated to `d81f3a1`.
+- **Humanizer v3.1.0 update (0.1.12)**: Upstream v3.1.0 (`225a6f3`) adding patterns 25 & 26 (meta-commentary and re-explaining known context).
+- **Catalog freeze strictly preserved**: Exactly 65 routed skills (50 model-invoked + 15 manual commands); zero additions or retirements.
+- **Core MCPs strictly preserved**: Codebase Memory (v0.11.0), Context7, and shadcn (`4.21.0`) remain the only core MCP servers.
 
 ## Quickstart
 
@@ -359,4 +371,4 @@ See [docs/security.md](docs/security.md).
 
 ## Provenance & Licenses
 
-OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Selected skills are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (`9c9f36c`, MIT) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` pinned to `23e4138` (pstack 0.15.6, MIT) under OpenCode host conventions. Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Selected skills are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (`d81f3a1`, MIT) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` pinned to `23e4138` (pstack 0.15.6, MIT) under OpenCode host conventions. Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
