@@ -216,7 +216,7 @@
     },
     "install-anti-slop": {
       "license": "MIT",
-      "evidence": "dmmulroy/anti-slop e8c4880 + vendor/licenses/DMMULROY-ANTI-SLOP-MIT.txt; NOTICE.md",
+      "evidence": "dmmulroy/anti-slop c44ef22 + vendor/licenses/DMMULROY-ANTI-SLOP-MIT.txt + vendor/licenses/ESLINT-STYLISTIC-MIT.txt; NOTICE.md",
       "redistribution": "mit"
     },
     "playwright-qa": {

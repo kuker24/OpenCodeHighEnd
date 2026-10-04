@@ -219,12 +219,21 @@
     },
     "anti-slop": {
       "repository": "https://github.com/dmmulroy/anti-slop",
-      "commit": "e8c4880471b23ab7f216fba7b27d173a6ef07d4c",
-      "version": "0.1.2",
+      "commit": "c44ef22ca116d0ba62a3ff663a0bd13a3f3fa40b",
+      "version": "0.1.2+c44ef22",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Dillon Mulroy",
       "licenseFile": "vendor/licenses/DMMULROY-ANTI-SLOP-MIT.txt",
-      "note": "Vendored rule snapshot for TS/JS projects with 5 modes (audit, recommended, strict, custom, update) and opt-in Effect rules."
+      "note": "Vendored rule snapshot for TS/JS projects with 5 modes (audit, recommended, strict, custom, update), 18 generic rules, and 5 opt-in Effect rules."
+    },
+    "eslint-stylistic": {
+      "repository": "https://github.com/eslint-stylistic/eslint-stylistic",
+      "commit": "435c3ea0fd26a5fef9042c4b36b6e165fbbf8d08",
+      "version": "v6.0.0-beta.6",
+      "license": "MIT",
+      "copyright": "Copyright OpenJS Foundation and other contributors, <www.openjsf.org>; Copyright (c) 2023-PRESENT ESLint Stylistic contributors",
+      "licenseFile": "vendor/licenses/ESLINT-STYLISTIC-MIT.txt",
+      "note": "Vendored padding-line rules adapted upstream by Dillon Mulroy for Oxlint AST."
     },
     "json-render": {
       "repository": "https://github.com/vercel-labs/json-render",

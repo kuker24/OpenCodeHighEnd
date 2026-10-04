@@ -498,13 +498,13 @@
       "component": "install-anti-slop",
       "path": "skills/install-anti-slop",
       "upstream": "https://github.com/dmmulroy/anti-slop",
-      "commit": "e8c4880471b23ab7f216fba7b27d173a6ef07d4c",
-      "version": "0.1.2",
+      "commit": "c44ef22ca116d0ba62a3ff663a0bd13a3f3fa40b",
+      "version": "0.1.2+c44ef22",
       "license": "MIT",
-      "copyright": "Copyright (c) 2026 Dillon Mulroy",
+      "copyright": "Copyright (c) 2026 Dillon Mulroy; OpenJS Foundation / ESLint Stylistic contributors",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Vendored rule snapshot with 5 modes (audit, recommended, strict, custom, update) and opt-in Effect rules."
+      "notes": "Vendored rule snapshot (38 assets) with 5 modes (audit, recommended, strict, custom, update), 18 generic rules, 5 opt-in Effect rules, and upstream-adapted eslint-stylistic padding rules."
     },
     {
       "component": "taste-guard",
