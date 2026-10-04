@@ -181,12 +181,19 @@ def mcp_status_map() -> dict[str, str]:
             if "--http" in joined or "0.0.0.0" in joined:
                 out[name] = "FAIL"
                 continue
-            pinned = any(
-                part == "markitdown-mcp" or str(part).startswith("markitdown-mcp==")
+            if cmd[0] != "uvx":
+                out[name] = "FAIL"
+                continue
+            has_pinned = any(
+                isinstance(part, str) and part.startswith("markitdown-mcp==")
                 for part in cmd
             )
-            if cmd[0] != "uvx" or not pinned:
+            has_bare = any(part == "markitdown-mcp" for part in cmd)
+            if not has_pinned and not has_bare:
                 out[name] = "FAIL"
+                continue
+            if not has_pinned and has_bare:
+                out[name] = "WARN"
                 continue
             out[name] = "CONFIGURED"
             continue
@@ -202,7 +209,7 @@ def mcp_status_map() -> dict[str, str]:
             if typ != "remote":
                 out[name] = "FAIL"
                 continue
-            if url not in ("http://127.0.0.1:11235/mcp", "https://api.crawl4ai.com/mcp"):
+            if url not in ("http://127.0.0.1:11235/mcp", "http://127.0.0.1:11235/mcp/sse", "https://api.crawl4ai.com/mcp"):
                 out[name] = "FAIL"
                 continue
             headers = spec.get("headers")
@@ -217,6 +224,9 @@ def mcp_status_map() -> dict[str, str]:
                 if headers is not None and not isinstance(headers, dict):
                     out[name] = "FAIL"
                     continue
+            if url == "http://127.0.0.1:11235/mcp":
+                out[name] = "WARN"
+                continue
             out[name] = "CONFIGURED"
             continue
         if name == "scrapling":
@@ -322,6 +332,10 @@ def cmd_mcp_status(deep: bool = False) -> int:
         extra = "binary-on-PATH" if name == "serena" and which("serena") else ""
         if name in live:
             extra = (extra + " " + live[name]).strip()
+        if name == "markitdown" and status == "WARN":
+            extra = (extra + " MARKITDOWN_UNPINNED").strip()
+        elif name == "crawl4ai" and status == "WARN":
+            extra = (extra + " CRAWL4AI_LEGACY_URL").strip()
         print(f"{status:<22} {name:<28} {extra}")
     return 0
 
@@ -543,7 +557,7 @@ def _research_tools_findings(f: Findings) -> None:
         f.add("OPTIONAL_ABSENT", "Agent-Reach CLI", "NOT_INSTALLED")
 
     skills_dir = config_dir() / "skills"
-    for shadow_name in ("agent-reach", "scrapling-official"):
+    for shadow_name in ("agent-reach", "scrapling-official", "context7-mcp"):
         cand = skills_dir / shadow_name
         if cand.is_dir() and not (cand / ".opencode-highend.json").is_file():
             f.add(
@@ -715,7 +729,28 @@ def cmd_doctor(deep: bool = False, strict: bool = False) -> int:
                 f.add("FAIL", f"mcp:{name}", live_st)
         else:
             serena_extra = "binary-on-PATH" if name == "serena" and which("serena") else extra
-            f.add(status, f"mcp:{name}", serena_extra)
+            if name == "markitdown" and status == "WARN":
+                evidence = "MARKITDOWN_UNPINNED"
+            elif name == "crawl4ai" and status == "WARN":
+                evidence = "CRAWL4AI_LEGACY_URL"
+            else:
+                evidence = serena_extra
+            f.add(status, f"mcp:{name}", evidence)
+
+    # Check for foreign MCP shadow context7-mcp in opencode config
+    cfg_file = None
+    for cand in (config_dir() / "opencode.jsonc", config_dir() / "opencode.json"):
+        if cand.is_file():
+            cfg_file = cand
+            break
+    if cfg_file:
+        try:
+            raw_cfg = jsonc.load_path(cfg_file)
+            svs = jsonc.mcp_servers_from_config(raw_cfg)
+            if "context7-mcp" in svs:
+                f.add("WARN", "FOREIGN_MCP_SHADOW", "context7-mcp: duplicate shadow of context7; remove server")
+        except Exception:
+            pass
 
     cbm = cbm_bin()
     if cbm and os.access(cbm, os.X_OK):

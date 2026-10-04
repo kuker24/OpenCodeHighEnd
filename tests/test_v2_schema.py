@@ -28,12 +28,12 @@ class V2SchemaTests(unittest.TestCase):
         self.assertIn("shadcn", spec)
         shadcn = spec["shadcn"]
         self.assertEqual(shadcn["type"], "local")
-        self.assertEqual(shadcn["command"], ["npx", "-y", "shadcn@4.21.0", "mcp"])
+        self.assertEqual(shadcn["command"], ["npx", "-y", "shadcn@4.21.1", "mcp"])
         self.assertIn("mcp", shadcn["command"])
         self.assertFalse(shadcn["disabled"])
 
         sources = jsonc.load_path(ROOT / "vendor" / "sources.json")["sources"]["shadcn"]
-        self.assertEqual(sources["version"], "4.21.0")
+        self.assertEqual(sources["version"], "4.21.1")
         self.assertEqual(sources["via"], "npx")
 
     def test_installer_rejects_opencode_1(self):

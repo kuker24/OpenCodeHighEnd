@@ -444,8 +444,15 @@ class DoctorDeepTests(IsolatedHome):
         with redirect_stdout(buf):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
-        self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
-        data["mcp"]["markitdown"]["command"] = ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"]
+        self.assertIn("WARN                   mcp:markitdown               MARKITDOWN_UNPINNED", buf.getvalue())
+        data["mcp"]["markitdown"]["command"] = [
+            "uvx",
+            "--from",
+            "markitdown-mcp==0.0.1a7",
+            "--with",
+            "markitdown[all]==0.1.8",
+            "markitdown-mcp",
+        ]
         cfg.write_text(jsonc.dumps(data), encoding="utf-8")
         buf = io.StringIO()
         with redirect_stdout(buf):
@@ -532,7 +539,7 @@ class DoctorDeepTests(IsolatedHome):
         data = jsonc.loads(cfg.read_text(encoding="utf-8"))
         data["mcp"]["crawl4ai"] = {
             "type": "remote",
-            "url": "http://127.0.0.1:11235/mcp",
+            "url": "http://127.0.0.1:11235/mcp/sse",
             "enabled": True,
         }
         cfg.write_text(jsonc.dumps(data), encoding="utf-8")
@@ -541,6 +548,15 @@ class DoctorDeepTests(IsolatedHome):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("CONFIGURED             mcp:crawl4ai", buf.getvalue())
+
+        # Legacy URL triggers WARN
+        data["mcp"]["crawl4ai"]["url"] = "http://127.0.0.1:11235/mcp"
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("WARN                   mcp:crawl4ai                 CRAWL4AI_LEGACY_URL", buf.getvalue())
 
     def test_doctor_crawl4ai_valid_cloud_passes(self):
         self._install()
@@ -567,7 +583,7 @@ class DoctorDeepTests(IsolatedHome):
         data = jsonc.loads(cfg.read_text(encoding="utf-8"))
         servers = jsonc.mcp_servers_from_config(data)
         self.assertIn("crawl4ai", servers)
-        self.assertEqual(servers["crawl4ai"]["url"], "http://127.0.0.1:11235/mcp")
+        self.assertEqual(servers["crawl4ai"]["url"], "http://127.0.0.1:11235/mcp/sse")
         self.assertNotIn("0.0.0.0", str(servers["crawl4ai"]))
         buf = io.StringIO()
         with redirect_stdout(buf):
@@ -795,6 +811,33 @@ class DoctorDeepTests(IsolatedHome):
         with redirect_stdout(buf):
             rc = cmd_doctor(strict=False)
         self.assertNotIn("FOREIGN_SKILL_SHADOW", buf.getvalue())
+
+        # Test context7-mcp skill shadow
+        c7_shadow = skills_dir / "context7-mcp"
+        c7_shadow.mkdir(parents=True, exist_ok=True)
+        (c7_shadow / "SKILL.md").write_text("---\nname: context7-mcp\n---\n", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor(strict=False)
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("context7-mcp: foreign skill hijacking router", buf.getvalue())
+        (c7_shadow / ".opencode-highend.json").write_text("{}", encoding="utf-8")
+
+        # Test context7-mcp server shadow in opencode.jsonc
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["servers"]["context7-mcp"] = {
+            "type": "remote",
+            "url": "https://mcp.context7.com/mcp",
+            "disabled": False,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor(strict=False)
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("WARN                   FOREIGN_MCP_SHADOW", buf.getvalue())
+        self.assertIn("context7-mcp: duplicate shadow of context7", buf.getvalue())
 
 
 if __name__ == "__main__":

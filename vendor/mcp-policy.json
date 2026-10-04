@@ -15,7 +15,7 @@
       "enabled": true,
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "shadcn@4.21.0", "mcp"]
+      "args": ["-y", "shadcn@4.21.1", "mcp"]
     },
     "exa": {
       "enabled": false,
@@ -43,7 +43,7 @@
       "enabled": false,
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "@reticlehq/server", "mcp"]
+      "args": ["-y", "@reticlehq/server@3.5.0", "mcp"]
     },
     "ui-skills": {
       "enabled": false,
@@ -54,12 +54,18 @@
       "enabled": false,
       "transport": "stdio",
       "command": "uvx",
-      "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"]
+      "args": [
+        "--from",
+        "markitdown-mcp==0.0.1a7",
+        "--with",
+        "markitdown[all]==0.1.8",
+        "markitdown-mcp"
+      ]
     },
     "crawl4ai": {
       "enabled": false,
       "transport": "http",
-      "url": "http://127.0.0.1:11235/mcp"
+      "url": "http://127.0.0.1:11235/mcp/sse"
     },
     "scrapling": {
       "enabled": false,

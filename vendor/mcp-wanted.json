@@ -22,7 +22,7 @@
       "scope": "user",
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "shadcn@4.21.0", "mcp"]
+      "args": ["-y", "shadcn@4.21.1", "mcp"]
     },
     "exa": {
       "wanted": false,
@@ -53,7 +53,7 @@
       "scope": "user",
       "transport": "stdio",
       "command": "npx",
-      "args": ["-y", "@reticlehq/server", "mcp"],
+      "args": ["-y", "@reticlehq/server@3.5.0", "mcp"],
       "status": "FOREIGN_ON_DEMAND"
     },
     "ui-skills": {
@@ -70,7 +70,13 @@
       "scope": "user",
       "transport": "stdio",
       "command": "uvx",
-      "args": ["--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
+      "args": [
+        "--from",
+        "markitdown-mcp==0.0.1a7",
+        "--with",
+        "markitdown[all]==0.1.8",
+        "markitdown-mcp"
+      ],
       "status": "FOREIGN_ON_DEMAND"
     },
     "crawl4ai": {
@@ -78,7 +84,7 @@
       "ownedIfAdded": false,
       "scope": "user",
       "transport": "http",
-      "url": "http://127.0.0.1:11235/mcp",
+      "url": "http://127.0.0.1:11235/mcp/sse",
       "status": "FOREIGN_ON_DEMAND"
     },
     "scrapling": {

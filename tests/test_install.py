@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT))
 from lib import jsonc  # noqa: E402
 from lib.install import (  # noqa: E402
     backup_relevant,
+    cmd_crawl4ai_enable,
     cmd_install,
     cmd_restore,
     cmd_markitdown_disable,
@@ -475,7 +476,7 @@ class InstallTests(unittest.TestCase):
         self.assertIn("reticle", data["mcp"]["servers"])
         ret_spec = data["mcp"]["servers"]["reticle"]
         self.assertEqual(ret_spec["type"], "local")
-        self.assertEqual(ret_spec["command"], ["npx", "-y", "@reticlehq/server", "mcp"])
+        self.assertEqual(ret_spec["command"], ["npx", "-y", "@reticlehq/server@3.5.0", "mcp"])
         self.assertIs(ret_spec.get("disabled"), False)
 
         # Idempotent enable
@@ -573,7 +574,17 @@ class InstallTests(unittest.TestCase):
         self.assertIn("markitdown", data["mcp"]["servers"])
         md_spec = data["mcp"]["servers"]["markitdown"]
         self.assertEqual(md_spec["type"], "local")
-        self.assertEqual(md_spec["command"], ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"])
+        self.assertEqual(
+            md_spec["command"],
+            [
+                "uvx",
+                "--from",
+                "markitdown-mcp==0.0.1a7",
+                "--with",
+                "markitdown[all]==0.1.8",
+                "markitdown-mcp",
+            ],
+        )
         self.assertIs(md_spec.get("disabled"), False)
 
         self.assertEqual(cmd_markitdown_enable(), 0)
@@ -658,6 +669,89 @@ class InstallTests(unittest.TestCase):
                 download_codebase_memory()
             self.assertEqual(ctx.exception.code, 1)
 
+    def test_legacy_mcp_migration_replaces_old_pins_and_preserves_comments(self):
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        cfg.parent.mkdir(parents=True, exist_ok=True)
+        cfg.write_text(
+            """{
+  // user comment before mcp
+  "mcp": {
+    "servers": {
+      // legacy reticle server
+      "reticle": {
+        "type": "local",
+        "command": ["npx", "-y", "@reticlehq/server", "mcp"],
+        "disabled": false
+      },
+      // legacy markitdown server
+      "markitdown": {
+        "type": "local",
+        "command": ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
+        "disabled": false
+      },
+      // legacy crawl4ai server
+      "crawl4ai": {
+        "type": "remote",
+        "url": "http://127.0.0.1:11235/mcp",
+        "disabled": false
+      }
+    }
+  }
+}
+""",
+            encoding="utf-8",
+        )
+
+        # Run enable on reticle -> upgrades to @reticlehq/server@3.5.0
+        self.assertEqual(cmd_reticle_enable(), 0)
+        # Run enable on markitdown -> upgrades to markitdown-mcp==0.0.1a7 with markitdown[all]==0.1.8
+        self.assertEqual(cmd_markitdown_enable(), 0)
+        # Run enable on crawl4ai -> upgrades to http://127.0.0.1:11235/mcp/sse
+        self.assertEqual(cmd_crawl4ai_enable(), 0)
+
+        text = cfg.read_text(encoding="utf-8")
+        self.assertIn("// user comment before mcp", text)
+        data = jsonc.loads(text)
+        svs = data["mcp"]["servers"]
+        self.assertEqual(svs["reticle"]["command"], ["npx", "-y", "@reticlehq/server@3.5.0", "mcp"])
+        self.assertEqual(
+            svs["markitdown"]["command"],
+            [
+                "uvx",
+                "--from",
+                "markitdown-mcp==0.0.1a7",
+                "--with",
+                "markitdown[all]==0.1.8",
+                "markitdown-mcp",
+            ],
+        )
+        self.assertEqual(svs["crawl4ai"]["url"], "http://127.0.0.1:11235/mcp/sse")
+
+    def test_user_customized_mcp_not_overwritten(self):
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        cfg.parent.mkdir(parents=True, exist_ok=True)
+        cfg.write_text(
+            """{
+  "mcp": {
+    "servers": {
+      "reticle": {
+        "type": "local",
+        "command": ["npx", "-y", "@reticlehq/server@custom", "--verbose"],
+        "disabled": false
+      }
+    }
+  }
+}
+""",
+            encoding="utf-8",
+        )
+        self.assertEqual(cmd_reticle_enable(), 0)
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        # Custom spec is NOT overwritten
+        self.assertEqual(
+            data["mcp"]["servers"]["reticle"]["command"],
+            ["npx", "-y", "@reticlehq/server@custom", "--verbose"],
+        )
 
 
 if __name__ == "__main__":

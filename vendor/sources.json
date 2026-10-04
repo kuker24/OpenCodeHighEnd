@@ -14,7 +14,7 @@
     "shadcn": {
       "repository": "https://github.com/shadcn-ui/ui",
       "package": "shadcn",
-      "version": "4.21.0",
+      "version": "4.21.1",
       "via": "npx",
       "engines": {
         "node": ">=20.18.1"
@@ -48,7 +48,7 @@
     },
     "reticle": {
       "package": "@reticlehq/server",
-      "version": "3.1.0",
+      "version": "3.5.0",
       "transport": "stdio",
       "via": "npx",
       "license": "FSL-1.1-ALv2",
@@ -70,7 +70,7 @@
       "via": "uvx",
       "transport": "stdio",
       "status": "foreign-on-demand",
-      "note": "Optional MCP via uvx --from markitdown-mcp==0.1.8. Not vendored. No Azure keys. Enabled via opencode-he markitdown enable."
+      "note": "Optional MCP via uvx --from markitdown-mcp==0.0.1a7 --with markitdown[all]==0.1.8 markitdown-mcp. Not vendored. No Azure keys. Enabled via opencode-he markitdown enable."
     },
     "scrapling": {
       "repository": "https://github.com/D4Vinci/Scrapling",

@@ -318,7 +318,7 @@ def owned_mcp_spec(cbm_bin: Path) -> dict:
         },
         "shadcn": {
             "type": "local",
-            "command": ["npx", "-y", "shadcn@4.21.0", "mcp"],
+            "command": ["npx", "-y", "shadcn@4.21.1", "mcp"],
             "disabled": False,
         },
     }
@@ -1366,6 +1366,52 @@ def _optional_mcp_present(mcp: dict, name: str) -> bool:
     return name in servers or name in mcp
 
 
+LEGACY_OCH_MCP_SPECS: dict[str, list[dict[str, object]]] = {
+    "markitdown": [
+        {
+            "type": "local",
+            "command": ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
+        },
+    ],
+    "reticle": [
+        {
+            "type": "local",
+            "command": ["npx", "-y", "@reticlehq/server", "mcp"],
+        },
+    ],
+    "crawl4ai": [
+        {
+            "type": "remote",
+            "url": "http://127.0.0.1:11235/mcp",
+        },
+    ],
+}
+
+
+def _get_existing_mcp_server(mcp: dict, name: str) -> object:
+    servers = mcp.get("servers") if isinstance(mcp.get("servers"), dict) else {}
+    if name in servers:
+        return servers[name]
+    return mcp.get(name)
+
+
+def _is_legacy_och_mcp_spec(name: str, existing_spec: object) -> bool:
+    if not isinstance(existing_spec, dict):
+        return False
+    candidates = LEGACY_OCH_MCP_SPECS.get(name, [])
+    for cand in candidates:
+        match = True
+        for k, v in cand.items():
+            if existing_spec.get(k) != v:
+                match = False
+                break
+        if match:
+            allowed_keys = set(cand.keys()) | {"disabled", "enabled"}
+            if set(existing_spec.keys()).issubset(allowed_keys):
+                return True
+    return False
+
+
 def _optional_mcp_enable(name: str, spec: dict[str, object], already_present_msg: str | None = None) -> int:
     path = target_config_path()
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -1385,8 +1431,12 @@ def _optional_mcp_enable(name: str, spec: dict[str, object], already_present_msg
     if not isinstance(mcp, dict):
         die("OPENCODE_CONFIG_INVALID mcp")
     if _optional_mcp_present(mcp, name):
-        info(already_present_msg or f"{name} MCP already present; not overwriting")
-        return 0
+        existing = _get_existing_mcp_server(mcp, name)
+        if _is_legacy_och_mcp_spec(name, existing):
+            info(f"migrating legacy {name} MCP spec in {path}")
+        else:
+            info(already_present_msg or f"{name} MCP already present; not overwriting")
+            return 0
     if jsonc.contains_comments(raw):
         try:
             merged = jsonc.upsert_mcp_servers(raw, {name: spec})
@@ -1468,7 +1518,7 @@ def cmd_stitch_disable() -> int:
 def cmd_reticle_enable() -> int:
     spec: dict[str, object] = {
         "type": "local",
-        "command": ["npx", "-y", "@reticlehq/server", "mcp"],
+        "command": ["npx", "-y", "@reticlehq/server@3.5.0", "mcp"],
         "disabled": False,
     }
     return _optional_mcp_enable("reticle", spec)
@@ -1481,7 +1531,14 @@ def cmd_reticle_disable() -> int:
 def cmd_markitdown_enable() -> int:
     spec: dict[str, object] = {
         "type": "local",
-        "command": ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
+        "command": [
+            "uvx",
+            "--from",
+            "markitdown-mcp==0.0.1a7",
+            "--with",
+            "markitdown[all]==0.1.8",
+            "markitdown-mcp",
+        ],
         "disabled": False,
     }
     return _optional_mcp_enable("markitdown", spec)
@@ -1519,7 +1576,7 @@ def cmd_crawl4ai_enable(cloud: bool = False) -> int:
     else:
         spec = {
             "type": "remote",
-            "url": "http://127.0.0.1:11235/mcp",
+            "url": "http://127.0.0.1:11235/mcp/sse",
             "disabled": False,
         }
     return _optional_mcp_enable(
