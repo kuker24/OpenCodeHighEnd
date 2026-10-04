@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.1.17 — 2026-10-04
+
+Rilis sinkronisasi Wave 0.1.17 untuk pembaruan penuh aset anti-slop ke commit HEAD upstream `dmmulroy/anti-slop@c44ef22ca116d0ba62a3ff663a0bd13a3f3fa40b` (label versi `0.1.2+c44ef22 (untagged main, post-v0.1.2)`). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
+
+- **Sinkronisasi penuh aset anti-slop (c44ef22)**: Menyinkronkan seluruh 38 berkas aset linter Oxlint di `skills/install-anti-slop/assets/anti-slop` secara byte-identik dari upstream snapshot `c44ef22ca116d0ba62a3ff663a0bd13a3f3fa40b` (15 berkas baru, 5 berkas diperbarui, 18 berkas identik). Termasuk penambahan 3 aturan generik baru (`no-array-filter-map`, `no-reduce-accumulator-copy`, `require-readable-spacing`), 4 aturan Effect baru (`no-manual-effect-error-tag`, `no-manual-tag-comparison`, `no-manual-tagged-construction`, `prefer-effect-match`), modul pembantu `shared/array-method.ts` dan `shared/scope.ts`, serta adaptasi upstream dari `eslint-stylistic` (tag `v6.0.0-beta.6`, MIT).
+- **Rekonsiliasi profil dan aturan**:
+  - Profil `recommended` dipertahankan pada 4 aturan asersi keamanan tipe berkekuatan sinyal tinggi (`no-chained-type-assertions`, `no-widen-then-assert`, `no-known-value-widening`, `require-safety-comment-for-type-assertion`), tanpa memasukkan `require-readable-spacing` demi menghindari bentrok dengan formatter eksternal.
+  - Profil `strict` diperluas menjadi 18 aturan generik plus aturan bawaan companion `"oxc/no-accumulating-spread": "error"`.
+  - Grup aturan `effect` diperluas menjadi 5 aturan arsitektural Effect.
+- **Mode update non-destruktif dan perbaikan skrip**:
+  - Mode `update` pada `scripts/manage.mjs` diubah menjadi non-destruktif mengikuti doktrin upstream `references/update.md`: melakukan perbandingan staged dry-run dan mencetak klasifikasi per berkas (`[ADD]`, `[CHANGE]`, `[SAME]`, `[LOCAL-ONLY]`) tanpa memutasi repositori, serta mewajibkan bendera `--force` untuk menerapkan perubahan.
+  - Penggabungan konfigurasi `jsPlugins` pada `.oxlintrc.json` kini dilakukan per entri `name` guna mencegah penimpaan plugin pihak ketiga yang sudah ada.
+  - Berkas `scripts/install.mjs` dikembalikan ke status byte-identik upstream (`db1f155bd15c065ddb6024042dea7ca4992551b2`).
+  - Berkas panduan `references/update.md` disertakan byte-identik dari upstream (`b2e7f6751a7a97406b768ed5bf950d883c17e9a6`).
+- **Atribusi lisensi dan provenance**: Menambahkan salinan lisensi MIT untuk `eslint-stylistic` di `vendor/licenses/ESLINT-STYLISTIC-MIT.txt`, memperbarui `skills/install-anti-slop/NOTICE.md`, `THIRD_PARTY_NOTICES.md`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, serta mengubah disposisi `anti-slop` di `docs/source-wave.md` menjadi `**SYNCED**`.
+- **Versi Produk**: Bump versi ke `0.1.17` (`VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `README.md`, `docs/CATALOG-FREEZE.md`).
+
 ## 0.1.16 — 2026-10-04
 
 Patch koreksi pasca-0.1.15 untuk atribusi aset anti-slop, pemulihan catatan penundaan upstream c44ef22, dan penyempurnaan emulasi Playwright QA (permissions geolokasi). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
