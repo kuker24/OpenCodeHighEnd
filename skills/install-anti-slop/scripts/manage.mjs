@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -14,11 +16,13 @@ const RECOMMENDED_RULES = {
 };
 
 const STRICT_RULES = {
+  "anti-slop/no-array-filter-map": "error",
   "anti-slop/no-chained-type-assertions": "error",
   "anti-slop/no-conditional-empty-object-spread": "error",
   "anti-slop/no-known-value-widening": "error",
   "anti-slop/no-module-mocking": "error",
   "anti-slop/no-object-parameters": "error",
+  "anti-slop/no-reduce-accumulator-copy": "error",
   "anti-slop/no-reflect-apply": "error",
   "anti-slop/no-reflect-get": "error",
   "anti-slop/no-runtime-typeof": "error",
@@ -28,11 +32,17 @@ const STRICT_RULES = {
   "anti-slop/no-unknown-type-aliases": "error",
   "anti-slop/no-unsafe-dictionary-type": "error",
   "anti-slop/no-widen-then-assert": "error",
+  "anti-slop/require-readable-spacing": "error",
   "anti-slop/require-safety-comment-for-type-assertion": "error",
+  "oxc/no-accumulating-spread": "error",
 };
 
 const EFFECT_RULES = {
+  "anti-slop-effect/no-manual-effect-error-tag": "error",
+  "anti-slop-effect/no-manual-tag-comparison": "error",
+  "anti-slop-effect/no-manual-tagged-construction": "error",
   "anti-slop-effect/no-service-constructor-imports": "error",
+  "anti-slop-effect/prefer-effect-match": "error",
 };
 
 const DEFAULT_IGNORES = [
@@ -66,6 +76,27 @@ function parseArgs() {
   const json = args.includes("--json");
   const targetDir = args.find((a, i) => i > 0 && !a.startsWith("--") && args[i - 1] !== "--profile") || "tools/oxlint/anti-slop";
   return { command, profile, withEffect, force, json, targetDir };
+}
+
+function getFiles(dir, base = "") {
+  let results = [];
+  if (!existsSync(dir)) return results;
+  const list = readdirSync(dir, { withFileTypes: true });
+  for (const dirent of list) {
+    const rel = base ? `${base}/${dirent.name}` : dirent.name;
+    const full = join(dir, dirent.name);
+    if (dirent.isDirectory()) {
+      results = results.concat(getFiles(full, rel));
+    } else if (dirent.isFile()) {
+      results.push(rel);
+    }
+  }
+  return results;
+}
+
+function fileHash(path) {
+  const content = readFileSync(path);
+  return createHash("sha256").update(content).digest("hex");
 }
 
 function runAudit(cwd, options) {
@@ -120,7 +151,18 @@ function runInstall(cwd, options) {
     try {
       const existing = JSON.parse(readFileSync(configJson, "utf-8"));
       existing.ignorePatterns = [...new Set([...(existing.ignorePatterns || []), ...ignores])];
-      existing.jsPlugins = jsPlugins;
+      
+      const existingPlugins = Array.isArray(existing.jsPlugins) ? existing.jsPlugins : [];
+      const mergedPlugins = [...existingPlugins];
+      for (const plugin of jsPlugins) {
+        const idx = mergedPlugins.findIndex((p) => (typeof p === "string" ? p === plugin.name : p?.name === plugin.name));
+        if (idx >= 0) {
+          mergedPlugins[idx] = plugin;
+        } else {
+          mergedPlugins.push(plugin);
+        }
+      }
+      existing.jsPlugins = mergedPlugins;
       existing.rules = { ...(existing.rules || {}), ...selectedRules };
       writeFileSync(configJson, JSON.stringify(existing, null, 2) + "\n", "utf-8");
     } catch (e) {
@@ -144,6 +186,94 @@ export default defineConfig({
   console.log(`Rules configured: ${Object.keys(selectedRules).length}`);
   console.log(`To run: ${pkgManager === "npm" ? "npx oxlint" : `${pkgManager} oxlint`}`);
   return 0;
+}
+
+function runUpdate(cwd, options) {
+  const target = resolve(cwd, options.targetDir);
+  const relTarget = relative(cwd, target).replace(/\\/g, "/");
+
+  if (!existsSync(target)) {
+    console.error(`No existing anti-slop installation found at ${target}. Use install first.`);
+    return 1;
+  }
+
+  // Staging for dry-run comparison
+  const stageDir = mkdtempSync(join(tmpdir(), "anti-slop-update-"));
+  const stageTarget = join(stageDir, "incoming");
+  cpSync(assetSource, stageTarget, { recursive: true });
+
+  const incomingFiles = new Set(getFiles(stageTarget));
+  const liveFiles = new Set(getFiles(target));
+  const allRelFiles = Array.from(new Set([...incomingFiles, ...liveFiles])).sort();
+
+  const classifications = {
+    add: [],
+    change: [],
+    same: [],
+    localOnly: [],
+  };
+
+  for (const rel of allRelFiles) {
+    const inIncoming = incomingFiles.has(rel);
+    const inLive = liveFiles.has(rel);
+
+    if (inIncoming && !inLive) {
+      classifications.add.push(rel);
+    } else if (!inIncoming && inLive) {
+      classifications.localOnly.push(rel);
+    } else {
+      const incomingHash = fileHash(join(stageTarget, rel));
+      const liveHash = fileHash(join(target, rel));
+      if (incomingHash === liveHash) {
+        classifications.same.push(rel);
+      } else {
+        classifications.change.push(rel);
+      }
+    }
+  }
+
+  rmSync(stageDir, { recursive: true, force: true });
+
+  if (!options.force) {
+    const summary = {
+      add: classifications.add.length,
+      change: classifications.change.length,
+      same: classifications.same.length,
+      localOnly: classifications.localOnly.length,
+    };
+
+    if (options.json) {
+      console.log(
+        JSON.stringify(
+          {
+            mode: "update",
+            target: relTarget,
+            dryRun: true,
+            mutations: 0,
+            classifications,
+            summary,
+          },
+          null,
+          2
+        )
+      );
+    } else {
+      console.log(`=== Anti-Slop Update Review (Dry-run: no files modified) ===`);
+      console.log(`Target: ${relTarget}`);
+      for (const f of classifications.add) console.log(`  [ADD]        ${f}`);
+      for (const f of classifications.change) console.log(`  [CHANGE]     ${f}`);
+      for (const f of classifications.localOnly) console.log(`  [LOCAL-ONLY] ${f}`);
+      for (const f of classifications.same) console.log(`  [SAME]       ${f}`);
+      console.log(
+        `Summary: ${summary.add} to add, ${summary.change} to change, ${summary.same} unchanged, ${summary.localOnly} local-only.`
+      );
+      console.log("No modifications made to repository (reviewed merge doctrine).");
+      console.log("To apply changes and overwrite live files, re-run with --force.");
+    }
+    return 0;
+  }
+
+  return runInstall(cwd, { ...options, force: true });
 }
 
 function runRemove(cwd, options) {
@@ -174,7 +304,7 @@ function main() {
   } else if (options.command === "install") {
     process.exit(runInstall(cwd, options));
   } else if (options.command === "update") {
-    process.exit(runInstall(cwd, { ...options, force: true }));
+    process.exit(runUpdate(cwd, options));
   } else if (options.command === "remove") {
     process.exit(runRemove(cwd, options));
   } else {
