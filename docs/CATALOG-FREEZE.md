@@ -2,8 +2,9 @@
 
 This contract defines the immutable boundary and governance for the OpenCodeHighEnd catalog. The 65-skill catalog is strictly frozen.
 
-- **Product version**: 0.1.11
+- **Product version**: 0.1.12
 - **Catalog**: 65 names. 50 model-invoked under `skills/`. 15 manual under `manual-skills/` + `commands/`.
+- **Wave 0.1.12 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions. Upstream hyperframes refreshed to v0.8.119 (declarative data attributes, CLI render pipeline); awesome-opus5-5-videos added as first-party POINTER_ONLY prompt patterns reference; Matt Pocock cluster migrated to GLOSSARY.md convention with legacy CONTEXT.md fallback; dead game-asset-core references removed; humanizer bumped to v3.1.0 with patterns 25 & 26; diagram-design pinned to 2.6.51; impeccable v4.5.0 deferred.
 - **Wave 0.1.11 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions. Adds closed intent `web_research` mapped to existing skill `research` (body-only update + `references/web-data.md`). Scrapling added as optional MCP `FOREIGN_ON_DEMAND`. Agent-Reach documented as `POINTER_ONLY` host CLI. Patchright-Enhanced strictly rejected.
 - **Wave 0.1.10**: catalog stays frozen at 65. No new exception. `found-this-design` indexes Oversight Supply; Design Bank bootstrap pin is DesignBank v3. pstack selected-skill provenance moves to `23e4138`; owned skill bodies are host adaptations, not an upstream body copy. `poteto-mode` stays rejected.
 - **Wave 0.1.9 body-only**: catalog strictly frozen at 65 (50 model + 15 manual). Zero catalog growth. No new exceptions; 0.1.8 exception is spent. Upstream `kaventro/motion-designer` merged into `business-motion-film` (product-film mode).

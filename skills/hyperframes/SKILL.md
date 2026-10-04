@@ -19,31 +19,34 @@ Unlike generative video models that hallucinate frames, HyperFrames builds video
 | In-app micro-interactions, hover/press, easing on interactive UI | `emil-design-eng` (after `impeccable`) |
 | Scroll-driven narrative storytelling website (scrollytelling) | `scroll-craft` |
 | Continuous 3D fly-through, camera-scrub diorama page | `scroll-world` |
+| Commercials, launch films, business explainers, sample reels | `business-motion-film` (render via `hyperframes`) |
 | **Deterministic HTML composition rendered to video** | **`hyperframes`** |
 
 ## Environment & Availability
 
 HyperFrames executes locally:
-1. **Local CLI:** `npx hyperframes` or local project rendering script.
-2. **Runtime Prerequisites:** Headless Chromium/Chrome and FFmpeg.
+1. **Local CLI:** `npx hyperframes init <dir>`, `npx hyperframes preview`, and `npx hyperframes render [dir] -o <path> -f <fps> -q <quality>`.
+2. **Runtime Prerequisites:** Node.js ≥22, local FFmpeg, and Headless Chromium/Chrome.
 
-If local rendering tools or FFmpeg are absent:
+If Node <22 or FFmpeg is absent:
 - Mark execution as `NOT_CONFIGURED` or `DEGRADED`.
-- Output the self-contained HTML/CSS composition files and precise rendering CLI commands.
+- Output self-contained HTML/CSS composition files and exact rendering CLI commands.
 - **Never** make silent remote HeyGen API calls or request confidential API keys. Hosted services remain opt-in only.
 
 ## References
 
 Load the specific reference required for the task:
 
-- [references/composition.md](references/composition.md) — HTML composition layout, aspect ratios, seekable timeline contracts.
-- [references/render.md](references/render.md) — Headless Chrome capture, frame stepping, FFmpeg encoding parameters.
+- [references/composition.md](references/composition.md) — HTML composition layout, aspect ratios, seekable timeline contracts (`data-composition-id`, timed clips).
+- [references/render.md](references/render.md) — Official CLI render workflows, quality flags, Headless Chrome frame stepping, and FFmpeg encoding.
+- [references/prompt-patterns.md](references/prompt-patterns.md) — Code-video prompt pattern gallery adaptation, shot translation, and quality gates (POINTER_ONLY).
 - [references/workflows.md](references/workflows.md) — Workflow archetypes (product launch, animated explainer, motion graphics, data video).
 - [references/brag.md](references/brag.md) — 18-second product launch / brag card recipe, local assets, exact output path.
 
 ## Hard Rules
 
 1. **Deterministic Timelines:** Animations must be scrubbable/seekable by a master time parameter (`t` in seconds or frame number `f`). Avoid non-deterministic `Math.random()` or real-time `setInterval` that drifts during frame capture.
-2. **Exact Dimensions:** Explicitly set viewport and canvas dimensions matching standard video resolutions (e.g. 1920x1080 for 16:9 landscape, 1080x1920 for 9:16 vertical/shorts).
+2. **Exact Dimensions:** Declare viewport and canvas dimensions via root `data-width` and `data-height` (e.g. 1920x1080 for 16:9 landscape, 1080x1920 for 9:16 vertical/shorts).
 3. **Local Assets First:** Prefer SVG, Canvas, embedded fonts, and local images over external CDN links to guarantee offline reproducibility.
-4. **Clean Handoff:** If audio tracks (voiceover, BGM) are provided, synchronize cue points in the timeline and multiplex audio during the FFmpeg pass.
+4. **No Foreign Skill Pollution:** Do NOT execute `npx skills add heygen-com/hyperframes` or `npx hyperframes skills update`. Both commands write unmanaged skills into agent skill directories, violating the frozen catalog contract. Status is `FOREIGN_ON_DEMAND` and pointer-only. Registry blocks (`npx hyperframes add <block>`) are added only on explicit user request.
+5. **Clean Handoff:** If audio tracks (voiceover, BGM) are provided, synchronize cue points in the timeline and multiplex audio during the FFmpeg pass.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.12 — 2026-10-04
+
+Wave 0.1.12 body-only ("skill-refresh"). Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist (`vendor/skill-allowlist.txt` tidak berubah). Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.
+
+- `hyperframes`: Pembaruan ke upstream v0.8.119 (commit `3a0299e851ce`). Mengadaptasi kontrak render deklaratif berbasis data attributes (`data-composition-id`, `data-width`, `data-height`, `data-fps` pada elemen root dan `data-start`, `data-duration`, `data-track-index` pada elemen klip berkelas `.clip`). Memperbarui pipeline CLI resmi (`npx hyperframes render [dir] -o <path> -f <fps> -q <quality> [--format]`) dengan fallback CDP/FFmpeg. Menegaskan prasyarat Node.js ≥22 dan FFmpeg lokal (jika tidak lengkap -> `NOT_CONFIGURED`, dilarang melaporkan PASS palsu). Menolak instalasi skill luar (`npx skills add heygen-com/hyperframes` dan `npx hyperframes skills update` dilarang).
+- `awesome-opus5-5-videos`: Penambahan referensi first-party `POINTER_ONLY` di `skills/hyperframes/references/prompt-patterns.md` (snapshot `3d54892e2ae5b0e8d337171e6508bba4cec01ab8`, 2026-09-29). Menjelaskan translasi prompt viral satu baris menjadi brief HyperFrames berparameter deterministik tanpa menyalin prompt, dataset, atau media pihak ketiga. Menambahkan pointer di `rules/00-routing.md`.
+- Migrasi Matt Pocock cluster: Format nama domain glossary diperbarui dari konvensi lama `CONTEXT.md` / `CONTEXT-MAP.md` menjadi `GLOSSARY.md` / `GLOSSARY-MAP.md` mengikuti upstream v1.3. Berkas `skills/domain-modeling/CONTEXT-FORMAT.md` dipindahkan menjadi `GLOSSARY-FORMAT.md`. Seluruh referensi pada spesialis dan aturan (`domain-modeling`, `grill-with-docs`, `codebase-design`, `tdd`, `diagnosing-bugs`, `/improve-codebase-architecture`, `/why`, `00-routing.md`, `03-prose-discipline.md`) diselaraskan ke `GLOSSARY.md`. Fallback kompatibilitas backward dipertahankan di `domain-modeling` dan `grill-with-docs` agar repositori pengguna yang sudah memiliki `CONTEXT.md` tetap terbaca tanpa diubah secara sepihak. Menolak impor skill baru dari upstream (`implement-spec`, `pr`, `retro`).
+- Pembersihan referensi mati & bump minor: Menghapus referensi `game-asset-core` pada `visual-studio` dan `scroll-world`, digantikan status `NOT_APPLICABLE (out of catalog)` sesuai batas routing. `humanizer` diperbarui ke v3.1.0 (`225a6f39ac85`) dengan adaptasi pola 25 & 26 (menulis tentang dokumen itu sendiri dan menjelaskan ulang konteks yang sudah diketahui). `diagram-design` di-pin ke 2.6.51 (`f903933a534b`). Evaluasi upstream `impeccable` v4.5.0 ditunda (deferred) demi menjaga integritas batas catalog freeze dan arsitektur specialist.
+- Sumber dan pin diperbarui di `VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `docs/CATALOG-FREEZE.md`, `docs/source-wave.md`, dan `README.md`. Versi produk 0.1.12.
+
 ## 0.1.11 — 2026-10-04
 
 Wave 0.1.11 body-only ("web_research" data-gathering). Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist (`vendor/skill-allowlist.txt` tidak berubah). Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.

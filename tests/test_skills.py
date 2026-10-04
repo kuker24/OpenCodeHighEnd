@@ -181,5 +181,92 @@ class SkillFrontmatterTests(unittest.TestCase):
             self.assertLess(score, OVERLAP_WARN, f"Overlap between research and {name} is {score:.2f} >= {OVERLAP_WARN}")
 
 
+class SkillRefreshTests(unittest.TestCase):
+    def test_hyperframes_refresh(self):
+        comp = (ROOT / "skills" / "hyperframes" / "references" / "composition.md").read_text(encoding="utf-8")
+        self.assertIn("data-composition-id", comp)
+        self.assertIn("data-width", comp)
+        self.assertIn("data-height", comp)
+        self.assertIn("data-start", comp)
+        self.assertIn("data-duration", comp)
+        self.assertNotIn("window.renderFrame", comp)
+
+        render = (ROOT / "skills" / "hyperframes" / "references" / "render.md").read_text(encoding="utf-8")
+        self.assertIn("npx hyperframes render", render)
+        self.assertIn("Node.js ≥22", render)
+        self.assertIn("NOT_CONFIGURED", render)
+
+        brag = (ROOT / "skills" / "hyperframes" / "references" / "brag.md").read_text(encoding="utf-8")
+        self.assertIn("data-composition-id", brag)
+        self.assertIn("npx hyperframes render . -o brag-output/brag.mp4 -f 60 -q delivery", brag)
+        self.assertNotIn("-W 1920", brag)
+        self.assertNotIn("-H 1080", brag)
+        self.assertNotIn("-d 18", brag)
+
+        skill = (ROOT / "skills" / "hyperframes" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("references/prompt-patterns.md", skill)
+        self.assertIn("npx skills add heygen-com/hyperframes", skill)
+        self.assertIn("npx hyperframes skills update", skill)
+
+        notice = (ROOT / "skills" / "hyperframes" / "NOTICE.md").read_text(encoding="utf-8")
+        self.assertIn("v0.8.119", notice)
+        self.assertIn("3a0299e851ce", notice)
+
+    def test_prompt_patterns_reference(self):
+        pat_path = ROOT / "skills" / "hyperframes" / "references" / "prompt-patterns.md"
+        self.assertTrue(pat_path.is_file())
+        lines = pat_path.read_text(encoding="utf-8").splitlines()
+        self.assertLessEqual(len(lines), 90)
+        content = "\n".join(lines)
+        self.assertIn("POINTER_ONLY", content)
+        self.assertIn("awesome-opus5-5-videos", content)
+        self.assertIn("3d54892e2ae5b0e8d337171e6508bba4cec01ab8", content)
+        self.assertNotIn("utm_", content)
+
+        routing = (ROOT / "rules" / "00-routing.md").read_text(encoding="utf-8")
+        self.assertIn("prompt-patterns.md", routing)
+        self.assertIn("Deterministic HTML composition rendered to video: `/hyperframes`", routing)
+
+    def test_matt_cluster_glossary_migration(self):
+        self.assertTrue((ROOT / "skills" / "domain-modeling" / "GLOSSARY-FORMAT.md").is_file())
+        self.assertFalse((ROOT / "skills" / "domain-modeling" / "CONTEXT-FORMAT.md").exists())
+
+        dm_skill = (ROOT / "skills" / "domain-modeling" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("GLOSSARY.md", dm_skill)
+        self.assertIn("GLOSSARY-MAP.md", dm_skill)
+        self.assertIn("Legacy fallback", dm_skill)
+        self.assertIn("CONTEXT.md", dm_skill)
+
+        gwd_skill = (ROOT / "skills" / "grill-with-docs" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("GLOSSARY.md", gwd_skill)
+        self.assertIn("Legacy fallback", gwd_skill)
+        self.assertIn("CONTEXT.md", gwd_skill)
+
+        for rel in [
+            "skills/codebase-design/DESIGN-IT-TWICE.md",
+            "skills/tdd/SKILL.md",
+            "skills/diagnosing-bugs/SKILL.md",
+            "manual-skills/improve-codebase-architecture/SKILL.md",
+            "manual-skills/why/SKILL.md",
+        ]:
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertIn("GLOSSARY.md", text, f"Expected GLOSSARY.md in {rel}")
+
+    def test_dead_references_removed(self):
+        for rel in ["skills/visual-studio/SKILL.md", "skills/scroll-world/SKILL.md"]:
+            text = (ROOT / rel).read_text(encoding="utf-8")
+            self.assertNotIn("game-asset-core", text, f"Found game-asset-core in {rel}")
+            self.assertIn("NOT_APPLICABLE", text, f"Expected NOT_APPLICABLE in {rel}")
+
+    def test_humanizer_refresh(self):
+        notice = (ROOT / "skills" / "humanizer" / "NOTICE.md").read_text(encoding="utf-8")
+        self.assertIn("3.1.0", notice)
+        self.assertIn("225a6f39ac85", notice)
+
+        patterns = (ROOT / "skills" / "humanizer" / "references" / "patterns.md").read_text(encoding="utf-8")
+        self.assertIn("Writing about the document instead of its subject", patterns)
+        self.assertIn("Re-explaining context the reader already knows", patterns)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.11",
+  "productVersion": "0.1.12",
   "note": "Evidence-based. A missing frontmatter license is not a grant. Adapted \u2260 first-party.",
   "skills": {
     "demo-video": {
@@ -26,42 +26,42 @@
     },
     "diagnosing-bugs": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c + vendor/licenses/MATT-POCOCK-MIT.txt",
+      "evidence": "mattpocock/skills d81f3a1 + vendor/licenses/MATT-POCOCK-MIT.txt",
       "redistribution": "mit"
     },
     "domain-modeling": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "codebase-design": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "writing-for-agents": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "research": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "prototype": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "improve-codebase-architecture": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "wizard": {
       "license": "MIT",
-      "evidence": "mattpocock/skills 9c9f36c",
+      "evidence": "mattpocock/skills d81f3a1",
       "redistribution": "mit"
     },
     "grill-with-docs": {

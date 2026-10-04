@@ -97,7 +97,7 @@ Never list unused tools or uncalled MCP methods as used.
 - Hard, high-impact, divergent decisions, fuzzy debugging, API or schema alternatives, trap detection: `/adhd` on demand only. Skip ADHD for typos, ordinary CRUD, or bugs with a known cause.
 - Official library, spec, or first-party API facts: `/research` (Context7 when repo evidence is not enough). Why *this repo* chose an approach: suggest `/why` (manual). Do not mix the two.
 - Scholarly literature surveys, academic manuscripts (IMRaD/thesis/proposal), and structured peer critique: `/academic` (not `research`, not `smartdoc` unless file extract/render).
-- Fuzzy or conflicting domain terms, glossary, CONTEXT.md / ADR writing: `/domain-modeling`. Full product interviews that should leave CONTEXT.md/ADRs: `/grill-with-docs`.
+- Fuzzy or conflicting domain terms, glossary, GLOSSARY.md / ADR writing: `/domain-modeling`. Full product interviews that should leave GLOSSARY.md/ADRs: `/grill-with-docs`.
 - Module, interface, seam, testability, abstraction: `/codebase-design` (distinct from `/api-design` for REST and `/contract-first` for machine schemas). Multi-sketch bake-off: suggest `/architect` (manual). Do not auto-start `/architect`.
 - Throwaway evidence for one design question: `/prototype`. Not for production UI; skip ordinary implementation, ADHD, and `/arena`. Schema/JSON generative UI: `/json-render`.
 - Unknown / hard bugs, regressions, measured slowdown: `/diagnosing-bugs`. Skip typos, known-cause, and test-first known fixes (`/tdd`).
@@ -145,7 +145,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Scroll-led storytelling (scroll is the timeline, scrollytelling, signature interaction): `/scroll-craft`. Ordinary scrollable UI stays `/impeccable`. `/scroll-craft` plus Continuous World: Scroll Craft writes the brief, then `/scroll-world`.
 - Continuous camera fly-through, diorama, or 3D-world landing: `/scroll-world` even if the request says scroll.
 - Commercials, launch films, business explainers, sample reels, pitch videos: `/business-motion-film` (render via `hyperframes`; includes real app UI product-film mode; Three.js product-hero patterns in references, not a standalone skill; 18s brag cards stay `hyperframes/references/brag.md`). Indonesian narrated tours stay `/id-demo-video`. Not `scroll-world` (camera fly-through), not `visual-studio` (photoreal stills/media), and not `impeccable` (product UI).
-- Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg; 18s brag/launch cards via `references/brag.md`). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
+- Deterministic HTML composition rendered to video: `/hyperframes` (headless Chrome + FFmpeg; 18s brag/launch cards via `references/brag.md`; code-video prompt galleries → `hyperframes/references/prompt-patterns.md` (POINTER_ONLY)). Not `visual-studio`, not `emil-design-eng`. Ordinary scrollable UI stays `/impeccable`.
 - Demo video aplikasi, walkthrough layar, narasi Indonesia, demo lomba: skill `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`.
 - Photoreal stills / ads / identity with no UI surface: `/visual-studio`.
 - Motion after Impeccable: `/emil-design-eng`.

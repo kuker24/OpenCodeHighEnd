@@ -1,30 +1,90 @@
 # HyperFrames Composition Architecture
 
-HTML, CSS, and Canvas structure for seekable video scenes.
+HTML, CSS, and SVG/Canvas structure for seekable deterministic video compositions.
 
-## The Seekable Timeline Contract
+## The Declarative Timeline Contract
 
-Deterministic frame capture requires that any frame at time `t` (or frame index `n` at FPS `r`) can be rendered instantaneously without continuous wall-clock playback.
+HyperFrames binds the composition lifecycle directly to semantic HTML data attributes. Rather than invoking ad-hoc runtime stepping functions, the engine compiles declarative timing markers and steps through each frame deterministically.
 
-```javascript
-// Canonical seek interface
-window.renderFrame = function(timeInSeconds, frameNumber) {
-  // Update state, CSS variables, or canvas draw calls for exact timestamp
-  document.documentElement.style.setProperty('--frame-time', `${timeInSeconds}s`);
-  // Update canvas or SVG elements directly
-  updateScene(timeInSeconds);
-};
+### 1. Root Composition Definition
+
+The root element declares the composition boundary, resolution, and default frame rate:
+
+```html
+<main
+  id="main-comp"
+  data-composition-id="main-comp"
+  data-width="1920"
+  data-height="1080"
+  data-fps="30"
+>
+  <!-- Timed clips and tracks -->
+</main>
 ```
 
-## Viewport & Aspect Ratio Presets
+### 2. Timed Clips (`class="clip"`)
 
-Configure root container to exact pixel dimensions:
+Individual scenes or layers use `class="clip"` along with duration attributes:
 
-- **16:9 Landscape (YouTube / Presentation):** `width: 1920px; height: 1080px;`
-- **9:16 Vertical (Reels / TikTok / Shorts):** `width: 1080px; height: 1920px;`
-- **1:1 Square (Feed):** `width: 1080px; height: 1080px;`
+```html
+<!-- Absolute timing -->
+<section
+  id="scene-intro"
+  class="clip"
+  data-start="0"
+  data-duration="4"
+  data-track-index="0"
+>
+  <h1>Product Launch</h1>
+</section>
 
-CSS resets:
+<!-- Relative timing: start relative to another clip ID -->
+<section
+  id="scene-demo"
+  class="clip"
+  data-start="scene-intro"
+  data-duration="8"
+  data-track-index="1"
+>
+  <h2>Key Features</h2>
+</section>
+```
+
+- `data-start`: Absolute second (e.g. `"0"`, `"4.5"`) or relative clip reference (e.g. `"scene-intro"`, `"scene-intro - 0.5"` for crossfades).
+- `data-duration`: Duration of the clip in seconds.
+- `data-track-index`: Studio timeline row lane (optional; rendering order is governed by CSS `z-index`).
+
+### 3. Nested Compositions
+
+Reusable sub-scenes or modules can be nested using `data-composition-src`:
+
+```html
+<div
+  id="lower-third"
+  class="clip"
+  data-composition-src="./components/lower-third.html"
+  data-start="1.5"
+  data-duration="5"
+  data-track-index="2"
+></div>
+```
+
+## Determinism & Seekable Animation
+
+Frame capture steps through `t = frame / fps` without real-time wall-clock playback:
+
+1. **Paused & Seeked GSAP:** All GSAP timelines must be paused on creation and scrubbed via `.seek(t, false)`. Never call `.play()`.
+2. **Zero Wall-Clock Clocks:** No `Date.now()`, `performance.now()`, `requestAnimationFrame`, or `setInterval`.
+3. **No Unseeded Randomness:** `Math.random()` produces divergent frames across runs. Use a seeded pseudo-random number generator (e.g. Mulberry32) if procedural noise is required.
+4. **No Mid-Render Fetch:** Preload all fonts, images, and JSON data before frame 0. Dynamic network fetches during capture cause dropped frames or non-deterministic blank flashes.
+
+## Viewport & Resolution Presets
+
+- **16:9 Landscape (YouTube / Presentation):** `data-width="1920"` `data-height="1080"`
+- **9:16 Vertical (Reels / TikTok / Shorts):** `data-width="1080"` `data-height="1920"`
+- **1:1 Square (Feed):** `data-width="1080"` `data-height="1080"`
+
+Standard reset styles:
 ```css
 html, body {
   margin: 0;
@@ -33,18 +93,16 @@ html, body {
   background: #000;
   -webkit-font-smoothing: antialiased;
 }
-#stage {
+[data-composition-id] {
   position: relative;
-  width: 1920px;
-  height: 1080px;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
 }
+.clip {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 ```
-
-## Scene Management
-
-Divide longer videos into discrete scenes:
-- `Scene 1 [0.0s - 3.5s]`: Hook & Title Card
-- `Scene 2 [3.5s - 8.0s]`: Problem Statement / Key Graphic
-- `Scene 3 [8.0s - 14.0s]`: Feature Demonstration / Architecture Callout
-- `Scene 4 [14.0s - 17.0s]`: Outro / Call to Action

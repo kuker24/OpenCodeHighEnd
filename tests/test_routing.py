@@ -75,7 +75,11 @@ class RoutingTests(unittest.TestCase):
         # Hyperframes vs visual-studio vs scroll
         self.assertIn("Deterministic HTML video / render HTML to MP4 → skill `hyperframes`", self.agents)
         self.assertIn("Deterministic HTML composition rendered to video: `/hyperframes`", self.routing)
+        self.assertIn("prompt-patterns.md", self.routing)
         self.assertIn("Ordinary scrollable UI stays `/impeccable`.", self.routing)
+
+        # Domain modeling GLOSSARY.md
+        self.assertIn("GLOSSARY.md", self.routing)
 
         # id-demo-video vs hyperframes vs playwright-qa vs visual-studio
         self.assertIn("Demo video aplikasi / walkthrough layar / narasi Indonesia / demo lomba → skill `id-demo-video`", self.agents)

@@ -10,7 +10,7 @@ TDD is the red → green loop. This skill is the reference that makes that loop 
 
 Spec and tracer-bullet ticket implementations (`/to-tickets`) execute in this session using this loop. There is no separate `/implement` skill.
 
-When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
+When exploring the codebase, read `GLOSSARY.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
 
 ## What a good test is
 

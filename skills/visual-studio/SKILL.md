@@ -1,6 +1,6 @@
 ---
 name: visual-studio
-description: "Produce photoreal product stills, reusable identity packs, UGC/ad videos, cinematic VFX shots, and video thumbnails with native image_gen, image_edit, image_to_video, and reference_to_video. Use when: product photo, studio shot, lifestyle, Pinterest pin, hero banner, carousel, ad pack, virtual try-on, UGC, unboxing, product review, TV spot, cinematic video, VFX, character sheet, size-ref, face-lock, YouTube thumbnail, Shorts cover, or the user runs /visual-studio. Load native image tools if present, else DEGRADED before any generate/edit/video call. Not for UI/frontend (use impeccable), game sprites or tiles (use game-asset-core), or UI motion (use emil-design-eng)."
+description: "Produce photoreal product stills, reusable identity packs, UGC/ad videos, cinematic VFX shots, and video thumbnails with native image_gen, image_edit, image_to_video, and reference_to_video. Use when: product photo, studio shot, lifestyle, Pinterest pin, hero banner, carousel, ad pack, virtual try-on, UGC, unboxing, product review, TV spot, cinematic video, VFX, character sheet, size-ref, face-lock, YouTube thumbnail, Shorts cover, or the user runs /visual-studio. Load native image tools if present, else DEGRADED before any generate/edit/video call. Not for UI/frontend (use impeccable), game sprites or tiles (NOT_APPLICABLE, out of catalog), or UI motion (use emil-design-eng)."
 compatibility: opencode
 license: MIT
 ---
@@ -43,7 +43,7 @@ live there. Do not restate them here.
 | Scroll-led storytelling / scrollytelling | `scroll-craft` |
 | Scroll-scrub fly-through, diorama, 3D-world landing | `scroll-world` |
 | Website/app whose UI needs designed photos or videos | `impeccable` leads the surface; this skill produces the media |
-| Game sprites, tiles, icon sets, animation sheets | `game-asset-core` |
+| Game sprites, tiles, icon sets, animation sheets | `NOT_APPLICABLE` (out of catalog) |
 | Deterministic HTML composition rendered to video | `hyperframes` |
 | UI motion / interaction feel | `emil-design-eng` after Impeccable |
 | Photoreal stills, ads, cinematic, identity, thumbnails (no UI) | this skill |

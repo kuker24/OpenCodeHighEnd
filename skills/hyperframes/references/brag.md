@@ -24,32 +24,38 @@ Deterministic, high-impact 18-second video card for new product releases, featur
 | **3. Capability Highlight** | `8.0s - 13.5s` | Feature Carousel | 3 kinetic badge callouts or terminal command executions popping in sequence with numerical counters. |
 | **4. Call to Action** | `13.5s - 18.0s` | Outro Lockup | Clean repository / install command (`opencode-he ...` or `git clone ...`), release tag badge, and link fade-out. |
 
-## Seekable Timeline Contract
+## Declarative Composition Template
 
-```javascript
-// Master timeline contract driven strictly by frame or elapsed seconds
-function renderFrame(t) {
-  // t is in seconds (0.000 to 18.000)
-  const progress = Math.min(Math.max(t / 18.0, 0), 1);
+Dimensions and duration are declared on the root composition and scene clips:
 
-  if (t < 3.5) {
-    // Scene 1: Hook
-    const s1Progress = t / 3.5;
-    renderHookScene(s1Progress);
-  } else if (t < 8.0) {
-    // Scene 2: Hero Reveal
-    const s2Progress = (t - 3.5) / 4.5;
-    renderHeroScene(s2Progress);
-  } else if (t < 13.5) {
-    // Scene 3: Highlight
-    const s3Progress = (t - 8.0) / 5.5;
-    renderHighlightScene(s3Progress);
-  } else {
-    // Scene 4: CTA
-    const s4Progress = (t - 13.5) / 4.5;
-    renderOutroScene(s4Progress);
-  }
-}
+```html
+<main
+  id="brag-card"
+  data-composition-id="brag-card"
+  data-width="1920"
+  data-height="1080"
+  data-fps="60"
+>
+  <!-- Beat 1: Hook & Problem (0.0s - 3.5s) -->
+  <section id="scene-hook" class="clip" data-start="0" data-duration="3.5" data-track-index="0">
+    <div class="hook-content">...</div>
+  </section>
+
+  <!-- Beat 2: Hero Reveal (3.5s - 8.0s) -->
+  <section id="scene-hero" class="clip" data-start="scene-hook" data-duration="4.5" data-track-index="0">
+    <div class="hero-content">...</div>
+  </section>
+
+  <!-- Beat 3: Highlight (8.0s - 13.5s) -->
+  <section id="scene-highlight" class="clip" data-start="scene-hero" data-duration="5.5" data-track-index="0">
+    <div class="highlight-content">...</div>
+  </section>
+
+  <!-- Beat 4: Outro CTA (13.5s - 18.0s) -->
+  <section id="scene-outro" class="clip" data-start="scene-highlight" data-duration="4.5" data-track-index="0">
+    <div class="outro-content">...</div>
+  </section>
+</main>
 ```
 
 ## Local Execution & Output
@@ -58,12 +64,6 @@ function renderFrame(t) {
 # 1. Output directory preparation
 mkdir -p brag-output
 
-# 2. Local deterministic render via hyperframes CLI or local script
-npx -y hyperframes render \
-  --input index.html \
-  --output brag-output/brag.mp4 \
-  --width 1920 \
-  --height 1080 \
-  --fps 60 \
-  --duration 18
+# 2. Local deterministic render via hyperframes CLI
+npx hyperframes render . -o brag-output/brag.mp4 -f 60 -q delivery
 ```

@@ -60,3 +60,7 @@ Detailed catalog of writing patterns to identify and eliminate, grouped by the f
   - *Fix:* "Consider..." or "We recommend...".
 - **Sycophancy:** "Great question! That's a fantastic observation."
   - *Fix:* Answer directly with zero conversational stroking.
+- **Writing about the document instead of its subject:** Explaining what a section, function, or table is doing ("This document outlines the architecture...", "The table below compares...", "This function was added to replace...").
+  - *Fix:* Describe the subject or action directly. Omit meta-narrative about the document itself.
+- **Re-explaining context the reader already knows:** Walking through the entire diagnosis, history, or proof before stating the decision to an informed collaborator.
+  - *Fix:* Lead with the decision or answer; keep proof and background for tickets or reference appendices.

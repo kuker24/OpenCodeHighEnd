@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.11",
+  "productVersion": "0.1.12",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -151,24 +151,25 @@
     },
     "hyperframes": {
       "repository": "https://github.com/heygen-com/hyperframes",
-      "commit": "ed75203cb6aa",
-      "version": "0.8.64",
+      "commit": "3a0299e851ce",
+      "version": "0.8.119",
       "license": "Apache-2.0"
     },
     "diagram-design": {
       "repository": "https://github.com/cathrynlavery/diagram-design",
-      "commit": "dc1ace47b99a",
-      "version": "2.6.33",
+      "commit": "f903933a534b",
+      "version": "2.6.51",
       "license": "MIT"
     },
     "humanizer": {
       "repository": "https://github.com/blader/humanizer",
-      "version": "3.0.0",
+      "commit": "225a6f39ac85",
+      "version": "3.1.0",
       "license": "MIT"
     },
     "matt-pocock-skills": {
       "repository": "https://github.com/mattpocock/skills",
-      "commit": "9c9f36ccd3995266cd675468af71639c8dde1ec5",
+      "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "licenseFile": "vendor/licenses/MATT-POCOCK-MIT.txt"

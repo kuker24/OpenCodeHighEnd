@@ -1,6 +1,6 @@
 # Notice: hyperframes
 
-Adapted from [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes).
+Adapted from [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) pinned at tag `v0.8.119` (commit `3a0299e851ce2f71f9fd4b7acf3c34709b2523b5`).
 
 Licensed under the Apache License, Version 2.0 (the "License").
 You may obtain a copy of the License at

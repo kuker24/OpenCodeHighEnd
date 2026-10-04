@@ -47,7 +47,7 @@ Paid video generation backends (Monid, Higgsfield, Kling) are not vendored into 
 | Ordinary landing without a camera world | `impeccable` |
 | Photoreal stills, ads, cinematic, identity, thumbnails (no world page) | `visual-studio` |
 | Photoreal person/creature inside this world | this skill owns the chain + page; load `visual-studio` cinematic for those stills/clips |
-| Game sprites, tiles, icon sets | `game-asset-core` |
+| Game sprites, tiles, icon sets | `NOT_APPLICABLE` (out of catalog) |
 | Deterministic HTML composition rendered to video | `hyperframes` |
 | UI chrome motion (nav, buttons), not the video scrub | `emil-design-eng` after Impeccable |
 

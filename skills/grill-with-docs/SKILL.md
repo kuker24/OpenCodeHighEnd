@@ -1,6 +1,6 @@
 ---
 name: grill-with-docs
-description: Relentless interview to sharpen a plan with design-tree frontier rounds. Writes CONTEXT.md, a glossary, and ADRs as you go. Use when a feature still needs a plan, the user wants a deep planning interview, or they ask for /grill-with-docs.
+description: Relentless interview to sharpen a plan with design-tree frontier rounds. Writes GLOSSARY.md, a glossary, and ADRs as you go. Use when a feature still needs a plan, the user wants a deep planning interview, or they ask for /grill-with-docs.
 compatibility: opencode
 ---
 
@@ -8,7 +8,7 @@ compatibility: opencode
 
 # Grill with docs
 
-Run the interview in this session. Compose owned domain-modeling discipline (glossary, CONTEXT.md, ADRs) with relentless design-tree frontier rounds.
+Run the interview in this session. Compose owned domain-modeling discipline (glossary, GLOSSARY.md, ADRs) with relentless design-tree frontier rounds.
 
 Map the decisions as a **design tree**: every decision branches into the decisions that hang off it.
 Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled — the questions you can ask now without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
@@ -27,8 +27,10 @@ Use `codebase-design` only when the conversation reaches a module, interface, or
 
 Leave the repo with:
 
-- `CONTEXT.md` — problem, decisions, open questions, glossary
+- `GLOSSARY.md` — problem, decisions, open questions, glossary
 - ADRs under `docs/adr/` (or `adr/` if that already exists) for hard-to-reverse choices
+
+Legacy fallback: if the target repository only has `CONTEXT.md` or `CONTEXT-MAP.md`, read them as a legacy domain glossary; do not rename existing user files without being asked; create new glossary files as `GLOSSARY.md`.
 
 ## Rules
 
@@ -44,13 +46,13 @@ Leave the repo with:
 
 ## Loop
 
-1. Read `CONTEXT.md`, existing ADRs, and enough of the repo to speak the domain.
+1. Read `GLOSSARY.md`, existing ADRs, and enough of the repo to speak the domain.
 2. State the frontier: what you believe, what is undecided, what would change the design.
 3. Ask the next question (or independent frontier) that most reduces that frontier.
-4. After each answered decision, update `CONTEXT.md`. If the decision is hard to reverse, write an ADR.
+4. After each answered decision, update `GLOSSARY.md`. If the decision is hard to reverse, write an ADR.
 5. Repeat until the stop condition.
 
-## CONTEXT.md shape
+## GLOSSARY.md shape
 
 ```markdown
 # <feature or system>

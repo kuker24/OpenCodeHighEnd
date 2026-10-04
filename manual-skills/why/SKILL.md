@@ -15,7 +15,7 @@ This is not `/research` (official docs, specs, first-party APIs). This is not `/
 Use these every run:
 
 - git: `blame`, `log --follow`, merge commits
-- repo docs: `CONTEXT.md`, `docs/adr/`, README, comments, tests
+- repo docs: `GLOSSARY.md`, `docs/adr/`, README, comments, tests
 - `gh` **if already authenticated**: PR bodies, reviews, linked issues
 
 Do **not** install Slack, Sentry, Datadog, Linear, Notion, or any other MCP from this skill. Optional sources only if the tool is already connected. A missing optional source is `NOT_CONFIGURED`, not a reason to add it.
