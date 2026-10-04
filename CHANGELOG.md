@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.15 — 2026-10-04
+
+Rilis pemeliharaan Wave 0.1.15 untuk sinkronisasi aset vendored anti-slop, standardisasi emulasi Playwright QA, dan pembersihan impor mati. Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
+
+- **Sinkronisasi aset anti-slop (v0.1.2)**: Menyinkronkan seluruh aset linter Oxlint vendored di `skills/install-anti-slop/assets/anti-slop` dari upstream `dmmulroy/anti-slop@e8c4880471b23ab7f216fba7b27d173a6ef07d4c`, memperbaiki pemeriksaan jenis variabel terbalik pada `rules/no-widen-then-assert.ts`. Seluruh 23 berkas aset terverifikasi identik 100% dengan blob upstream. Memperbarui catatan di `docs/source-wave.md`.
+- **Standardisasi emulasi Playwright QA**: Menstandardisasi doktrin emulasi timezone, locale, dan geolocation dengan konfigurasi JSON pada peluncuran (`.playwright/cli.config.json` via `contextOptions`) sebagai metode lintas-browser utama, dan `run-code` sebagai alternatif runtime spesifik Chromium via CDP. Menyelaraskan dokumentasi pada `skills/playwright-qa/references/workflow.md`, `skills/playwright-qa/SKILL.md`, dan `rules/00-routing.md`.
+- **Pembersihan impor mati**: Menghapus impor yang tidak terpakai `repo_root` pada `lib/design_v2/bootstrap.py` dan `tarfile` pada `tests/test_design_bootstrap.py`.
+- **Versi Produk**: Bump versi ke `0.1.15` (`VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `README.md`, `docs/CATALOG-FREEZE.md`).
+
 ## 0.1.14 — 2026-10-04
 
 Patch rilis pasca-0.1.13 untuk koreksi pin sumber, penuntasan pensiun fallback Design Bank, dan perbaikan path config Playwright. Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).

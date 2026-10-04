@@ -6,7 +6,6 @@ import json
 import os
 import shutil
 import socket
-import tarfile
 import urllib.request
 import zipfile
 from contextlib import redirect_stdout
