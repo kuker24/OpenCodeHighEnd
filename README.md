@@ -22,7 +22,7 @@ Version **0.1.13**. The 65-skill catalog is strictly frozen.
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
-- Selected skills adapted from Matt Pocock (`d81f3a1`, v1.2.3+) and pstack `e43c7ee` (0.15.9; `/correct` at `9511e60`) with OpenCode host isolation and verification-loop rigor
+- Selected skills adapted from Matt Pocock (`v1.2.3+ (d81f3a1)`) and pstack `e43c7ee` (0.15.9; `/correct` at `9511e60`) with OpenCode host isolation and verification-loop rigor
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not

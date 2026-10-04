@@ -266,6 +266,17 @@ t('items', { count }) // Handles complex plural rules
 - Don't rely only on color
 - Provide alternative visual cues
 
+### Touch & Gesture Resilience
+
+**Touch Targets & Hit Areas**:
+- Enforce 44×44px (iOS HIG) / 48×48dp (Material 3) minimum hit target size, even when visual icon marks are small (expand click area with pseudo-elements or padding).
+- Guarantee at least 8px physical spacing between adjacent interactive elements to prevent accidental mis-taps.
+
+**Gesture Collision Prevention**:
+- Apply `touch-action: pan-y` or `touch-action: manipulation` on scrollable containers and cards to prevent gesture collisions with horizontal carousels, swipeable drawers, map views, or browser pull-to-refresh.
+- Disambiguate swipe vs. scroll thresholds (require minimum horizontal delta and angle before locking swipe intent).
+- Debounce rapid multi-tap / double-tap events on action triggers (forms, payments, mutations) to prevent double submissions.
+
 ### Performance Resilience
 
 **Slow connections**:

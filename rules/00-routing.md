@@ -90,8 +90,8 @@ Never list unused tools or uncalled MCP methods as used.
 
 - Repository structure and impact: MCP `codebase-memory-mcp` first. If Codebase Memory has no project for cwd, skip it and use repo files. Do not retry.
 - Exact cross-file symbol work: MCP `serena` only if already registered and only after Codebase Memory and simpler repo evidence are not enough. Do not run Serena and Codebase Memory as the main brain at the same time. If Serena is absent, say so; do not `opencode mcp add serena` from a session unless the user asked. Helper: `opencode-he serena enable`.
-- Current library or framework docs: MCP `context7` only when repo evidence is insufficient.
-- Installable React/shadcn registry items: MCP `shadcn` (pinned CLI `shadcn@4.21.0`). Search, inspect, then install. Context7 stays documentation.
+- Current library or framework docs: MCP `context7` only when repo evidence is insufficient. Reject `@upstash/context7-opencode` and other unofficial wrapper packages; official Context7 MCP is configured as remote MCP `https://mcp.context7.com/mcp` without extra node packages.
+- Installable React/shadcn registry items: MCP `shadcn` (pinned CLI `shadcn@4.21.1`). Search, inspect, then install. Context7 stays documentation.
 - Broader web research: built-in `WebSearch` and `WebFetch`. MCP `exa` is foreign/pre-existing and ON_DEMAND. Use it only if already connected and research needs it. Never add or remove `exa`.
 - Web and social data gathering: `/research` (follow the backend ladder in `references/web-data.md`; Scrapling is optional `FOREIGN_ON_DEMAND`; Agent-Reach is pointer-only; read-only; not `/playwright-qa`).
 - Hard, high-impact, divergent decisions, fuzzy debugging, API or schema alternatives, trap detection: `/adhd` on demand only. Skip ADHD for typos, ordinary CRUD, or bugs with a known cause.
@@ -136,7 +136,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 ## UI and browser
 
 - Matching or choosing a visual direction from the local design bank (Refero / Motionsites): `/found-this-design` first. Stop before component implementation. Then `/impeccable` after a pick. Bank root comes from `~/.config/opencode/highend/config/design-bank.json` (optional override `OPENCODE_DESIGN_BANK`).
-- Visual UI once a world is chosen, the brief is already visual, or creating UI atoms (buttons, inputs, cards, nav): UI atoms → impeccable after Design V2 shortlist; BANK_MISS ≠ generate. Design V2 shortlist `kind=component` is an internal stage, never a separate specialist route. Do not run `/found-this-design` for atomic components. Schema-driven generative UI from a typed catalog: `/json-render` after tokens/direction exist, or for internal schema UI; never bypass Design Bank for marketing; never Jev compose.
+- Visual UI once a world is chosen, the brief is already visual, or creating UI atoms (buttons, inputs, cards, nav): UI atoms → impeccable after Design V2 shortlist; BANK_MISS ≠ generate. Design V2 shortlist `kind=component` is an internal stage, never a separate specialist route. Do not run `/found-this-design` for atomic components. Adversarial UI stress testing (`break-ui`, worst-case data, extreme text, layout break) routes to `/impeccable` (harden mode, `skills/impeccable/reference/break-ui.md`); do NOT create a standalone `break-ui` skill. Schema-driven generative UI from a typed catalog: `/json-render` after tokens/direction exist, or for internal schema UI; never bypass Design Bank for marketing; never Jev compose.
 - Design Intelligence is an internal, lazy retrieval stage of Impeccable `new-work`, never a primary route or specialist. Design V2 is the same: an offline user bank, never a specialist.
 - Stitch MCP: screen/comp generation only; then found-this-design or impeccable + Design V2 atoms. Never implement production UI from Stitch alone. Treat existing Stitch screens as approved comps; local atom shortlist remains mandatory.
 - UI Skills MCP: design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn. BANK_MISS ≠ generate from a random ui-skills document.
@@ -150,7 +150,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Photoreal stills / ads / identity with no UI surface: `/visual-studio`.
 - Motion after Impeccable: `/emil-design-eng`.
 - Image/video generation: use OpenCode native image tools if the session exposes them. Otherwise write prompt files and mark DEGRADED. Do not invent `image_gen`.
-- Exploratory application UI QA: `/playwright-qa` is the primary adapter (navigation, form inputs, state inspection, snapshot, screenshot). Never launch for backend/non-UI.
+- Exploratory application UI QA: `/playwright-qa` is the primary adapter (navigation, form inputs, state inspection, snapshot, screenshot, device and viewport emulation: `--device`, `--viewport-size`, `--color-scheme`, `--reduced-motion`, `--timezone`, `--locale`, `--geolocation`). Never launch for backend/non-UI.
 - Explicit multi-account or persistent browser sessions: `/browser-act`. Load the skill before any `browser-act` command. Never `--type chrome-direct`.
 - Observed browser cause: `/chrome-devtools-axi` after `opencode-chromium-cdp start` on `http://127.0.0.1:9223`. Never Google Chrome.
 - Deterministic browser regression: existing project test suite (Playwright Test, Cypress, etc.) using project scripts/package manager.

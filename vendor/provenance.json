@@ -6,7 +6,7 @@
   "components": [
     {
       "component": "adhd",
-      "path": "vendor/skills/adhd",
+      "path": "skills/adhd",
       "upstream": "vendored skill; license in SKILL.md frontmatter",
       "version": null,
       "license": "MIT",
@@ -15,7 +15,7 @@
     },
     {
       "component": "impeccable",
-      "path": "vendor/skills/impeccable",
+      "path": "skills/impeccable",
       "upstream": "vendored skill; license in SKILL.md frontmatter",
       "version": null,
       "license": "Apache-2.0",
@@ -27,57 +27,65 @@
       "path": "skills/grill-with-docs",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/grill-with-docs",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "OpenCode overlay. MIT via mattpocock/skills LICENSE."
+      "notes": "OpenCode overlay. MIT via mattpocock/skills LICENSE. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "to-spec",
       "path": "skills/to-spec",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/to-spec",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
-      "redistribution": "mit"
+      "redistribution": "mit",
+      "notes": "Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "to-tickets",
       "path": "skills/to-tickets",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/to-tickets",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
-      "redistribution": "mit"
+      "redistribution": "mit",
+      "notes": "Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "tdd",
       "path": "skills/tdd",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/tdd",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
-      "redistribution": "mit"
+      "redistribution": "mit",
+      "notes": "Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "matt-code-review",
       "path": "skills/matt-code-review",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/code-review",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Renamed to avoid OpenCode/Grok /review collision."
+      "notes": "Renamed to avoid OpenCode/Grok /review collision. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "browser-act",
@@ -176,113 +184,122 @@
     },
     {
       "component": "diagnosing-bugs",
-      "path": "vendor/skills/diagnosing-bugs",
+      "path": "skills/diagnosing-bugs",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/diagnosing-bugs",
       "upstreamSkillMdSha256": "9168404abda0967a5d32977e3498cd95fda6807018852f3de736a78357c82b40",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Description narrowed. agents/openai.yaml not vendored."
+      "notes": "Description narrowed. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "domain-modeling",
-      "path": "vendor/skills/domain-modeling",
+      "path": "skills/domain-modeling",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/domain-modeling",
       "upstreamSkillMdSha256": "7b925d7b1e341a2eeae33ad68a8a8c0ab889a38ddd22a7598e4c240e5a7556a3",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Description skip /grill-with-docs. GLOSSARY-FORMAT.md and ADR-FORMAT.md kept. agents/openai.yaml not vendored."
+      "notes": "Description skip /grill-with-docs. GLOSSARY-FORMAT.md and ADR-FORMAT.md kept. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "codebase-design",
-      "path": "vendor/skills/codebase-design",
+      "path": "skills/codebase-design",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/codebase-design",
       "upstreamSkillMdSha256": "2c20617f87ec8af6a434859f381b2f061a69b530444e74eb39e78bb016a6d1e2",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "DEEPENING.md and DESIGN-IT-TWICE.md kept. agents/openai.yaml not vendored."
+      "notes": "DEEPENING.md and DESIGN-IT-TWICE.md kept. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "writing-for-agents",
-      "path": "vendor/skills/writing-for-agents",
+      "path": "skills/writing-for-agents",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/productivity/writing-for-agents",
       "upstreamSkillMdSha256": "551adca942227b44192edba88acd4e8db911f0121ce58ad16944ccf6a896a74a",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "SKILL-MECHANICS.md kept. agents/openai.yaml not vendored."
+      "notes": "SKILL-MECHANICS.md kept. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "research",
-      "path": "vendor/skills/research",
+      "path": "skills/research",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/research",
       "upstreamSkillMdSha256": "985569f15739c713d6784887c3d186d4ef9ac85bec5ad9c068d25bf0739928e4",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Background-agent requirement removed. agents/openai.yaml not vendored."
+      "notes": "Background-agent requirement removed. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "prototype",
-      "path": "vendor/skills/prototype",
+      "path": "skills/prototype",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/prototype",
       "upstreamSkillMdSha256": "714de632d116bb73f65cdb5a882db15b9369a6713b9a47c0fad827848f0bfbe3",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "LOGIC.md and UI.md kept. agents/openai.yaml not vendored."
+      "notes": "LOGIC.md and UI.md kept. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "improve-codebase-architecture",
-      "path": "vendor/skills/improve-codebase-architecture",
+      "path": "manual-skills/improve-codebase-architecture",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/improve-codebase-architecture",
       "upstreamSkillMdSha256": "552240a5ab5cec6b67c15dd1ad6e9f6962b1bca6ce870059a8c2713760c20392",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Manual. HTML-REPORT.md rewritten for zero-network default. agents/openai.yaml not vendored."
+      "notes": "Manual. HTML-REPORT.md rewritten for zero-network default. agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "wizard",
-      "path": "vendor/skills/wizard",
+      "path": "manual-skills/wizard",
       "upstream": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
+      "version": "v1.2.3+ (d81f3a1)",
       "originalPath": "skills/engineering/wizard",
       "upstreamSkillMdSha256": "bdf31d48211ea559878f95a4f344aeabf8d85897488ba564382bab0b000daac1",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Forced manual. template.sh kept (gh secret via stdin). agents/openai.yaml not vendored."
+      "notes": "Forced manual. template.sh kept (gh secret via stdin). agents/openai.yaml not vendored. Upstream v1.2.3+ (d81f3a1)."
     },
     {
       "component": "blast-radius",
-      "path": "vendor/skills/blast-radius",
+      "path": "manual-skills/blast-radius",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/blast-radius",
       "upstreamSkillMdSha256": "5f02db9101ccf26c20254718f0fcd5c2c7ac5d4292b0e0923d0944ac47237aff",
       "license": "MIT",
@@ -293,9 +310,10 @@
     },
     {
       "component": "unslop",
-      "path": "vendor/skills/unslop",
+      "path": "manual-skills/unslop",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/unslop",
       "upstreamSkillMdSha256": "195411d320b5b328f9f642baf59757ed19aaf0931c0838740e0aca273d538dc1",
       "license": "MIT",
@@ -306,35 +324,38 @@
     },
     {
       "component": "create-verification-skill",
-      "path": "vendor/skills/create-verification-skill",
+      "path": "manual-skills/create-verification-skill",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/create-verification-skill",
       "upstreamSkillMdSha256": "644f2551403c1bca01a2855b34611b6e7be0ce0dc5b204514c376c0f6a6e6ac4",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Adapted from upstream 23e4138. Path remapped to .opencode/skills/verify-*. Never-run skills are DRAFT. Local file unchanged in this diff."
+      "notes": "Adapted from upstream. Path remapped to .opencode/skills/verify-*. Never-run skills are DRAFT. Local file unchanged in this diff."
     },
     {
       "component": "maintain-verification-skill",
-      "path": "vendor/skills/maintain-verification-skill",
+      "path": "manual-skills/maintain-verification-skill",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/maintain-verification-skill",
       "upstreamSkillMdSha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Adapted from upstream 23e4138. Targets .opencode/skills/verify-*. Outcomes CLEAN/CHANGED/BLOCKED. Local file unchanged in this diff."
+      "notes": "Adapted from upstream. Targets .opencode/skills/verify-*. Outcomes CLEAN/CHANGED/BLOCKED. Local file unchanged in this diff."
     },
     {
       "component": "technical-writing",
-      "path": "vendor/skills/technical-writing",
+      "path": "manual-skills/technical-writing",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/technical-writing",
       "upstreamSkillMdSha256": "f5c512ffeec70bc4e0dee50f7bb4c26742e1be77967a6e8b15d1921e1c209ceb",
       "license": "MIT",
@@ -345,9 +366,10 @@
     },
     {
       "component": "arena",
-      "path": "vendor/skills/arena",
+      "path": "manual-skills/arena",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/arena",
       "upstreamSkillMdSha256": "e3a1f6c49a08b7e0b92134e53300d146f1f22ba83386d2019926e736df421851",
       "license": "MIT",
@@ -358,9 +380,10 @@
     },
     {
       "component": "interrogate",
-      "path": "vendor/skills/interrogate",
+      "path": "manual-skills/interrogate",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/interrogate",
       "upstreamSkillMdSha256": "59d498c3e9848a24b2d105eb3f05b808aa4152adf4cb1de7bbb6aff4f4cd9b68",
       "license": "MIT",
@@ -371,22 +394,24 @@
     },
     {
       "component": "architect",
-      "path": "vendor/skills/architect",
+      "path": "manual-skills/architect",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/architect",
       "upstreamSkillMdSha256": "691cd39f52c7b613866e6baf9ea0b05451ffa21a6a9b4102f166418b89178fde",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Manual. Does not invoke /arena or /why. Uses managed arena-protocol."
+      "notes": "Manual. Does not invoke /arena or /why. Uses managed arena-protocol and 4 design red flags."
     },
     {
       "component": "decision-log",
-      "path": "vendor/skills/decision-log",
+      "path": "manual-skills/decision-log",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/show-me-your-work",
       "upstreamSkillMdSha256": "bcff5f7f9fd23f92c12b251f9cd6b947e9485e1055cfacb6fdd9cae0789d7550",
       "license": "MIT",
@@ -397,9 +422,10 @@
     },
     {
       "component": "why",
-      "path": "vendor/skills/why",
+      "path": "manual-skills/why",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/why",
       "upstreamSkillMdSha256": "2a852ec8680920109d2b56538b027c52867896a597250ac5d18a13e0b42e5b06",
       "license": "MIT",
@@ -410,22 +436,24 @@
     },
     {
       "component": "reflect",
-      "path": "vendor/skills/reflect",
+      "path": "manual-skills/reflect",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/reflect",
       "upstreamSkillMdSha256": "36efa48cc4ec2ba6f8131651aae24c6321682b098ed47a1069a7509462bf4a84",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Manual. Explicit approval before skill edits. Cursor create-skill and transcript globs removed."
+      "notes": "Manual. Explicit approval before skill edits. Adopted /correct (9511e60) into references/correct.md."
     },
     {
       "component": "figure-it-out",
-      "path": "vendor/skills/figure-it-out",
+      "path": "manual-skills/figure-it-out",
       "upstream": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
+      "version": "0.15.9",
       "originalPath": "pstack/skills/figure-it-out",
       "upstreamSkillMdSha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19",
       "license": "MIT",
@@ -512,12 +540,13 @@
     {
       "component": "hyperframes",
       "path": "skills/hyperframes",
-      "upstream": "https://github.com/heygen-com/hyperframes",
+      "upstream": "https://github.com/heygen-com/hyperframes@6037d22f778d91c12ba37cfb19ba99ffad518596",
+      "version": "0.8.122",
       "license": "Apache-2.0",
       "copyright": "Copyright (c) HeyGen",
       "modified": true,
       "redistribution": "apache-2.0",
-      "notes": "Deterministic HTML-to-MP4 video composition specialist with local Chromium and FFmpeg execution boundaries."
+      "notes": "Deterministic HTML-to-MP4 video composition specialist with local Chromium and FFmpeg execution boundaries. Refreshed to v0.8.122 (6037d22; v0.8.119 3a0299e base)."
     },
     {
       "component": "id-demo-video",
@@ -582,12 +611,13 @@
     {
       "component": "ninerouter",
       "path": "skills/ninerouter",
-      "upstream": "https://github.com/decolua/9router@f01fb909e37189008080632ddaf404f096345cde",
+      "upstream": "https://github.com/decolua/9router@a99cf5784c01d9f829f79b69b329ea1dd985df23",
+      "version": "0.5.95",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 decolua",
       "modified": true,
       "redistribution": "mit",
-      "notes": "First-party gateway stub. Connects to user-managed 9Router; capability skills fetched on demand, not vendored into overlay."
+      "notes": "First-party gateway stub. Connects to user-managed 9Router; capability skills fetched on demand, not vendored into overlay. Pinned to v0.5.95 (a99cf57; f01fb90 base). Requires TLS certificate validation."
     },
     {
       "component": "skill-stocktake",
@@ -671,10 +701,11 @@
       "component": "pageindex",
       "path": "skills/pageindex",
       "upstream": "VectifyAI/PageIndex@037a7dbacfb9a19f38b354ce60cee5094b3f854c",
+      "version": "0.2.21",
       "license": "MIT",
       "modified": true,
       "redistribution": "mit",
-      "notes": "First-party wrapper. Not a core MCP; Cloud/SDK not vendored."
+      "notes": "First-party wrapper. Tree then reason with start_index and end_index range schema. Cloud/SDK not vendored."
     },
     {
       "component": "business-motion-film",
@@ -685,6 +716,43 @@
       "modified": true,
       "redistribution": "mit",
       "notes": "Adapted from echris6/motion-video-kit. Launch-style business commercials, independent critic loop, and product hero 3D realism; render executed via hyperframes. Wave 0.1.9 merges product-film mode (real app UI) from kaventro/motion-designer@0cf0ba92d3db7d8d5ae603a65b56a99a2866311c (MIT, Copyright (c) 2026 kaventro)."
+    },
+    {
+      "component": "markitdown",
+      "path": "skills/markitdown",
+      "upstream": "https://github.com/microsoft/markitdown@b8f79c57ebc0044be41323d89b2a45d3fda8460e",
+      "version": "0.1.8",
+      "license": "MIT",
+      "modified": true,
+      "redistribution": "mit",
+      "notes": "First-party wrapper. Microsoft markitdown method inspiration. MCP via uvx markitdown-mcp==0.0.1a7 with markitdown[all]==0.1.8."
+    },
+    {
+      "component": "supabase-ops",
+      "path": "skills/supabase-ops",
+      "upstream": "first-party",
+      "license": "MIT",
+      "modified": false,
+      "redistribution": "mit",
+      "notes": "First-party operational specialist for Supabase Auth, RLS, schema migrations, and client SDK integration."
+    },
+    {
+      "component": "mongodb-ops",
+      "path": "skills/mongodb-ops",
+      "upstream": "first-party",
+      "license": "MIT",
+      "modified": false,
+      "redistribution": "mit",
+      "notes": "First-party operational specialist for MongoDB schemas, indexes, and aggregation pipelines."
+    },
+    {
+      "component": "vercel-ops",
+      "path": "skills/vercel-ops",
+      "upstream": "first-party",
+      "license": "MIT",
+      "modified": false,
+      "redistribution": "mit",
+      "notes": "First-party operational specialist for Vercel deployment, Next.js hosting, and vercel.json configurations."
     }
   ]
 }

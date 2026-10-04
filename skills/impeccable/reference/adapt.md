@@ -232,7 +232,13 @@ Don't chase device sizes; let content tell you where to break. Start narrow, str
 }
 ```
 
-**Critical**: Don't rely on hover for functionality. Touch users can't hover.
+**Critical**: Don't rely on hover for functionality. Touch users can't hover. Provide clear active and press states for coarse pointer devices.
+
+#### Touch & Gesture Adaptation
+
+- **Hit targets**: Minimum 44×44px interactive area; extend with invisible margins or padding when visual marks are small.
+- **Gesture conflict elimination**: Author `touch-action: pan-y` on vertically scrolling containers holding swipeable elements (cards, carousels) so native scroll and custom swipe gestures do not fight.
+- **Edge gestures**: Keep critical interactive controls at least 16px away from screen edges to avoid intercepting system back or home navigation gestures.
 
 #### Safe Areas: Handle the Notch
 

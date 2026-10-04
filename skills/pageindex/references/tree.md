@@ -1,6 +1,6 @@
 # Tree then reason
 
-Pin: `VectifyAI/PageIndex@037a7dbacfb9a19f38b354ce60cee5094b3f854c` (MIT).
+Pin: `VectifyAI/PageIndex@037a7dbacfb9a19f38b354ce60cee5094b3f854c` (v0.2.21, MIT).
 
 ## Why a tree
 
@@ -8,11 +8,22 @@ Vector RAG retrieves by similarity. Long professional documents need
 **relevance**, which takes a map of sections and a reason to open one.
 PageIndex-style retrieval is two steps:
 
-1. **Index** — hierarchical tree (title, summary, page/section span, children).
+1. **Index** — hierarchical tree (title, summary, start_index, end_index, page/section span, children).
 2. **Retrieve** — LLM (or this session) walks the tree, recording why each node
    was opened, then reads only those leaves.
 
 No vector DB. No blind chunking.
+
+## Tree Node Schema (v0.2.21)
+
+Every node in the hierarchical tree structure carries explicit range boundaries:
+
+- `title`: Heading text or section name.
+- `summary`: Abstract or distillation of the section content (≤150 words).
+- `start_index`: 0-based start index / page offset of the node within document stream.
+- `end_index`: 0-based end index / page offset (span boundary).
+- `page_span`: Human-readable page interval (e.g. `pp. 14–22`).
+- `children`: Nested list of child tree nodes.
 
 ## Local overlay path (no extra deps)
 

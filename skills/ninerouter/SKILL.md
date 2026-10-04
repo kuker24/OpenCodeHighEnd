@@ -22,6 +22,7 @@ Intent: `gateway_llm`. 9Router is a `FOREIGN_ON_DEMAND` gateway, not an extra co
 
 - **Zero-Bind Prohibition**: If `NINEROUTER_URL` contains `0.0.0.0` or binds all interfaces, fail closed immediately.
 - **Graceful Absence**: If `NINEROUTER_URL` is unreachable or unconfigured, report `NOT_CONFIGURED`. This is an optional gateway, never an installer or `opencode-he doctor` failure.
+- **TLS Certificate Validation**: When connecting to a remote 9Router gateway via HTTPS, standard TLS verification must remain active. Enforce valid TLS certificates for non-localhost endpoints. For internal self-signed CAs, configure `NODE_EXTRA_CA_CERTS` or `SSL_CERT_FILE` in the host environment; never bypass certificate verification using `--insecure` or `NODE_TLS_REJECT_UNAUTHORIZED=0` in production.
 
 ## Health & Discovery
 
@@ -41,7 +42,7 @@ Available model endpoints:
 
 ## On-Demand Capability Skills
 
-Do not vendor upstream skills. Fetch raw definitions on-demand from `https://github.com/decolua/9router` (`master` @ `f01fb90`):
+Do not vendor upstream skills. Fetch raw definitions on-demand from `https://github.com/decolua/9router` (`master` @ `a99cf57` / v0.5.95; legacy `f01fb90`):
 - `skills/9router/SKILL.md` (entry / setup)
 - `skills/9router-chat/SKILL.md`
 - `skills/9router-image/SKILL.md`
