@@ -173,10 +173,12 @@ function main() {
     process.exit(runAudit(cwd, options));
   } else if (options.command === "install") {
     process.exit(runInstall(cwd, options));
+  } else if (options.command === "update") {
+    process.exit(runInstall(cwd, { ...options, force: true }));
   } else if (options.command === "remove") {
     process.exit(runRemove(cwd, options));
   } else {
-    console.error(`Unknown command: ${options.command}. Supported: audit, install, remove`);
+    console.error(`Unknown command: ${options.command}. Supported: audit, install, update, remove`);
     process.exit(1);
   }
 }

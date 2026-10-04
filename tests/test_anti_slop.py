@@ -137,6 +137,16 @@ class AntiSlopContractTests(unittest.TestCase):
             self.assertNotEqual(res_refuse.returncode, 0)
             self.assertIn("Refusing to overwrite", res_refuse.stderr)
 
+            # 2b. Update succeeds by overwriting with current preferences
+            res_update = subprocess.run(
+                ["node", str(manage_script), "update", "--profile", "recommended"],
+                cwd=tmpdir,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            self.assertIn("Installed anti-slop plugin (recommended)", res_update.stdout)
+
             # 3. Remove
             res_remove = subprocess.run(
                 ["node", str(manage_script), "remove"],

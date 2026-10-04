@@ -63,7 +63,8 @@ needs; do not edit the mechanism per page. Drive bespoke behaviour from
 | Hover/press/easing after the surface exists | `emil-design-eng` |
 | Standalone photoreal / ads / identity | `visual-studio` |
 | Deterministic HTML composition rendered to video | `hyperframes` |
-| Exploratory QA | `browser-act` |
+| Exploratory QA | `playwright-qa` |
+| Persistent multi-session authenticated workflows | `browser-act` |
 | Observed browser cause | `opencode-chromium-cdp` then `chrome-devtools-axi` |
 
 ## Run

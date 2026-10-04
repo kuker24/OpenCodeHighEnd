@@ -18,7 +18,7 @@ Vendored from [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) (MIT, 
 4. **Exact Version Coupling**: Keep `oxlint` and `@oxlint/plugins` on the exact same version.
 5. **No Blind Global Rewrites**: Linter findings identify patterns; resolve root causes with inference, `satisfies`, and boundary validation rather than casts or fake comments.
 
-## The 4 Modes
+## The 5 Modes
 
 | Mode | Behavior |
 |---|---|
@@ -26,6 +26,7 @@ Vendored from [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) (MIT, 
 | `recommended` | Installs curated OCBF profile (high-signal type safety assertions) after baseline review. |
 | `strict` | Enables all 15 generic upstream rules (requires explicit user confirmation). |
 | `custom` | Enables user-selected rule set. |
+| `update` | Refreshes vendored rules and assets while preserving current profile preferences. |
 
 *Effect Rule Group*: Opt-in separately (`--with-effect`) only if `effect` is a direct project dependency.
 
@@ -46,7 +47,10 @@ node <skill-base-dir>/scripts/manage.mjs install --profile strict
 # 4. Install with Effect rules (when project uses Effect)
 node <skill-base-dir>/scripts/manage.mjs install --profile recommended --with-effect
 
-# 5. Safe removal
+# 5. Update existing installation
+node <skill-base-dir>/scripts/manage.mjs update --profile recommended
+
+# 6. Safe removal
 node <skill-base-dir>/scripts/manage.mjs remove
 ```
 

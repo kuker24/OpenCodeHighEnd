@@ -58,6 +58,11 @@ class PlaywrightQAContractTests(unittest.TestCase):
         workflow = (SKILL / "references" / "workflow.md").read_text(encoding="utf-8")
         self.assertIn("snapshot", workflow)
         self.assertIn("No fixed sleep", workflow)
+        self.assertIn("--device=", workflow)
+        self.assertIn("--viewport-size=", workflow)
+        self.assertIn("--color-scheme=", workflow)
+        self.assertIn("--reduced-motion=", workflow)
+        self.assertIn("WebMCP and Security Boundaries", workflow)
 
     def test_doctor_browser_findings_safe(self):
         f = Findings()

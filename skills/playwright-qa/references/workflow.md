@@ -26,14 +26,55 @@
    ```bash
    playwright-cli -s=<task-session> screenshot --filename=artifacts/evidence.png
    ```
-   For mobile emulation:
-   ```bash
-   playwright-cli -s=<task-session> open http://127.0.0.1:3000 --mobile
-   ```
+
+## Emulation Modes
+
+Configure emulation flags during session launch to exercise responsive designs, dark mode, accessibility, and internationalization:
+
+- **Device Preset**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --device="iPhone 14"
+  ```
+- **Custom Viewport**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --viewport-size=375x667
+  ```
+- **Color Scheme (Dark/Light)**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --color-scheme=dark
+  ```
+- **Reduced Motion (Accessibility)**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --reduced-motion=reduce
+  ```
+- **Timezone**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --timezone="Asia/Jakarta"
+  ```
+- **Locale & Language**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --locale="id-ID"
+  ```
+- **Geolocation**:
+  ```bash
+  playwright-cli -s=<task-session> open http://127.0.0.1:3000 --geolocation="-6.2088,106.8456"
+  ```
+
 7. **Clean up**:
    ```bash
    playwright-cli -s=<task-session> close
    ```
+
+## WebMCP and Security Boundaries
+
+1. **Local Applications Only**: Target localhost or 127.0.0.1 web apps under active development.
+2. **Door Hierarchy**:
+   - `playwright-qa`: Door 1 primary exploratory QA and local UI verification.
+   - `browser-act`: Door 2 explicit multi-session, persistent authenticated workflows.
+   - `chrome-devtools-axi`: Door 3 deep runtime diagnostics via Chrome DevTools Protocol on port 9223.
+   - Never use `google-chrome-stable` or personal profile directories.
+3. **No External Scraping**: Never use `playwright-qa` for public content extraction. Use `research` (`references/web-data.md`), `crawl4ai`, or `scrapling`.
+4. **Credential Privacy**: Never persist, extract, or commit session cookies, authentication tokens, or storage states.
 
 ## Best Practices & Anti-Patterns
 
