@@ -244,7 +244,7 @@ function knownValueEvidence(
   if (
     declarator === null ||
     declarator.parent.type !== "VariableDeclaration" ||
-    declarator.parent.kind === "const" ||
+    declarator.parent.kind !== "const" ||
     declarator.init === null ||
     variable.references.some((reference) => reference.isWrite() && !reference.init) ||
     functionBoundary(declarator) !== boundary
@@ -273,7 +273,7 @@ function widenedBinding(
   if (
     declarator === null ||
     declarator.parent.type !== "VariableDeclaration" ||
-    declarator.parent.kind === "const" ||
+    declarator.parent.kind !== "const" ||
     declarator.id.type !== "Identifier" ||
     declarator.init === null ||
     variable.references.some((reference) => reference.isWrite() && !reference.init)

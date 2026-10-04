@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode, urlparse
 
-from ..common import he_dir, home, repo_root, sha256_file, share_dir, write_json
+from ..common import he_dir, home, sha256_file, share_dir, write_json
 from ..paths import tar_member_ok
 from . import FTS_SCHEMA_VERSION, PACKAGE_DIR
 from .bank import DesignV2Error, resolve_design_v2_root
