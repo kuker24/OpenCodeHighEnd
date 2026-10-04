@@ -504,7 +504,7 @@
       "copyright": "Copyright (c) 2026 Dillon Mulroy",
       "modified": true,
       "redistribution": "mit",
-      "notes": "Vendored rule snapshot with 4 modes (audit, recommended, strict, custom) and opt-in Effect rules."
+      "notes": "Vendored rule snapshot with 5 modes (audit, recommended, strict, custom, update) and opt-in Effect rules."
     },
     {
       "component": "taste-guard",

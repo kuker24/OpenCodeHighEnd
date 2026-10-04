@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.16 — 2026-10-04
+
+Patch koreksi pasca-0.1.15 untuk atribusi aset anti-slop, pemulihan catatan penundaan upstream c44ef22, dan penyempurnaan emulasi Playwright QA (permissions geolokasi). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
+
+- **Koreksi**: Klaim pada 0.1.15 "memperbaiki pemeriksaan terbalik" adalah salah atribusi; upstream `e8c4880` tidak pernah memiliki bug tersebut, melainkan sinkronisasi 0.1.15 memulihkan drift lokal yang ada di OCH sejak bootstrap 0.1.0 (`202cc46`). Catatan evaluasi upstream `c44ef22` (3 generic rules, 4 Effect rules, shared helpers, vendored eslint-stylistic) dipulihkan ke `docs/source-wave.md` dengan status DEFERRED.
+- **Penyempurnaan emulasi Playwright QA (geolokasi & permissions)**: Menegaskan bahwa emulasi geolokasi pada launch config `.playwright/cli.config.json` wajib menyertakan `contextOptions.permissions: ["geolocation"]` agar tidak ditolak dengan `"User denied Geolocation"`. Menjelaskan pemisahan runtime `run-code`: geolokasi menggunakan API Playwright standar (`grantPermissions`/`setGeolocation`) yang lintas-browser, sedangkan emulasi runtime timezone dan locale spesifik Chromium via CDP (`setTimezoneOverride`/`setLocaleOverride`).
+- **Versi Produk**: Bump versi ke `0.1.16` (`VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `README.md`, `docs/CATALOG-FREEZE.md`).
+
 ## 0.1.15 — 2026-10-04
 
 Rilis pemeliharaan Wave 0.1.15 untuk sinkronisasi aset vendored anti-slop, standardisasi emulasi Playwright QA, dan pembersihan impor mati. Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
