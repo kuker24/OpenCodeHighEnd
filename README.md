@@ -4,7 +4,7 @@ OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.12**. The 65-skill catalog is strictly frozen.
+Version **0.1.13**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 
@@ -17,12 +17,12 @@ Version **0.1.12**. The 65-skill catalog is strictly frozen.
 - Evidence-blocked done-gate (`FACT:` / `JUDGMENT:`) via verification rules + `/decision-log`
 - UI polish checklists merged into `emil-design-eng` + practical a11y & React smell checklist in `impeccable` (`react-doctor` as on-demand `OPTIONAL_TOOL`)
 - Generative UI from typed schemas via `json-render`, consulting slide factories via `deck-design`, vectorless tree-reasoning long-doc nav via `pageindex`, commercial launch films & real app UI product-film mode via `business-motion-film`, gateway routing via `ninerouter`
-- Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.0`
+- Core MCP pins: Codebase Memory **0.11.0** (tarball and inner-binary SHA-256) and `shadcn@4.21.1`
 - Email design is an Impeccable reference, not a new skill (raw HTML uses tables; React Email / MJML may use framework components)
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
-- Selected skills adapted from Matt Pocock (`d81f3a1`) and pstack `23e4138` (0.15.6) with OpenCode host isolation and verification-loop rigor
+- Selected skills adapted from Matt Pocock (`d81f3a1`, v1.2.3+) and pstack `e43c7ee` (0.15.9; `/correct` at `9511e60`) with OpenCode host isolation and verification-loop rigor
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not
@@ -31,12 +31,20 @@ Version **0.1.12**. The 65-skill catalog is strictly frozen.
 - Not your provider keys, models, or auth state
 - Not a Design Bank media repository
 - Not a multi-agent swarm (explicit, artifact-gated specialist graph)
-- Not adopting foreign autopilot loops, swarms, or Cursor model rules: pstack selected skills are pinned to `23e4138` with OpenCode host adaptation; `poteto-mode`, `/how`, and `~/.cursor/rules/pstack-models.mdc` are rejected
+- Not adopting foreign autopilot loops, swarms, or Cursor model rules: pstack selected skills are pinned to `e43c7ee` (0.15.9) with OpenCode host adaptation; `poteto-mode`, `/how`, and `~/.cursor/rules/pstack-models.mdc` are rejected
 - Not vendoring external red-team playbooks like `deepteam` (optional external pointer only)
 - Not vendoring monolithic apps (`genoffice`, `monocode`, `openmuse`), external graph databases (`graphiti`, `cognee`), or Jev compose APIs
 - Not adding extra core MCP servers (core remains strictly Codebase Memory, Context7, and shadcn)
 - Not OpenCode 1.x (installer fails closed on 1.x)
 - Not claimed as macOS/Windows-tested (Linux x86_64 only for this release)
+
+## What's new in 0.1.13
+
+- **Upstream Pins & MCP Modernization**: Core MCP `shadcn` bumped to `4.21.1`; `@reticlehq/server` pinned to `3.5.0`; `markitdown-mcp` pinned to `0.0.1a7` with `markitdown[all]==0.1.8`; `crawl4ai` standardized to `/mcp/sse` endpoint; `context7-mcp` shadow detection added to doctor.
+- **Skill Refresh**: `playwright-qa` enriched with complete device, viewport, color scheme, reduced motion, timezone, locale, and geolocation emulation flags plus explicit WebMCP security boundaries; `install-anti-slop` gained `update` mode; `scroll-craft` aligned to dual-door browser handoffs.
+- **Doctrines Adopted**: Adversarial UI stress-testing doctrine (`break-ui` by Emil Kowalski) integrated into `skills/impeccable/reference/break-ui.md`; pstack `/correct` invariant enforcement hierarchy (5-level mechanical elimination) integrated into `manual-skills/reflect/references/correct.md`; `business-motion-film` product-film mode upgraded with 7-dimension scored review gate, 360 px phone-size review, and motion blur subframe averaging; `architect` updated with agent contributor mental model.
+- **Governance & Notices**: `docs/source-wave.md`, `docs/warehouse-inventory.md`, and `THIRD_PARTY_NOTICES.md` fully synchronized; Serena GPL-3.0-or-later boundary preserved as external pointer only (`POINTER_ONLY` / `OPTIONAL_ABSENT`).
+- **Catalog Freeze Strictly Maintained**: Exactly 65 skills (50 model-invoked + 15 manual) and exactly 25 closed intents; zero allowlist growth.
 
 ## What's new (0.1.11 + 0.1.12)
 

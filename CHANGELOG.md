@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.13 — 2026-10-04
+
+Wave 0.1.13 upstream sync across 6 discrete scopes (A–F). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
+
+- **Scope A (Pins & MCP)**: Pembaruan pin MCP `shadcn@4.21.1`, `@reticlehq/server@3.5.0`, `markitdown-mcp==0.0.1a7` dengan `markitdown[all]==0.1.8`, dan standardisasi `crawl4ai` endpoint ke `/mcp/sse` (URL lama `/mcp` memicu peringatan `CRAWL4AI_LEGACY_URL`). Menambahkan deteksi shadow `context7-mcp` pada doctor.
+- **Scope B (Skill Refresh)**: Memperbarui `playwright-qa` dengan opsi emulasi lengkap (`--device`, `--viewport-size`, `--color-scheme`, `--reduced-motion`, `--timezone`, `--locale`, `--geolocation`) dan batas keamanan WebMCP. Menambahkan mode `update` pada `install-anti-slop` (`manage.mjs`) untuk memperbarui aset vendored sambil menjaga preferensi profil. Menyelaraskan handoff browser dual-door pada `scroll-craft`.
+- **Scope C (Doctrines)**: Mengadaptasi doktrin adversarial UI stress testing `break-ui` (Emil Kowalski) ke `skills/impeccable/reference/break-ui.md` dengan alur 6 fase, dev toggle, dan failure signatures. Mengadaptasi hierarki penegakan invarian 5 level `pstack /correct` ke `manual-skills/reflect/references/correct.md`. Memperbarui `business-motion-film` (product-film mode) dengan scored review 7 dimensi, tinjauan layar ponsel 360 px, dan rata-rata subframe motion blur. Memperbarui `manual-skills/architect` dengan lensa kontributor agent (asumsi perbaikan lokal harus aman global).
+- **Scope D (Tata Kelola & Inventaris)**: Pembaruan catatan disposisi upstream di `docs/source-wave.md` dan `docs/warehouse-inventory.md` untuk sinkronisasi wave 0.1.13. Batas lisensi GPL-3.0-or-later `serena-ai/serena` (`6707cd9b7e`) ditegaskan tetap sebagai pointer eksternal (`POINTER_ONLY`/`OPTIONAL_ABSENT`).
+- **Scope E (Atribusi & Notices)**: Sinkronisasi atribusi upstream pada `THIRD_PARTY_NOTICES.md`, `vendor/sources.json`, `vendor/license-audit.json`, dan berkas `NOTICE.md` terkait (`skills/business-motion-film/NOTICE.md`, `skills/install-anti-slop/NOTICE.md`, `skills/playwright-qa/NOTICE.md`). Label Matt Pocock diperbaiki menjadi `v1.2.3+ (d81f3a1)`.
+- **Scope F (Rilis)**: Bump versi produk ke 0.1.13 (`VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `docs/CATALOG-FREEZE.md`, `README.md`). Menjalankan seluruh test suite secara komprehensif.
+
 ## 0.1.12 — 2026-10-04
 
 Wave 0.1.12 body-only ("skill-refresh"). Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist (`vendor/skill-allowlist.txt` tidak berubah). Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.
