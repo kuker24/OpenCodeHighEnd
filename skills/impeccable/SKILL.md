@@ -60,7 +60,7 @@ Choose the mode from the requested surface, not the product, and persist it only
 | `bolder [target]` | Refine | Amplify safe or bland designs | [reference/bolder.md](reference/bolder.md) |
 | `quieter [target]` | Refine | Tone down aggressive or overstimulating designs | [reference/quieter.md](reference/quieter.md) |
 | `distill [target]` | Refine | Strip to essence, remove complexity | [reference/distill.md](reference/distill.md) |
-| `harden [target]` | Refine | Production-ready: errors, i18n, edge cases | [reference/harden.md](reference/harden.md) |
+| `harden [target]` | Refine | Production-ready: errors, i18n, edge cases | [reference/harden.md](reference/harden.md) · stress: [reference/break-ui.md](reference/break-ui.md) |
 | `onboard [target]` | Refine | Design first-run flows, empty states, activation | [reference/onboard.md](reference/onboard.md) |
 | `animate [target]` | Enhance | Add purposeful animations and motion | [reference/animate.md](reference/animate.md) |
 | `colorize [target]` | Enhance | Add strategic color to monochromatic UIs | [reference/colorize.md](reference/colorize.md) |

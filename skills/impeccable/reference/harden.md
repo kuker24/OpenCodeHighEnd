@@ -28,7 +28,7 @@ Identify weaknesses and edge cases:
    - Number formats (1,000 vs 1.000)
    - Currency symbols
 
-**CRITICAL**: Designs that only work with perfect data aren't production-ready. Harden against reality.
+**CRITICAL**: Designs that only work with perfect data aren't production-ready. Harden against reality. For adversarial stress-testing workflows with worst-case data toggles and failure signatures, follow [break-ui.md](break-ui.md).
 
 ## Hardening Dimensions
 

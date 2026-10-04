@@ -58,9 +58,14 @@ Before writing implementation code or starting a build, you must define the stor
 
 ## 6. QA Loop & Mechanical Ledger
 
-- **Contact Sheets**: Generate visual contact sheets of the film (timeline overview every 0.5 s, transitions every 0.05 s) to review cadence, cropping, and legibility.
+- **Contact Sheets & Verification**:
+  - Timeline overview every 0.5 s, cuts/transitions every 0.05 s, full-scale text review (`--scale 2`), and phone-width overview at 360 px (`--phone`) to verify legibility in mobile feeds.
+  - Motion blur for fast camera moves or whips: average subframes across a 180° shutter (`--blur 8`). Preview without blur; render finals with it.
+- **Scored Review Gate**:
+  - Evaluate stretches across 7 criteria scored from 1 to 10: `hook`, `readability`, `motion`, `variety`, `composition`, `sync`, and `accuracy`.
+  - Quality gate requires every stretch to report `clean` with every dimension scoring ≥ 8 before final release.
 - **Failure Catalogue**: Audit against common flaws:
-  - Text cut off or truncated (`"Savi"`, `"Uncategori…"`).
+  - Text cut off, unreadable on mobile, or truncated (`"Savi"`, `"Uncategori…"`).
   - UI displayed full-bleed without device framing.
   - Arbitrary crossfades between unrelated scenes instead of physical UI transitions.
   - Cursor moving without purpose or clicking empty space.

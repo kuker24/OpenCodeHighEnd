@@ -15,7 +15,7 @@ Do not auto-edit skills. Do not glob private histories. Do not use Cursor `creat
 - The user said "reflect" or "/reflect".
 - A complex task just landed cleanly and the recipe is worth keeping.
 - The agent hit dead ends, found the working path, and the path generalizes.
-- The user corrected the agent's approach mid-task.
+- The user corrected the agent's approach mid-task (follow the [correct doctrine](references/correct.md) for structural invariant enforcement).
 
 Skip when the conversation is trivial, off-topic, or already covered by an existing skill the parent followed correctly. One-offs are not learnings.
 
@@ -35,7 +35,7 @@ Prompt templates live in `references/` (judgment, tooling, divergent, synthesize
 
 Every finding is one of:
 
-- **STRUCTURAL** — a lint rule, script, metadata flag, or runtime check would enforce it better than a skill bullet. File as BACKLOG unless the user asks to implement the gate now.
+- **STRUCTURAL** — a lint rule, script, metadata flag, or runtime check would enforce it better than a skill bullet (follow [references/correct.md](references/correct.md) to eliminate recurring mistakes mechanically). File as BACKLOG unless the user asks to implement the gate now.
 - **SKILL** — a durable edit to an existing owned skill or a new skill draft.
 - **BACKLOG** — tracker item, not a skill edit.
 
