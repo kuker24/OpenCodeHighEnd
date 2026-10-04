@@ -36,6 +36,11 @@ class V2SchemaTests(unittest.TestCase):
         self.assertEqual(sources["version"], "4.21.1")
         self.assertEqual(sources["via"], "npx")
 
+    def test_crawl4ai_sources_pin(self):
+        sources = jsonc.load_path(ROOT / "vendor" / "sources.json")["sources"]["crawl4ai"]
+        self.assertEqual(sources["version"], "0.9.4")
+        self.assertEqual(sources["commit"], "133e1d92e37885dfccc03ea2e3687d06c98b7ceb")
+
     def test_installer_rejects_opencode_1(self):
         prev = os.environ.get("OPENCODE_HE_MOCK_OPENCODE")
         with tempfile.TemporaryDirectory() as td:

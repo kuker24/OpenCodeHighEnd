@@ -23,7 +23,7 @@ This skill provides an interactive, token-efficient browser interface for agents
 7. **Privacy & Hygiene**: Storage state, cookies, HAR recordings, traces, and screenshots must never be committed to git or printed with sensitive credentials.
 8. **No Browser for Backend**: Never start browser sessions when only backend, API, database, or non-UI code changed.
 9. **No Data Gathering**: Web and social data gathering is not UI QA; route extraction tasks to `research` (`references/web-data.md`).
-10. **Emulation & Responsive QA**: Emulate devices (`open --device`), resize viewports (`resize <w> <h>`), and toggle media features (`set-color-scheme`, `set-reduced-motion`, `set-forced-colors`, `set-contrast`, `set-media`). Timezone, locale, and geolocation require `--config` or `run-code`.
+10. **Emulation & Responsive QA**: Emulate devices (`open --device`), resize viewports (`resize <w> <h>`), and toggle media features (`set-color-scheme`, `set-reduced-motion`, `set-forced-colors`, `set-contrast`, `set-media`). Timezone, locale, and geolocation require `run-code`.
 
 ## Workflow
 

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.13",
+  "productVersion": "0.1.14",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -175,12 +175,13 @@
     },
     {
       "component": "design-bank",
-      "path": "GitHub Release v1.0.0 Design-bank.tgz",
-      "upstream": "Refero + Motionsites catalogs packed by this project",
-      "version": "1.0.0",
+      "path": "OpenCodeHighEnd-DesignBank-v3.zip",
+      "upstream": "lib/design_v2/bootstrap_sources.json (Google Drive v3)",
+      "version": "v3",
       "license": "not-cleared",
       "modified": true,
-      "redistribution": "unknown"
+      "redistribution": "unknown",
+      "notes": "Bootstrap archive OpenCodeHighEnd-DesignBank-v3.zip (SHA-256 91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53)."
     },
     {
       "component": "diagnosing-bugs",

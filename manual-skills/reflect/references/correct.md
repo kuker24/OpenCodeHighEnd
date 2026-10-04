@@ -76,7 +76,7 @@ Record durable enforcements in the repository's verification or reflection notes
 |---|---|---|---|
 | _(class)_ | _(incident)_ | _(level)_ | _(check)_ |
 
-### Enforcement rules (adapted; upstream 4 levels)
+### Enforcement rules (5-level OCH adaptation; upstream pstack combines types and lint into 4 levels)
 
 - If a pattern is already common in the codebase, a test or check should fail only when a change adds more of it — not on pre-existing occurrences.
 - Exceptions must be documented at the relevant line with the rationale, an expiration date, and explicit human approval.

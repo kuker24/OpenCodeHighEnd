@@ -64,7 +64,7 @@ Use device presets at launch and session commands to toggle media features.
   playwright-cli -s=<task-session> set-media print
   playwright-cli -s=<task-session> clear-media
   ```
-- **Timezone / Locale / Geolocation**: Not available as CLI flags. Use `--config playwright.config.ts` at launch or `run-code` to set programmatically.
+- **Timezone / Locale / Geolocation**: Not available as CLI flags. Set programmatically via `run-code` (CLI `--config` accepts JSON files defaulting to `.playwright/cli.config.json`, not TypeScript config; timezone/locale emulation via config is unverified).
 
 7. **Clean up**:
    ```bash

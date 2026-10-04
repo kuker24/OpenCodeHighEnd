@@ -4,7 +4,7 @@ OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.13**. The 65-skill catalog is strictly frozen.
+Version **0.1.14**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 

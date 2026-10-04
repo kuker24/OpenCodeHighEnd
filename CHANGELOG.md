@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.14 — 2026-10-04
+
+Patch rilis pasca-0.1.13 untuk koreksi pin sumber, penuntasan pensiun fallback Design Bank, dan perbaikan path config Playwright. Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
+
+- **Koreksi pin crawl4ai**: Memperbaiki commit SHA crawl4ai di `vendor/sources.json` yang sebelumnya salah tercatat (salah hash tip) menjadi `133e1d92e37885dfccc03ea2e3687d06c98b7ceb` sesuai rilis tag resmi `v0.9.4` (tag `a9634e9`), menyelesaikan error HTTP 422 pada resolusi commit GitHub API. Menambahkan tes invariant di `tests/test_v2_schema.py`.
+- **Penuntasan pensiun Design Bank Fallback #4**: Menghapus implementasi runtime fallback GitHub dari `lib/design_v2/bootstrap.py` dan method `curl-github-release`. Kegagalan resolusi Google Drive kini langsung meneruskan `BootstrapError` asli (fail-closed) tanpa menutupi akar masalah. Memperbarui `tests/test_design_bootstrap.py` untuk menguji penjalaran error Drive tanpa fallback. Mengarahkan entri komponen `design-bank` di `vendor/provenance.json` ke pin Google Drive v3 (`lib/design_v2/bootstrap_sources.json`, `OpenCodeHighEnd-DesignBank-v3.zip`, SHA-256 `91d90b4e...`).
+- **Koreksi path config Playwright QA**: Memperbaiki dokumentasi pada `skills/playwright-qa/references/workflow.md` agar merujuk ke file JSON (default `.playwright/cli.config.json`). Menegaskan bahwa emulasi timezone, locale, dan geolocation diatur secara programatik melalui `run-code`. Menyelaraskan catatan pada `skills/playwright-qa/SKILL.md` dan `rules/00-routing.md`.
+- **Harmonisasi hierarki invarian reflect**: Memperjelas subjudul pada `manual-skills/reflect/references/correct.md` menjadi adaptasi 5 level OCH (upstream pstack menggabungkan types dan linter menjadi 4 level).
+- **Versi Produk**: Bump versi ke `0.1.14` (`VERSION`, `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `README.md`, `docs/CATALOG-FREEZE.md`).
+
 ## 0.1.13 — 2026-10-04
 
 Wave 0.1.13 upstream sync across 6 discrete scopes (A–F). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).

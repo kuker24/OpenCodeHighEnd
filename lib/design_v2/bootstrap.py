@@ -228,35 +228,6 @@ def operator_url_source(url: str, sha256: str) -> tuple[BootstrapSource, str]:
     )
 
 
-def github_fallback_source() -> tuple[BootstrapSource, str]:
-    path = repo_root() / "vendor" / "sources.json"
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise BootstrapError("SOURCE_RESOLVED", "vendor sources unreadable", code="BOOTSTRAP_SOURCE_INVALID") from exc
-    block = ((payload.get("sources") or {}) if isinstance(payload, dict) else {}).get("design-bank")
-    if not isinstance(block, dict):
-        raise BootstrapError("SOURCE_RESOLVED", "github fallback missing", code="BOOTSTRAP_SOURCE_INVALID")
-    url = block.get("artifactUrl")
-    sha = block.get("artifactSha256")
-    if not isinstance(url, str) or not url.startswith("https://"):
-        raise BootstrapError("SOURCE_RESOLVED", "github fallback URL", code="BOOTSTRAP_SOURCE_INVALID")
-    if not isinstance(sha, str) or not SHA256_HEX_RE.fullmatch(sha):
-        raise BootstrapError("SOURCE_RESOLVED", "github fallback SHA-256", code="BOOTSTRAP_SOURCE_INVALID")
-    return (
-        BootstrapSource(
-            name="github-release-fallback",
-            source_type="https-artifact",
-            bank_version=str(block.get("version") or "fallback"),
-            archive_name=_archive_name_from_url(url, "Design-bank.tgz"),
-            archive_file_id="",
-            checksum_file_id="",
-            pinned_sha256=sha.lower(),
-        ),
-        url,
-    )
-
-
 def select_remote_source(
     source_name: str | None = None, *, config_path: Path | None = None
 ) -> tuple[BootstrapSource, str | None, str]:
@@ -264,14 +235,8 @@ def select_remote_source(
     if env:
         source, url = operator_url_source(env[0], env[1])
         return source, url, "curl-operator-url"
-    try:
-        source = resolve_bootstrap_source(source_name, config_path=config_path)
-        return source, None, "curl-google-drive-public"
-    except BootstrapError:
-        if source_name:
-            raise
-        source, url = github_fallback_source()
-        return source, url, "curl-github-release"
+    source = resolve_bootstrap_source(source_name, config_path=config_path)
+    return source, None, "curl-google-drive-public"
 
 
 def _is_html_file(path: Path) -> bool:

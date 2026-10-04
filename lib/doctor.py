@@ -527,7 +527,8 @@ def _browser_qa_findings(f: Findings) -> None:
         f.add("OPTIONAL_ABSENT", "Playwright browsers", "not cached in ~/.cache/ms-playwright")
 
     project_suites = []
-    for cfg_name in ("playwright.config.ts", "playwright.config.js", "cypress.config.ts", "cypress.config.js"):
+    e2e_candidates = [f"playwright.config.{ext}" for ext in ("ts", "js")] + ["cypress.config.ts", "cypress.config.js"]
+    for cfg_name in e2e_candidates:
         if (Path.cwd() / cfg_name).is_file():
             project_suites.append(cfg_name)
     if project_suites:

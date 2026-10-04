@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.13",
+  "productVersion": "0.1.14",
   "sources": {
     "codebase-memory": {
       "repository": "https://github.com/DeusData/codebase-memory-mcp",
@@ -80,7 +80,7 @@
     "crawl4ai": {
       "repository": "https://github.com/unclecode/crawl4ai",
       "version": "0.9.4",
-      "commit": "133e1d92e37803a60a7e1104e1388836ea4120ec",
+      "commit": "133e1d92e37885dfccc03ea2e3687d06c98b7ceb",
       "status": "foreign-on-demand",
       "note": "Optional remote MCP at http://127.0.0.1:11235/mcp/sse. Legacy /mcp emits WARN CRAWL4AI_LEGACY_URL."
     },

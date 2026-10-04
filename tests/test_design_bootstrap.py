@@ -356,43 +356,21 @@ class BootstrapTests(IsolatedHome):
         self.assertEqual(payload["status"], "already_present")
         self.assertEqual(self.download_calls, [])
 
-    def test_github_tgz_fallback_when_drive_config_missing(self):
-        tgz = self.tmp / "Design-bank.tgz"
-        with tarfile.open(tgz, "w:gz") as handle:
-            handle.add(self.source_tree, arcname=".")
-        digest = hashlib.sha256(tgz.read_bytes()).hexdigest()
-        from lib.design_v2.bootstrap import BootstrapSource
-
-        fallback = BootstrapSource(
-            name="github-release-fallback",
-            source_type="https-artifact",
-            bank_version="1.0.0",
-            archive_name="Design-bank.tgz",
-            archive_file_id="",
-            checksum_file_id="",
-            pinned_sha256=digest,
-        )
-        url = "https://example.com/artifacts/Design-bank.tgz"
-
-        def tgz_downloader(fetch_url: str, destination: Path) -> None:
-            self.download_calls.append(fetch_url)
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(tgz, destination)
-
+    def test_drive_failure_without_env_override_raises_original_error_without_fallback(self):
         missing = self.tmp / "missing-drive.json"
         missing.write_text('{"schemaVersion":1,"default":"missing","sources":{}}', encoding="utf-8")
-        with patch("lib.design_v2.bootstrap.github_fallback_source", return_value=(fallback, url)):
-            payload = bootstrap_design_bank(
+        from lib.design_v2.bootstrap import BootstrapError
+
+        with self.assertRaises(BootstrapError) as ctx:
+            bootstrap_design_bank(
                 target=self.target,
                 design_v2_root=self.design_v2,
                 cache_dir=self.cache,
-                downloader=tgz_downloader,
+                downloader=self._downloader,
                 config_path=missing,
             )
-        self.assertEqual(payload["status"], "ok")
-        self.assertEqual(payload["source"], "github-release-fallback")
-        self.assertEqual(self.download_calls, [url])
-        self.assertTrue((self.target / "21st/library/catalog.json").is_file())
+        self.assertEqual(ctx.exception.stage, "SOURCE_RESOLVED")
+        self.assertEqual(self.download_calls, [])
 
 
 if __name__ == "__main__":
