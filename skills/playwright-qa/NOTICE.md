@@ -14,3 +14,4 @@ originally developed by Microsoft Corporation.
 - Explicit runtime discovery without unprompted background downloads or package mutations.
 - Strict separation between OCBF tool invocation and target application dependencies.
 - Suite preservation: project Playwright Test and other E2E suites remain authoritative for regressions.
+- Added comprehensive device/viewport/color-scheme emulation flags and explicit WebMCP security boundaries.

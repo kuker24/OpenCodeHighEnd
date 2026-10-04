@@ -128,11 +128,11 @@
     },
     "emil-design-eng": {
       "repository": "https://github.com/emilkowalski/skills",
-      "commit": "85e8e2363b71",
+      "commit": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Emil Kowalski",
       "licenseFile": "vendor/licenses/EMILKOWALSKI-MIT.txt",
-      "note": "Emil Kowalski design engineering principles and motion doctrines merged into single specialist without catalog bloat (motion, apple-principles, native-motion, interface-feel)."
+      "note": "Emil Kowalski design engineering principles and motion doctrines merged into single specialist without catalog bloat (motion, apple-principles, native-motion, interface-feel). Adversarial UI stress testing (break-ui) merged into skills/impeccable/reference/break-ui.md."
     },
     "email-design-sources": {
       "sources": [
@@ -192,12 +192,13 @@
     },
     "pstack": {
       "repository": "https://github.com/cursor/plugins",
-      "commit": "23e4138daa01c42d4969f7a5465f82704e64f798",
+      "commit": "e43c7ee26e0038c6c1fa8380dd34ce86ff94cb2a",
       "subdir": "pstack",
+      "version": "0.15.9",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Lauren Tan",
       "licenseFile": "vendor/licenses/PSTACK-MIT.txt",
-      "note": "Evaluated at tip 23e4138 (pstack 0.15.6). Pstack selected skills retained with OpenCode host adaptation. Rejected upstream: poteto-mode, /how, /automate-me, /make-bot-ui, /bro, swarm, autopilot loops (ralph-loop, orchestrate, continual-learning), and ~/.cursor/rules/pstack-models.mdc model configuration."
+      "note": "Evaluated at tip e43c7ee (pstack 0.15.9); adopted /correct (9511e60) into manual-skills/reflect/references/correct.md. Pstack selected skills retained with OpenCode host adaptation. Rejected upstream: poteto-mode, /how, /automate-me, /make-bot-ui, /bro, swarm, autopilot loops (ralph-loop, orchestrate, continual-learning), and ~/.cursor/rules/pstack-models.mdc model configuration."
     },
     "playwright-cli": {
       "repository": "https://github.com/microsoft/playwright-cli",
@@ -256,11 +257,12 @@
     },
     "motion-designer": {
       "repository": "https://github.com/kaventro/motion-designer",
-      "commit": "0cf0ba92d3db7d8d5ae603a65b56a99a2866311c",
+      "version": "1.2.0",
+      "commit": "7d0b8bb78ddd2c91c57db9d1e83fcf711304bdb8",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 kaventro",
       "licenseFile": "vendor/licenses/KAVENTRO-MOTION-DESIGNER-MIT.txt",
-      "note": "Merged into skills/business-motion-film as product-film mode. Real app UI in device chrome, seek(t) frame determinism, 4-still approval gate. Models and plugin not vendored."
+      "note": "Merged into skills/business-motion-film as product-film mode. Real app UI in device chrome, seek(t) frame determinism, 4-still approval gate, phone-size review (360px), motion blur, and 7-dimension scored review gate. Models and plugin not vendored."
     },
     "9router": {
       "repository": "https://github.com/decolua/9router",

@@ -146,7 +146,7 @@
     },
     "reflect": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9) + 9511e60 (/correct)",
       "redistribution": "mit"
     },
     "figure-it-out": {
