@@ -277,6 +277,9 @@ t('items', { count }) // Handles complex plural rules
 - Disambiguate swipe vs. scroll thresholds (require minimum horizontal delta and angle before locking swipe intent).
 - Debounce rapid multi-tap / double-tap events on action triggers (forms, payments, mutations) to prevent double submissions.
 
+**Interrupted gestures**:
+- **Interrupted gestures**: Always listen for `pointercancel`, `lostpointercapture`, pointer release outside control boundaries, and window `blur`. Immediately reset drag/pan state, release pointer capture, and restore scroll behavior so the UI never gets stuck in an active drag or tracking state.
+
 ### Performance Resilience
 
 **Slow connections**:

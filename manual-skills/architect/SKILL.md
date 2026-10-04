@@ -40,7 +40,7 @@ Do not read a model pool. Treat model IDs as opaque. `MODEL_DIVERSITY=false`. Sa
 
 Require at least two structurally distinct candidates before synthesis. Whole-shape alternatives, not point fixes inside one shape.
 
-Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md). Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
+Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md). Reject or revise shallow modules, information leakage, temporal decomposition, pass-through methods, split ownership, two ways to do one task, importable internals, and hand-synced lists. Assume the next contributor is an agent that sees only the files it opened, copies the nearest example, and takes the shortest path that compiles. Prefer the design where a change that looks right from one file is right for the whole repo.
 
 Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller public surface. A rich interface keeps call chains short by concentrating capability instead of scattering it across shallow layers.
 

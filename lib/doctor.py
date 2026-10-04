@@ -50,6 +50,7 @@ CLAUDE_SCAN_SKIP_PARTS = {
 
 ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 OWNED_MCP_PROBE = ("codebase-memory-mcp", "context7", "shadcn")
+_mcp_diagnostics: dict[str, str] = {}
 
 
 def installed_policy():
@@ -107,6 +108,7 @@ def cmd_skills_verify() -> int:
 
 
 def mcp_status_map() -> dict[str, str]:
+    _mcp_diagnostics.clear()
     out: dict[str, str] = {}
     cfg = None
     for cand in (config_dir() / "opencode.jsonc", config_dir() / "opencode.json"):
@@ -184,15 +186,23 @@ def mcp_status_map() -> dict[str, str]:
             if cmd[0] != "uvx":
                 out[name] = "FAIL"
                 continue
-            has_pinned = any(
-                isinstance(part, str) and part.startswith("markitdown-mcp==")
+            has_valid_pin = any(
+                isinstance(part, str) and part == "markitdown-mcp==0.0.1a7"
+                for part in cmd
+            )
+            has_invalid_pin = any(
+                isinstance(part, str) and part.startswith("markitdown-mcp==") and part != "markitdown-mcp==0.0.1a7"
                 for part in cmd
             )
             has_bare = any(part == "markitdown-mcp" for part in cmd)
-            if not has_pinned and not has_bare:
+            if has_invalid_pin:
+                out[name] = "FAIL"
+                _mcp_diagnostics[name] = "MARKITDOWN_INVALID_PIN (run: opencode-he markitdown enable)"
+                continue
+            if not has_valid_pin and not has_bare:
                 out[name] = "FAIL"
                 continue
-            if not has_pinned and has_bare:
+            if not has_valid_pin and has_bare:
                 out[name] = "WARN"
                 continue
             out[name] = "CONFIGURED"
@@ -334,6 +344,8 @@ def cmd_mcp_status(deep: bool = False) -> int:
             extra = (extra + " " + live[name]).strip()
         if name == "markitdown" and status == "WARN":
             extra = (extra + " MARKITDOWN_UNPINNED").strip()
+        elif name == "markitdown" and status == "FAIL" and name in _mcp_diagnostics:
+            extra = (extra + " " + _mcp_diagnostics[name]).strip()
         elif name == "crawl4ai" and status == "WARN":
             extra = (extra + " CRAWL4AI_LEGACY_URL").strip()
         print(f"{status:<22} {name:<28} {extra}")
@@ -731,6 +743,8 @@ def cmd_doctor(deep: bool = False, strict: bool = False) -> int:
             serena_extra = "binary-on-PATH" if name == "serena" and which("serena") else extra
             if name == "markitdown" and status == "WARN":
                 evidence = "MARKITDOWN_UNPINNED"
+            elif name == "markitdown" and status == "FAIL" and name in _mcp_diagnostics:
+                evidence = _mcp_diagnostics[name]
             elif name == "crawl4ai" and status == "WARN":
                 evidence = "CRAWL4AI_LEGACY_URL"
             else:

@@ -1,7 +1,7 @@
 # Notice — scroll-craft
 
 This skill adapts substantial portions of [scroll-craft](https://github.com/nateherkai/scroll-craft)
-(commit `0b816225945e45380397d6a0487efa3c98916858`) by Nate Herk.
+(commit `75d81f74e83692add18cd7a8a8e078b8a887a579`) by Nate Herk.
 
 Copyright (c) 2026 Nate Herk
 

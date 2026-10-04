@@ -22,6 +22,8 @@ This guard is a **filter, not a style guide**. It prescribes no specific colors,
 - **BANK_MISS ≠ generate**: When an atomic component (button, input, card, nav) misses the bank, do not invent arbitrary hex or radius; fall back to project shadcn components or ask.
 - **Stitch / UI Skills Boundary**: Stitch MCP is for comps/screens only; UI Skills is for design-skill lookup only. Neither implements production UI alone.
 - **DESIGN.md Conflict**: If an explicit pin or `DESIGN.md` asks for a named slop pattern, name the element and the conflict, then ask keep-or-drop. Never silently follow and never silently override. Palette and typography that constitute brand identity are never slop.
+- When the human prompt/direction itself contains slop patterns or cliches, name the specific elements and the rule they trigger, explain why it degrades quality, and ask for confirmation before implementing.
+- Distinguish intentional brand voice or artistic contrast from accidental generative slop; never unilaterally rewrite user direction without asking.
 
 ---
 

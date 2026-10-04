@@ -22,7 +22,6 @@ OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design 
 1. Valid local bank (`OPENCODE_DESIGN_BANK` or `~/Design` with all four catalogs) → `already_present`, no download.
 2. `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. URL without SHA-256 fails closed; nothing is downloaded.
 3. Default Google Drive ZIP pin in `lib/design_v2/bootstrap_sources.json`.
-4. Fallback GitHub `.tgz` in `vendor/sources.json` (`design-bank.artifactUrl` + `artifactSha256`).
 
 The target and generated `~/DesignV2` are user data, not installer-owned. Uninstall never deletes them.
 

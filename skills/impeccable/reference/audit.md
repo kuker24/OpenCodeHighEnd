@@ -78,11 +78,12 @@ Skip when offline, when the project forbids npx, or when a default install/docto
 - **Fixed widths**: Hard-coded widths that break on mobile
 - **Touch targets**: Interactive elements < 44×44px or spacing < 8px
 - **Gesture conflicts**: Swipe vs native scroll fighting; missing `touch-action`
+- **Broken touch interaction**: Custom slider, drag, or strip controls; mouse-only event handlers; missing `touch-action: none` (or pan-x/pan-y) on draggable surfaces; drag/gesture state not cleared on pointercancel, lostpointercapture, or window blur; state the source of evidence (emulated viewport, synthesized touch, engine probe, or physical device) and explicitly record what has NOT been tested.
 - **Horizontal scroll**: Content overflow on narrow viewports
 - **Text scaling**: Layouts that break when text size increases
 - **Missing breakpoints**: No mobile/tablet variants
 
-**Score 0-4**: 0=Desktop-only (breaks on mobile), 1=Major issues (some breakpoints, touch/gesture collisions), 2=Partial (works on mobile, rough touch targets), 3=Good (responsive, minor touch target or gesture issues), 4=Excellent (fluid, all viewports, verified touch targets and collision-free gestures)
+**Score 0-4**: 0=Desktop-only (breaks on mobile), 1=Major issues (some breakpoints, touch/gesture collisions), 2=Partial (works on mobile, rough touch targets), 3=Good (responsive, minor touch target or gesture issues), 4=Excellent (fluid across all viewports, verified touch targets, gestures work under touch, and collision-free gestures)
 
 ### 5. Implementation Integrity (CRITICAL)
 

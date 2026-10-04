@@ -46,7 +46,7 @@ class PlaywrightQAContractTests(unittest.TestCase):
             self.assertIn(f"references/{name}", text)
         notice = (SKILL / "NOTICE.md").read_text(encoding="utf-8")
         self.assertIn("Copyright (c) Microsoft Corporation", notice)
-        self.assertIn("655530f6d0dc71a0d6bf46ae165877d3c7311099", notice)
+        self.assertIn("b85c7a736bb473bf55b584e54a09ffa698d6d871", notice)
         self.assertIn("Apache License 2.0", notice)
 
     def test_session_isolation_and_discipline(self):
@@ -59,9 +59,11 @@ class PlaywrightQAContractTests(unittest.TestCase):
         self.assertIn("snapshot", workflow)
         self.assertIn("No fixed sleep", workflow)
         self.assertIn("--device=", workflow)
-        self.assertIn("--viewport-size=", workflow)
-        self.assertIn("--color-scheme=", workflow)
-        self.assertIn("--reduced-motion=", workflow)
+        self.assertIn("set-color-scheme", workflow)
+        self.assertIn("set-reduced-motion", workflow)
+        self.assertIn("resize", workflow)
+        self.assertNotIn("--viewport-size=", workflow)
+        self.assertNotIn("--color-scheme=", workflow)
         self.assertIn("WebMCP and Security Boundaries", workflow)
 
     def test_doctor_browser_findings_safe(self):
@@ -86,7 +88,7 @@ class PlaywrightQAContractTests(unittest.TestCase):
         sources = json.loads((ROOT / "vendor" / "sources.json").read_text(encoding="utf-8"))
         self.assertEqual(
             sources["sources"]["playwright-cli"]["commit"],
-            "655530f6d0dc71a0d6bf46ae165877d3c7311099",
+            "b85c7a736bb473bf55b584e54a09ffa698d6d871",
         )
 
 

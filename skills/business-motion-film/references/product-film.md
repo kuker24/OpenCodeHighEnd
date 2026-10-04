@@ -59,8 +59,8 @@ Before writing implementation code or starting a build, you must define the stor
 ## 6. QA Loop & Mechanical Ledger
 
 - **Contact Sheets & Verification**:
-  - Timeline overview every 0.5 s, cuts/transitions every 0.05 s, full-scale text review (`--scale 2`), and phone-width overview at 360 px (`--phone`) to verify legibility in mobile feeds.
-  - Motion blur for fast camera moves or whips: average subframes across a 180° shutter (`--blur 8`). Preview without blur; render finals with it.
+  - Timeline overview every 0.5 s, cuts/transitions every 0.05 s, full-scale text review (`--scale 2`), and phone-width overview at 360 px (`--phone`) to verify legibility in mobile feeds (note: `--scale` and `--phone` are flags of upstream helper scripts `sheet.py` / `render.mjs`, which are not vendored into the overlay).
+  - Motion blur for fast camera moves or whips: average subframes across a 180° shutter (`--blur 8`, also a flag of upstream helper scripts `sheet.py` / `render.mjs`, which are not vendored into the overlay). Preview without blur; render finals with it.
 - **Scored Review Gate**:
   - Evaluate stretches across 7 criteria scored from 1 to 10: `hook`, `readability`, `motion`, `variety`, `composition`, `sync`, and `accuracy`.
   - Quality gate requires every stretch to report `clean` with every dimension scoring ≥ 8 before final release.

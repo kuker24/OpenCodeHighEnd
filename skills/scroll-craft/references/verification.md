@@ -39,3 +39,7 @@ prove smooth motion; test real interaction and report limits.
 
 Preflight matches the chosen tier: HTML/CSS needs no ffmpeg; layered images need
 no video stack; a media provider is never a general requirement.
+
+## Preview server binding
+
+Preview servers (Vite, Next, static http-server) must bind strictly to `127.0.0.1` (localhost only). LAN binding (`0.0.0.0`, `--host`) requires explicit human opt-in and a warning that the served directory is readable by any device on the local network.

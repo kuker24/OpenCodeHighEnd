@@ -156,7 +156,7 @@ class ReleaseArtifactTests(unittest.TestCase):
         names = {pkg["name"] for pkg in sbom["packages"]}
         self.assertIn("scroll-craft", names)
         scroll = next(pkg for pkg in sbom["packages"] if pkg["name"] == "scroll-craft")
-        self.assertEqual(scroll["versionInfo"], "0b816225945e45380397d6a0487efa3c98916858")
+        self.assertEqual(scroll["versionInfo"], "75d81f74e83692add18cd7a8a8e078b8a887a579")
 
     def test_builder_source_ref_mismatch(self):
         proc = _run_builder("--sha", "0" * 40)

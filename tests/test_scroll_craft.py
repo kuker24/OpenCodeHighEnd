@@ -188,7 +188,7 @@ class ScrollCraftContractTests(unittest.TestCase):
         sources = json.loads((ROOT / "vendor" / "sources.json").read_text(encoding="utf-8"))
         self.assertEqual(
             sources["sources"]["scroll-craft"]["commit"],
-            "0b816225945e45380397d6a0487efa3c98916858",
+            "75d81f74e83692add18cd7a8a8e078b8a887a579",
         )
 
 

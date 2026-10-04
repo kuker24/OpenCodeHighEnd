@@ -417,5 +417,5 @@ Evaluation and disposition contract for Wave 0.1.13 upstream sync:
 | `break-ui` (`emilkowalski/skills`) | **MERGE** | `skills/impeccable/reference/break-ui.md` | Adversarial UI stress testing adapted into Impeccable reference; zero catalog bloat. |
 | `pstack /correct` (`cursor/plugins`) | **MERGE** | `manual-skills/reflect/references/correct.md` | Invariant enforcement hierarchy merged into reflect reference; zero catalog bloat. |
 | `motion-designer` (`kaventro`) | **MERGE** | `skills/business-motion-film` | Scored review (7 criteria), phone-size review (360px), and motion blur merged into product-film. |
-| `serena` (`serena-ai/serena`) | **POINTER_ONLY** | `docs/mcp.md` | GPL-3.0-or-later boundary preserved; strictly external pointer (`OPTIONAL_ABSENT`). |
+| `serena` (`oraios/serena`) | **POINTER_ONLY** | `docs/mcp.md` | GPL-3.0-or-later boundary preserved; strictly external pointer (`OPTIONAL_ABSENT`). |
 

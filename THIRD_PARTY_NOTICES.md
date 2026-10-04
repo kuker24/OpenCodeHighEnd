@@ -6,7 +6,7 @@ First-party installer, docs, overlays, and tests are MIT (see `LICENSE`).
 
 This product vendors OpenCode-adapted skills and Design Intelligence runtime, originally snapshotted through GrokBestFriend 1.3.1 and ClaudeBestFriend 1.4.2-claude.1 (`05e6fdc`).
 
-Selected skills also come from [mattpocock/skills](https://github.com/mattpocock/skills) (`d81f3a1`, v1.2.3+ (d81f3a1), MIT © 2026 Matt Pocock) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` (`e43c7ee`, pstack 0.15.9, MIT © 2026 Lauren Tan). Full plugins are not installed.
+Selected skills also come from [mattpocock/skills](https://github.com/mattpocock/skills) (v1.3.0 (d81f3a1; tag 984a2c0 = version bump), MIT © 2026 Matt Pocock) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` (`e43c7ee`, pstack 0.15.9, MIT © 2026 Lauren Tan). Full plugins are not installed.
 
 Licenses below are taken from vendored frontmatter or an obvious upstream statement. If a skill has no license in tree, this file says so. **That is not a grant.**
 
@@ -20,8 +20,8 @@ Machine-readable copy: `vendor/license-audit.json`.
 | Pstack selected skills (`blast-radius`, `unslop`, `create-verification-skill`, `maintain-verification-skill`, `technical-writing`, `arena`, `interrogate`, `architect`, `decision-log`, `why`, `reflect`, `figure-it-out`) | cursor/plugins pstack `e43c7ee` (0.15.9; `/correct` at `9511e60` merged into `manual-skills/reflect/references/correct.md`) | MIT — `vendor/licenses/PSTACK-MIT.txt` | follow MIT |
 | Snapshot skills (`browser-act`, `chrome-devtools-axi`, `emil-design-eng`, `found-this-design`, `full-audit-keamanan`, `full-performance-audit`, `gh-axi`, `scroll-world`, `visual-studio`) | GrokBestFriend 1.3.1 snapshot + `vendor/licenses/GROKBESTFRIEND-MIT.txt`; skill wrappers MIT. Separate CLIs follow their own packages. | MIT | follow MIT |
 | `scroll-world` | [oso95/scroll-world](https://github.com/oso95/scroll-world) `71cc36d` + GrokBestFriend snapshot; seam QA calibration note merged | MIT © 2026 cyw | follow MIT |
-| `scroll-craft` | [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) `0b81622` — `vendor/licenses/NATEHERK-SCROLL-CRAFT-MIT.txt`; skill `NOTICE.md` | MIT © 2026 Nate Herk | follow MIT |
-| `playwright-qa` | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) `655530f` — `vendor/licenses/MICROSOFT-PLAYWRIGHT-CLI-APACHE2.txt`; skill `NOTICE.md` | Apache-2.0 © Microsoft Corporation | follow Apache-2.0 |
+| `scroll-craft` | [nateherkai/scroll-craft](https://github.com/nateherkai/scroll-craft) `75d81f7` — `vendor/licenses/NATEHERK-SCROLL-CRAFT-MIT.txt`; skill `NOTICE.md` | MIT © 2026 Nate Herk | follow MIT |
+| `playwright-qa` | [microsoft/playwright-cli](https://github.com/microsoft/playwright-cli) `b85c7a7` — `vendor/licenses/MICROSOFT-PLAYWRIGHT-CLI-APACHE2.txt`; skill `NOTICE.md` | Apache-2.0 © Microsoft Corporation | follow Apache-2.0 |
 | `taste-guard` | [Leonxlnx/taste-skill](https://github.com/Leonxlnx/taste-skill) `ccbc156` — `vendor/licenses/LEONXLNX-TASTE-MIT.txt`; integrated in Impeccable | MIT © 2026 Leonxlnx | follow MIT |
 | `install-anti-slop` | [dmmulroy/anti-slop](https://github.com/dmmulroy/anti-slop) `e8c4880` — `vendor/licenses/DMMULROY-ANTI-SLOP-MIT.txt`; skill `NOTICE.md` (updated with `update` mode) | MIT © 2026 Dillon Mulroy | follow MIT |
 | `humanizer` | [blader/humanizer](https://github.com/blader/humanizer) 3.1.0 (`225a6f3`); skill `NOTICE.md` | MIT © 2024-2026 blader contributors | follow MIT |
@@ -29,7 +29,7 @@ Machine-readable copy: `vendor/license-audit.json`.
 | `hyperframes` | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) v0.8.119 (`3a0299e`), refreshed in 0.1.13 to v0.8.122 (`6037d22`); skill `NOTICE.md` | Apache-2.0 | follow Apache-2.0 |
 | `json-render` | [vercel-labs/json-render](https://github.com/vercel-labs/json-render) `c2600d73`; skill `NOTICE.md`. npm packages not vendored. | Apache-2.0 © 2025 Vercel Inc. | follow Apache-2.0 |
 | `deck-design` | [carnot-tech/consulting-pptx-skill](https://github.com/carnot-tech/consulting-pptx-skill) `f50edac`; skill `NOTICE.md`. 62-type packs not vendored. | MIT © carnot-tech contributors | follow MIT |
-| `pageindex` | [VectifyAI/PageIndex](https://github.com/VectifyAI/PageIndex) `037a7dba` (v0.2.21); skill `NOTICE.md`. SDK/Cloud not vendored. | MIT © 2026 PageIndex AI / VectifyAI | follow MIT |
+| `pageindex` | [VectifyAI/PageIndex](https://github.com/VectifyAI/PageIndex) `6d23caf4` (v0.2.21); skill `NOTICE.md`. SDK/Cloud not vendored. | MIT © 2026 PageIndex AI / VectifyAI | follow MIT |
 | `diagram-design` | [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design); skill `NOTICE.md` | MIT © 2024-2026 Cathryn Lavery contributors | follow MIT |
 | Email design doctrine | Merged from [CosmoBlk/email-design](https://github.com/CosmoBlk/email-design) (MIT © 2026 CosmoBlk), [jayesh-bansal/email-pro-max](https://github.com/jayesh-bansal/email-pro-max) (MIT © 2026 Jayesh Bansal), [chunkydotdev/email-skills](https://github.com/chunkydotdev/email-skills) (MIT © 2026 chunkydotdev), and [Olshansk/agent-skills](https://github.com/Olshansk/agent-skills) (MIT © 2026 Olshansk) into `skills/impeccable/reference/email.md` | MIT | follow MIT |
 | Emil Kowalski motion & design doctrines | Merged from [emilkowalski/skills](https://github.com/emilkowalski/skills) (`e8a175de22ae`) into `skills/emil-design-eng/references/` (`motion.md`, `apple-principles.md`, `native-motion.md`, `interface-feel.md`) and `skills/impeccable/reference/break-ui.md` (adversarial UI stress testing). Text: `vendor/licenses/EMILKOWALSKI-MIT.txt` | MIT © 2026 Emil Kowalski | follow MIT |

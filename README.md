@@ -22,7 +22,7 @@ Version **0.1.13**. The 65-skill catalog is strictly frozen.
 - Emil motion doctrines live under `emil-design-eng` references (not extra skills)
 - Design Intelligence (lazy, inside Impeccable)
 - `opencode-he doctor`, `opencode-he cbm` status/index helpers, transactional install, uninstall, restore
-- Selected skills adapted from Matt Pocock (`v1.2.3+ (d81f3a1)`) and pstack `e43c7ee` (0.15.9; `/correct` at `9511e60`) with OpenCode host isolation and verification-loop rigor
+- Selected skills adapted from Matt Pocock (`v1.3.0 (d81f3a1; tag 984a2c0 = version bump)`) and pstack `e43c7ee` (0.15.9; `/correct` at `9511e60`) with OpenCode host isolation and verification-loop rigor
 - Claude Code isolation: `OPENCODE_DISABLE_CLAUDE_CODE=1`
 
 ## What it is not
@@ -41,8 +41,8 @@ Version **0.1.13**. The 65-skill catalog is strictly frozen.
 ## What's new in 0.1.13
 
 - **Upstream Pins & MCP Modernization**: Core MCP `shadcn` bumped to `4.21.1`; `@reticlehq/server` pinned to `3.5.0`; `markitdown-mcp` pinned to `0.0.1a7` with `markitdown[all]==0.1.8`; `crawl4ai` standardized to `/mcp/sse` endpoint; `context7-mcp` shadow detection added to doctor.
-- **Skill Refresh**: `playwright-qa` enriched with complete device, viewport, color scheme, reduced motion, timezone, locale, and geolocation emulation flags plus explicit WebMCP security boundaries; `install-anti-slop` gained `update` mode; `scroll-craft` aligned to dual-door browser handoffs.
-- **Doctrines Adopted**: Adversarial UI stress-testing doctrine (`break-ui` by Emil Kowalski) integrated into `skills/impeccable/reference/break-ui.md`; pstack `/correct` invariant enforcement hierarchy (5-level mechanical elimination) integrated into `manual-skills/reflect/references/correct.md`; `business-motion-film` product-film mode upgraded with 7-dimension scored review gate, 360 px phone-size review, and motion blur subframe averaging; `architect` updated with agent contributor mental model.
+- **Skill Refresh**: `playwright-qa` refreshed with device emulation, viewport resize, and media feature session commands (`set-color-scheme`, `set-reduced-motion`) plus explicit WebMCP security boundaries; `install-anti-slop` gained `update` mode; `scroll-craft` aligned to dual-door browser handoffs.
+- **Doctrines Adopted**: Adversarial UI stress-testing doctrine (`break-ui` by Emil Kowalski) integrated into `skills/impeccable/reference/break-ui.md`; pstack `/correct` invariant enforcement hierarchy (5-level mechanical elimination) integrated into `manual-skills/reflect/references/correct.md`; `business-motion-film` product-film mode upgraded with 7-dimension scored review gate, 360 px phone-size review, and motion blur subframe averaging; `architect` updated with agent contributor mental model and 4 new design red flags (Split ownership, Two ways to do one task, Importable internals, Hand-synced list).
 - **Governance & Notices**: `docs/source-wave.md`, `docs/warehouse-inventory.md`, and `THIRD_PARTY_NOTICES.md` fully synchronized; Serena GPL-3.0-or-later boundary preserved as external pointer only (`POINTER_ONLY` / `OPTIONAL_ABSENT`).
 - **Catalog Freeze Strictly Maintained**: Exactly 65 skills (50 model-invoked + 15 manual) and exactly 25 closed intents; zero allowlist growth.
 
@@ -263,7 +263,6 @@ OPENCODE_DESIGN_BANK_URL=... OPENCODE_DESIGN_BANK_SHA256=... opencode-he design 
 Download sources (SHA-256 fail-closed; URL without SHA is refused):
 
 1. **Default Drive pin** in `lib/design_v2/bootstrap_sources.json` (`OpenCodeHighEnd-DesignBank-v3.zip`, SHA-256 `91d90b4ef9e1af9a44b222171ecb8becac521cfc0814117bdcdc08a54e86df53`). Google Drive is contacted only during bootstrap.
-2. **Fallback GitHub artifact** in `vendor/sources.json` (`GrokBestFriend` `Design-bank.tgz`, sha256 `9866f5a8…`). Used when the Drive pin is unavailable.
 
 Operator override: `OPENCODE_DESIGN_BANK_URL` + `OPENCODE_DESIGN_BANK_SHA256`. Drive view links (`/file/d/ID/view`) resolve to `uc?export=download`. A valid local bank (at `OPENCODE_DESIGN_BANK` or `~/Design`) is used as-is — no download.
 
@@ -379,4 +378,4 @@ See [docs/security.md](docs/security.md).
 
 ## Provenance & Licenses
 
-OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Selected skills are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (`d81f3a1`, MIT) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` pinned to `23e4138` (pstack 0.15.6, MIT) under OpenCode host conventions. Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+OpenCodeHighEnd is MIT-licensed for first-party installer, docs, overlays, and tests (see [LICENSE](LICENSE)). Selected skills are adapted from [mattpocock/skills](https://github.com/mattpocock/skills) (`d81f3a1`, MIT) and [cursor/plugins](https://github.com/cursor/plugins) `pstack/` pinned to `e43c7ee` (pstack 0.15.9, MIT) under OpenCode host conventions. Upstream vendored components and skills retain their original licenses as evidenced in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

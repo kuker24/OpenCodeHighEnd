@@ -460,6 +460,23 @@ class DoctorDeepTests(IsolatedHome):
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("CONFIGURED             mcp:markitdown", buf.getvalue())
 
+    def test_doctor_markitdown_legacy_version_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["markitdown"] = {
+            "type": "local",
+            "command": ["uvx", "--from", "markitdown-mcp==0.1.8", "markitdown-mcp"],
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:markitdown", buf.getvalue())
+        self.assertIn("opencode-he markitdown enable", buf.getvalue())
+
     def test_doctor_crawl4ai_missing_does_not_fail(self):
         self._install()
         buf = io.StringIO()

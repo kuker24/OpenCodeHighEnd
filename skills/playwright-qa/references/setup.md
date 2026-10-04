@@ -26,7 +26,7 @@
 4. **Explicit Tool Installation (When Requested by User)**:
    - If the user explicitly asks to install Playwright CLI tool:
      ```bash
-     npm install -g @playwright/cli@0.1.0 # or pinned version
+     npm install -g @playwright/cli@0.1.22 # or pinned version
      ```
    - Browser installation:
      ```bash

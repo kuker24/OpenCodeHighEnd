@@ -26,14 +26,6 @@
       "transport": "http",
       "note": "Remote MCP. No auth secret is stored by this installer."
     },
-    "design-bank": {
-      "version": "1.0.0",
-      "artifactUrl": "https://github.com/kuker24/GrokBestFriend/releases/download/v1.0.0/Design-bank.tgz",
-      "artifactSha256": "9866f5a82f57f84c45f4f82af8092f9bd3a6838b5c12d6b097e3eb4fda5b634c",
-      "ownedDest": "~/.local/share/opencode-highend/design-bank",
-      "redistribution": "not-cleared",
-      "note": "Not vendored in git. Fourth-priority bootstrap fallback after a valid local bank, OPENCODE_DESIGN_BANK_URL+SHA256, and the Drive ZIP pin in lib/design_v2/bootstrap_sources.json."
-    },
     "serena": {
       "repository": "https://github.com/oraios/serena",
       "version": "1.7.0",
@@ -85,6 +77,13 @@
       "sdistSha256": "72406900f437316209dd05d9853dae04420f1cab0e11071604bb4588b6e2f713",
       "note": "Optional MCP via uvx --from scrapling[ai]==0.4.15 scrapling mcp. Not vendored. Enabled via opencode-he scrapling enable. Do not run scrapling install (requires sudo / playwright install-deps)."
     },
+    "crawl4ai": {
+      "repository": "https://github.com/unclecode/crawl4ai",
+      "version": "0.9.4",
+      "commit": "133e1d92e37803a60a7e1104e1388836ea4120ec",
+      "status": "foreign-on-demand",
+      "note": "Optional remote MCP at http://127.0.0.1:11235/mcp/sse. Legacy /mcp emits WARN CRAWL4AI_LEGACY_URL."
+    },
     "agent-reach": {
       "repository": "https://github.com/Panniantong/Agent-Reach",
       "version": "1.5.0",
@@ -96,14 +95,14 @@
     "browser-act": {
       "repository": "https://github.com/browser-act/skills",
       "commit": "11c057b03f92101642cadc9f840564574120d184",
-      "version": "1.3.0",
+      "version": "1.4.2",
       "package": "browser-act-cli",
       "status": "optional-host",
-      "note": "Three supported execution modes (chrome, stealth-fresh, stealth-fixed). Never chrome-direct. Host CLI pinned 1.3.0."
+      "note": "Three supported execution modes (chrome, stealth-fresh, stealth-fixed). Never chrome-direct. Host CLI pinned 1.4.2."
     },
     "semgrep": {
       "package": "semgrep",
-      "version": "1.177.0",
+      "version": "1.179.0",
       "status": "optional-host"
     },
     "gitleaks": {
@@ -151,7 +150,7 @@
     },
     "hyperframes": {
       "repository": "https://github.com/heygen-com/hyperframes",
-      "commit": "6037d22f778d91c12ba37cfb19ba99ffad518596",
+      "commit": "6037d228441e23e50cd6713a464d6158941cfcae",
       "version": "0.8.122",
       "license": "Apache-2.0"
     },
@@ -170,14 +169,14 @@
     "matt-pocock-skills": {
       "repository": "https://github.com/mattpocock/skills",
       "commit": "d81f3a183412e71a5b1e84ca21bc1a35eea03a60",
-      "version": "v1.2.3+ (d81f3a1)",
+      "version": "v1.3.0 (d81f3a1; tag 984a2c0 = version bump)",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Matt Pocock",
       "licenseFile": "vendor/licenses/MATT-POCOCK-MIT.txt"
     },
     "scroll-craft": {
       "repository": "https://github.com/nateherkai/scroll-craft",
-      "commit": "0b816225945e45380397d6a0487efa3c98916858",
+      "commit": "75d81f74e83692add18cd7a8a8e078b8a887a579",
       "originalPath": "plugins/nateherk-design/skills/scroll-craft",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 Nate Herk",
@@ -203,7 +202,7 @@
     },
     "playwright-cli": {
       "repository": "https://github.com/microsoft/playwright-cli",
-      "commit": "655530f6d0dc71a0d6bf46ae165877d3c7311099",
+      "commit": "b85c7a736bb473bf55b584e54a09ffa698d6d871",
       "license": "Apache-2.0",
       "copyright": "Copyright (c) Microsoft Corporation",
       "licenseFile": "vendor/licenses/MICROSOFT-PLAYWRIGHT-CLI-APACHE2.txt",
@@ -243,7 +242,7 @@
     },
     "pageindex": {
       "repository": "https://github.com/VectifyAI/PageIndex",
-      "commit": "037a7dbacfb9a19f38b354ce60cee5094b3f854c",
+      "commit": "6d23caf416858f2ca136840305d1f479a86f6ef7",
       "version": "0.2.21",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 PageIndex AI / VectifyAI",
@@ -268,7 +267,7 @@
     },
     "9router": {
       "repository": "https://github.com/decolua/9router",
-      "commit": "a99cf5784c01d9f829f79b69b329ea1dd985df23",
+      "commit": "a99cf57239ff778b61e434c2786009d5ed1c412c",
       "version": "0.5.95",
       "license": "MIT",
       "copyright": "Copyright (c) 2026 decolua",

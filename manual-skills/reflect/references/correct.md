@@ -74,5 +74,12 @@ Record durable enforcements in the repository's verification or reflection notes
 
 | Mistake Class | Historical Incident | Enforcement Layer | Mechanical Check |
 |---|---|---|---|
-| Unpinned dependency drift | Scope A unpinned packages | Level 3 (Linter/Script) | `tests/test_opencode_highend.py` regex check |
-| Shared UI state mutation race | Issue #42 sequential undo | Level 4 (Test) | `tests/test_click_path.py` invariant test |
+| _(class)_ | _(incident)_ | _(level)_ | _(check)_ |
+
+### Enforcement rules (adapted; upstream 4 levels)
+
+- If a pattern is already common in the codebase, a test or check should fail only when a change adds more of it — not on pre-existing occurrences.
+- Exceptions must be documented at the relevant line with the rationale, an expiration date, and explicit human approval.
+- Delete tests that continue passing even when the function under test returns empty or no-op — they provide no enforcement.
+- Local commands must match CI commands exactly; drift between local and CI checks invalidates local verification.
+- Reflect workflow: always display the proposed modification first; edit only after explicit human approval.

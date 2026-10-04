@@ -211,6 +211,8 @@ class SkillRefreshTests(unittest.TestCase):
         notice = (ROOT / "skills" / "hyperframes" / "NOTICE.md").read_text(encoding="utf-8")
         self.assertIn("v0.8.119", notice)
         self.assertIn("3a0299e851ce", notice)
+        self.assertIn("v0.8.122", notice)
+        self.assertIn("6037d228441e", notice)
 
     def test_prompt_patterns_reference(self):
         pat_path = ROOT / "skills" / "hyperframes" / "references" / "prompt-patterns.md"

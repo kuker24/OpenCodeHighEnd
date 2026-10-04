@@ -96,52 +96,52 @@
     },
     "blast-radius": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138 + vendor/licenses/PSTACK-MIT.txt",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9) + vendor/licenses/PSTACK-MIT.txt",
       "redistribution": "mit"
     },
     "unslop": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "create-verification-skill": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "maintain-verification-skill": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "technical-writing": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "arena": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "interrogate": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "architect": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "decision-log": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack show-me-your-work 23e4138",
+      "evidence": "cursor/plugins pstack show-me-your-work e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "why": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "reflect": {
@@ -151,7 +151,7 @@
     },
     "figure-it-out": {
       "license": "MIT",
-      "evidence": "cursor/plugins pstack 23e4138",
+      "evidence": "cursor/plugins pstack e43c7ee (0.15.9)",
       "redistribution": "mit"
     },
     "browser-act": {
@@ -191,7 +191,7 @@
     },
     "scroll-craft": {
       "license": "MIT",
-      "evidence": "nateherkai/scroll-craft 0b81622 + vendor/licenses/NATEHERK-SCROLL-CRAFT-MIT.txt; NOTICE.md",
+      "evidence": "nateherkai/scroll-craft 75d81f7 + vendor/licenses/NATEHERK-SCROLL-CRAFT-MIT.txt; NOTICE.md",
       "redistribution": "mit"
     },
     "scroll-world": {
@@ -221,7 +221,7 @@
     },
     "playwright-qa": {
       "license": "Apache-2.0",
-      "evidence": "microsoft/playwright-cli 655530f + vendor/licenses/MICROSOFT-PLAYWRIGHT-CLI-APACHE2.txt; NOTICE.md",
+      "evidence": "microsoft/playwright-cli b85c7a7 + vendor/licenses/MICROSOFT-PLAYWRIGHT-CLI-APACHE2.txt; NOTICE.md",
       "redistribution": "apache-2.0"
     },
     "academic": {
@@ -326,7 +326,7 @@
     },
     "pageindex": {
       "license": "MIT",
-      "evidence": "VectifyAI/PageIndex 037a7dba + SKILL.md frontmatter + skills/pageindex/NOTICE.md",
+      "evidence": "VectifyAI/PageIndex 6d23caf4 + SKILL.md frontmatter + skills/pageindex/NOTICE.md",
       "redistribution": "mit"
     }
   }

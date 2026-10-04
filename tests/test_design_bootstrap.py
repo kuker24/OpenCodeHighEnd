@@ -372,7 +372,7 @@ class BootstrapTests(IsolatedHome):
             checksum_file_id="",
             pinned_sha256=digest,
         )
-        url = "https://github.com/kuker24/GrokBestFriend/releases/download/v1.0.0/Design-bank.tgz"
+        url = "https://example.com/artifacts/Design-bank.tgz"
 
         def tgz_downloader(fetch_url: str, destination: Path) -> None:
             self.download_calls.append(fetch_url)

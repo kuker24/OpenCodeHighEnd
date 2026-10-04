@@ -1,7 +1,7 @@
 # Notice: pageindex
 
 Adapted from [VectifyAI/PageIndex](https://github.com/VectifyAI/PageIndex)
-(`037a7dbacfb9a19f38b354ce60cee5094b3f854c`, v0.2.21).
+(`6d23caf416858f2ca136840305d1f479a86f6ef7`, v0.2.21).
 
 MIT License. Copyright (c) 2026 PageIndex AI / VectifyAI.
 

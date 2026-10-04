@@ -1,6 +1,6 @@
 # Tree then reason
 
-Pin: `VectifyAI/PageIndex@037a7dbacfb9a19f38b354ce60cee5094b3f854c` (v0.2.21, MIT).
+Pin: `VectifyAI/PageIndex@6d23caf416858f2ca136840305d1f479a86f6ef7` (v0.2.21, MIT).
 
 ## Why a tree
 
@@ -20,10 +20,20 @@ Every node in the hierarchical tree structure carries explicit range boundaries:
 
 - `title`: Heading text or section name.
 - `summary`: Abstract or distillation of the section content (≤150 words).
-- `start_index`: 0-based start index / page offset of the node within document stream.
-- `end_index`: 0-based end index / page offset (span boundary).
-- `page_span`: Human-readable page interval (e.g. `pp. 14–22`).
-- `children`: Nested list of child tree nodes.
+- `start_index`: 1-based physical page number.
+- `end_index`: 1-based physical page number (inclusive end).
+- `page_span`: Human-readable page interval (e.g. `pp. 14–22`). **OCH-derived** — not present in upstream schema.
+- `node_id`: Unique identifier for a node within the tree (upstream field).
+- `nodes`: Nested list of child tree nodes.
+
+### Upstream helper functions
+
+`utils.py:1396–1419` provides four helpers for tree traversal:
+
+- `get_node(tree, node_id)` — look up a node by its `node_id`.
+- `get_node_parent(tree, node_id)` — return the parent of the given node.
+- `get_node_path(tree, node_id)` — return the root-to-node path as a list.
+- `get_node_map(tree)` — build a flat `{node_id: node}` dict for O(1) lookups.
 
 ## Local overlay path (no extra deps)
 
