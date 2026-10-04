@@ -64,6 +64,8 @@ class PlaywrightQAContractTests(unittest.TestCase):
         self.assertIn("resize", workflow)
         self.assertNotIn("--viewport-size=", workflow)
         self.assertNotIn("--color-scheme=", workflow)
+        self.assertIn("permissions", workflow)
+        self.assertIn("grantPermissions", workflow)
         self.assertIn("WebMCP and Security Boundaries", workflow)
 
     def test_doctor_browser_findings_safe(self):

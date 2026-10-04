@@ -64,7 +64,7 @@ Use device presets at launch and session commands to toggle media features.
   playwright-cli -s=<task-session> set-media print
   playwright-cli -s=<task-session> clear-media
   ```
-- **Timezone / Locale / Geolocation**: Not available as CLI flags. Configure via JSON config file at launch (default `.playwright/cli.config.json` or `--config=<file>` specifying `contextOptions.timezoneId`, `contextOptions.locale`, `contextOptions.geolocation`). Alternatively, use `run-code` for Chromium-specific runtime session overrides via CDP.
+- **Timezone / Locale / Geolocation**: Not available as CLI flags. Configure via JSON config file at launch (default `.playwright/cli.config.json` or `--config=<file>` specifying `contextOptions.timezoneId`, `contextOptions.locale`, `contextOptions.geolocation` with mandatory `contextOptions.permissions: ["geolocation"]`). At runtime via `run-code`: geolocation uses cross-browser Playwright API (`page.context().grantPermissions(['geolocation'])` + `page.context().setGeolocation({latitude, longitude})`); timezone and locale runtime overrides require Chromium CDP session (`Emulation.setTimezoneOverride` / `Emulation.setLocaleOverride`).
 
 7. **Clean up**:
    ```bash
