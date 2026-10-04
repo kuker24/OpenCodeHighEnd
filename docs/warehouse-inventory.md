@@ -360,7 +360,7 @@ Evaluation and disposition contract for the AI LABS 8-repo wave (procedural 3D, 
 | Candidate / Repo | Decision | BestFriend Target | Reason |
 | :--- | :---: | :--- | :--- |
 | `img2threejs` | **RETIRED** | `-` | Procedural Three.js patterns transferred to business-motion-film references; standalone skill retired in wave 0.1.8. |
-| `reticle` | **FOREIGN_ON_DEMAND** | `mcp.reticle` | Optional visual perception MCP (`npx -y @reticlehq/server mcp`). Server licensed under FSL-1.1-ALv2; not vendored. Perception only, never auto-implementer. |
+| `reticle` | **FOREIGN_ON_DEMAND** | `mcp.reticle` | Optional visual perception MCP (`npx -y @reticlehq/server@3.5.0 mcp`). Server licensed under FSL-1.1-ALv2; not vendored. Perception only, never auto-implementer. |
 | `chisel` (hooks) | **REJECT** | `-` | Session/prompt/tool hooks coupled to Claude Code runtime. Context Guard remains NOT_PORTED. |
 | `ui-skills` | **FOREIGN_ON_DEMAND** | `mcp.ui-skills` | Optional remote MCP (`https://www.ui-skills.com/mcp`) for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 + shadcn. |
 | `ouroboros` / Q00 | **REJECT** | `-` | Autonomous evolution harness / continuous-learning runtime rejected. Interview primitives already live in `grill-with-docs` / `to-spec`. |
@@ -377,7 +377,7 @@ Microsoft MarkItDown as an ingest converter, not a second document OS. SmartDoc 
 | Candidate / Repo | Decision | BestFriend Target | Reason |
 | :--- | :---: | :--- | :--- |
 | `microsoft/markitdown` CLI/lib | **NEW** | `skills/markitdown` | Thin first-party skill: convert Office/PDF/HTML/CSV/XLSX/PPTX/EPUB/ZIP to Markdown, then hand off. |
-| `markitdown-mcp` official | **FOREIGN_ON_DEMAND** | `mcp.markitdown` | Optional local stdio (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). Local trusted agents only. |
+| `markitdown-mcp` official | **FOREIGN_ON_DEMAND** | `mcp.markitdown` | Optional local stdio (`uvx --from markitdown-mcp==0.0.1a7 --with markitdown[all]==0.1.8 markitdown-mcp`). Local trusted agents only. |
 | `opencode-markitdown` npm plugin | **REJECT** | `-` | Config-hook mutation forbidden. |
 | community `trsdn-markitdown-mcp` | **REJECT** | `-` | Not Microsoft. |
 | Azure Document Intelligence / Content Understanding | **DEFER** | `-` | No keys in config. |
@@ -401,3 +401,21 @@ Selective merge of net-new anti-slop patterns (`miqdadbadjuber/anti-slop` v3.2.7
 | Decorative Status Dot | **MERGE** | `skills/impeccable/reference/taste-guard.md` | §9 Motivated Visual Effects: glowing/pulsing dot must mark a real state. |
 | Over-Explained Comment | **MERGE** | `skills/writing-for-agents/SKILL.md` | Comment discipline: multi-line around one-line fact is slop; no `// ====` banners. |
 | DESIGN.md conflict (R-37) | **MERGE** | `skills/impeccable/reference/taste-guard.md` | Precedence: ask keep-or-drop when brief asks for slop; identity palette/type is not slop. |
+
+---
+
+## Wave 0.1.13 Upstream-Sync Evaluation
+
+Evaluation and disposition contract for Wave 0.1.13 upstream sync:
+
+| Candidate / Repo | Decision | BestFriend Target | Reason |
+| :--- | :---: | :--- | :--- |
+| `shadcn` CLI MCP | **PIN_ONLY** | `mcp.servers.shadcn` | Pin updated to `shadcn@4.21.1`. Core MCP owned; zero duplicate skill text. |
+| `reticle` MCP | **PIN_ONLY** | `mcp.reticle` | Pin updated to `@reticlehq/server@3.5.0`. Local perception on-demand; not vendored. |
+| `markitdown-mcp` | **PIN_ONLY** | `mcp.markitdown` | Pinned to `markitdown-mcp==0.0.1a7` with `markitdown[all]==0.1.8`. Output data-only. |
+| `crawl4ai` | **FOREIGN_ON_DEMAND** | `docs/mcp.md` | Standardized to `/mcp/sse` endpoint; legacy `/mcp` emits WARN check. |
+| `break-ui` (`emilkowalski/skills`) | **MERGE** | `skills/impeccable/reference/break-ui.md` | Adversarial UI stress testing adapted into Impeccable reference; zero catalog bloat. |
+| `pstack /correct` (`cursor/plugins`) | **MERGE** | `manual-skills/reflect/references/correct.md` | Invariant enforcement hierarchy merged into reflect reference; zero catalog bloat. |
+| `motion-designer` (`kaventro`) | **MERGE** | `skills/business-motion-film` | Scored review (7 criteria), phone-size review (360px), and motion blur merged into product-film. |
+| `serena` (`serena-ai/serena`) | **POINTER_ONLY** | `docs/mcp.md` | GPL-3.0-or-later boundary preserved; strictly external pointer (`OPTIONAL_ABSENT`). |
+
