@@ -18,6 +18,8 @@ from lib.doctor import cmd_doctor, owned_agents_block, parse_mcp_list  # noqa: E
 from lib.install import (  # noqa: E402
     cmd_crawl4ai_disable,
     cmd_crawl4ai_enable,
+    cmd_scrapling_disable,
+    cmd_scrapling_enable,
     cmd_install,
 )
 from lib.integrity import cmd_verify  # noqa: E402
@@ -634,6 +636,165 @@ class DoctorDeepTests(IsolatedHome):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("PASS                   plugins                      1 user plugin(s)", buf.getvalue())
+
+    def test_doctor_scrapling_missing_does_not_fail(self):
+        self._install()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:scrapling", buf.getvalue())
+
+    def test_doctor_scrapling_invalid_schema_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+
+        # Remote type fails
+        data["mcp"]["scrapling"] = {
+            "type": "remote",
+            "url": "http://127.0.0.1:8000/mcp",
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:scrapling", buf.getvalue())
+
+        # Docker command fails
+        data["mcp"]["scrapling"] = {
+            "type": "local",
+            "command": ["docker", "run", "scrapling", "mcp"],
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:scrapling", buf.getvalue())
+
+        # --http or 0.0.0.0 fails
+        data["mcp"]["scrapling"] = {
+            "type": "local",
+            "command": ["uvx", "--from", "scrapling[ai]==0.4.15", "scrapling", "mcp", "--http", "0.0.0.0"],
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:scrapling", buf.getvalue())
+
+        # Unpinned package fails
+        data["mcp"]["scrapling"] = {
+            "type": "local",
+            "command": ["uvx", "--from", "scrapling", "scrapling", "mcp"],
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1, buf.getvalue())
+        self.assertIn("FAIL                   mcp:scrapling", buf.getvalue())
+
+    def test_doctor_scrapling_valid_passes(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data["mcp"]["scrapling"] = {
+            "type": "local",
+            "command": ["uvx", "--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"],
+            "enabled": True,
+        }
+        cfg.write_text(jsonc.dumps(data), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:scrapling", buf.getvalue())
+
+    def test_doctor_scrapling_enable_and_disable(self):
+        self._install()
+        rc = cmd_scrapling_enable()
+        self.assertEqual(rc, 0)
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertIn("scrapling", servers)
+        self.assertEqual(servers["scrapling"]["type"], "local")
+        self.assertEqual(servers["scrapling"]["command"], ["uvx", "--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"])
+        self.assertNotIn("0.0.0.0", str(servers["scrapling"]))
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:scrapling", buf.getvalue())
+
+        rc = cmd_scrapling_disable()
+        self.assertEqual(rc, 0)
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertNotIn("scrapling", servers)
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:scrapling", buf.getvalue())
+
+    def test_doctor_agent_reach_cli_findings(self):
+        self._install()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        Agent-Reach CLI              NOT_INSTALLED", buf.getvalue())
+
+        # Mock agent-reach in mock-bin
+        ar_bin = self.tmp / "bin" / "agent-reach"
+        ar_bin.parent.mkdir(parents=True, exist_ok=True)
+        ar_bin.write_text("#!/bin/sh\necho '1.5.0'\n", encoding="utf-8")
+        ar_bin.chmod(0o755)
+        old_path = os.environ.get("PATH", "")
+        os.environ["PATH"] = f"{ar_bin.parent}:{old_path}"
+        try:
+            buf = io.StringIO()
+            with redirect_stdout(buf):
+                rc = cmd_doctor()
+            self.assertEqual(rc, 0, buf.getvalue())
+            self.assertIn("PASS                   Agent-Reach CLI", buf.getvalue())
+            self.assertIn("1.5.0", buf.getvalue())
+        finally:
+            os.environ["PATH"] = old_path
+
+    def test_doctor_foreign_skill_shadow_warning(self):
+        self._install()
+        skills_dir = self.tmp / ".config" / "opencode" / "skills"
+
+        # Create unmanaged foreign skill directory
+        shadow = skills_dir / "agent-reach"
+        shadow.mkdir(parents=True, exist_ok=True)
+        (shadow / "SKILL.md").write_text("---\nname: agent-reach\n---\n", encoding="utf-8")
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor(strict=False)
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("WARN                   FOREIGN_SKILL_SHADOW", buf.getvalue())
+        self.assertIn("agent-reach: foreign skill hijacking router", buf.getvalue())
+
+        # With ownership marker, warning should not be emitted
+        (shadow / ".opencode-highend.json").write_text("{}", encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor(strict=False)
+        self.assertNotIn("FOREIGN_SKILL_SHADOW", buf.getvalue())
 
 
 if __name__ == "__main__":

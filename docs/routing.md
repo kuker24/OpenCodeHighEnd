@@ -19,7 +19,7 @@ Every user request is classified into exactly one closed intent:
 ```text
 repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
 motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose
-academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
+academic | longdoc_nav | web_research | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
 | Intent | Primary Route | Handoff Boundary / Rule |
@@ -43,6 +43,7 @@ academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | vide
 | `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
 | `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
 | `longdoc_nav` | `pageindex` | Tree/reasoning nav of long structured docs; not Graphiti/Cognee/second CBM |
+| `web_research` | `research` | Web/social data gathering (`references/web-data.md`); read-only, not QA |
 | `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
 | `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
 | `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
@@ -86,7 +87,7 @@ Browser verification follows four explicit doors: exploratory application UI rou
 
 Documents (answer, create, transform, extract, review, PDF/DOCX) route to `smartdoc`. Consulting PPTX / 16:9 slide decks route to `deck-design`. Long structured document tree/reasoning nav routes to `pageindex`. File-to-Markdown ingest routes to `markitdown`. Reusable book/module knowledge routes to `smartbook-ingest`. `/docx` and `/pdf` are missing aliases; nearest is `smartdoc`. `/pptx` routes to `deck-design`. Do not add `commands/pdf.md` or `commands/docx.md`. Impeccable `document` remains DESIGN.md generation.
 
-Prose AI-tell removal and natural tone polishing route to `humanizer` (`/unslop` is its manual alias). Scholarly research, academic manuscripts, and structured peer critique route to `academic`. Deterministic HTML composition rendered to video routes to `hyperframes`. Demo video aplikasi, walkthrough layar, narasi Indonesia, dan demo lomba route to `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`. Editorial technical diagrams (HTML/SVG) route to `diagram-design`.
+Prose AI-tell removal and natural tone polishing route to `humanizer` (`/unslop` is its manual alias). Scholarly research, academic manuscripts, and structured peer critique route to `academic`. Web and social data gathering routes to `research` (`references/web-data.md`; read-only, not QA). Deterministic HTML composition rendered to video routes to `hyperframes`. Demo video aplikasi, walkthrough layar, narasi Indonesia, dan demo lomba route to `id-demo-video` (bukan `hyperframes` untuk durasi panjang utuh, bukan `playwright-qa`, bukan `visual-studio`). Kartu judul HTML→MP4 tetap `hyperframes`. Editorial technical diagrams (HTML/SVG) route to `diagram-design`.
 
 Warehouse diagnostics load only when the user names the job: `agent-architecture-audit` (architecture layers), `cost-aware-llm-pipeline` (token budgeting), `eval-harness` (benchmarks), and `skill-stocktake` (catalog hygiene; `prompt-optimizer` retired in 0.1.8 with prompt critique splitting to `humanizer` / `research` / `writing-for-agents`). Gateway 9Router routing (chat, image, video, TTS, STT, embeddings, web search) routes to `ninerouter` via `NINEROUTER_URL` (not an extra core MCP). Wave 3 warehouse procedures route to `api-design` (REST resources), `contract-first` (consumer/provider contracts), `automation-audit-ops` (live inventory), and `code-tour` (guided tours). Foreign harnesses (such as ECC control plane) remain `FOREIGN_ON_DEMAND`; never vendored, auto-merged, or shadowed.
 

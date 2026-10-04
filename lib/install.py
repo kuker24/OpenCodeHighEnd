@@ -966,7 +966,7 @@ def apply(meta: dict, cbm_bin: Path, bank: tuple[str | None, str, str]) -> list[
         "modelInvokedSkills": meta["model"],
         "manualSkills": meta["manual"],
         "ownedMcp": list(OWNED_MCP),
-        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"],
+        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"],
         "designBank": {
             "root": bank_root,
             "source": bank_source,
@@ -1531,5 +1531,22 @@ def cmd_crawl4ai_enable(cloud: bool = False) -> int:
 
 def cmd_crawl4ai_disable() -> int:
     return _optional_mcp_disable("crawl4ai")
+
+
+def cmd_scrapling_enable() -> int:
+    spec: dict[str, object] = {
+        "type": "local",
+        "command": ["uvx", "--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"],
+        "disabled": False,
+    }
+    rc = _optional_mcp_enable("scrapling", spec)
+    if not which("uvx"):
+        info("uvx not found on PATH; install uv (or uvx) to run scrapling stdio MCP. Do not run `scrapling install` as it invokes `playwright install-deps` with sudo.")
+    return rc
+
+
+def cmd_scrapling_disable() -> int:
+    return _optional_mcp_disable("scrapling")
+
 
 

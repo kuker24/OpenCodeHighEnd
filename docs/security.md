@@ -16,6 +16,8 @@
 - Design V2 import rejects common API tokens, private-key headers, credential-bearing database URLs, unsafe links, traversal, and oversized input; normalized assets replace rather than merge prior destinations.
 - Design V2 doctor checks catalog JSONL and SQLite hashes against the canonical lock.
 - Model/provider names are opaque; do not print tokens or gateway maps
+- Scrapling is local stdio only (`uvx`); `--http` mode, `0.0.0.0` host binding, and Docker bind-all are strictly rejected. Never run `scrapling install` as it invokes `playwright install-deps` with sudo. Web scraping is read-only; never extract or store user desktop browser cookies or sessions (`--from-browser` is banned).
+- Agent-Reach is pointer-only; running `agent-reach install --system` is prohibited. Unmanaged skill directories in `~/.config/opencode/skills/` without `.opencode-highend.json` trigger `FOREIGN_SKILL_SHADOW` warnings in `doctor`.
 - `vendor/license-audit.json` lists every skill license **as evidenced**. Snapshot skills inherit GrokBestFriend MIT (`vendor/licenses/GROKBESTFRIEND-MIT.txt`). Design-bank media remains not-cleared.
 - GitHub rulesets: `main` and `v*` tags cannot be force-pushed or deleted. Signed commits/tags are `DEFERRED` until a maintainer signing key exists. GitHub release immutability is `NOT_CONFIGURED`. Integrity baseline is tag protection plus SHA256SUMS, SPDX SBOM, and `release-provenance.json`.
 

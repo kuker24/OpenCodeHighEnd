@@ -30,6 +30,8 @@ from lib.install import (  # noqa: E402
     cmd_markitdown_enable,
     cmd_reticle_disable,
     cmd_reticle_enable,
+    cmd_scrapling_disable,
+    cmd_scrapling_enable,
     cmd_serena_enable,
     cmd_stitch_disable,
     cmd_stitch_enable,
@@ -125,6 +127,9 @@ def build_parser() -> argparse.ArgumentParser:
     c4.add_argument("action", choices=["enable", "disable"])
     c4.add_argument("--cloud", action="store_true", help="use cloud endpoint with CRAWL4AI_KEY instead of local container")
 
+    sc = sub.add_parser("scrapling", help="optional Scrapling local stdio MCP")
+    sc.add_argument("action", choices=["enable", "disable"])
+
     sd = sub.add_parser("smartdoc", help="document profiles, extract, status")
     add_smartdoc_cli(sd)
     sb = sub.add_parser("smartbook", help="reusable SmartBook lifecycle")
@@ -200,6 +205,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.action == "enable":
             return cmd_crawl4ai_enable(cloud=args.cloud)
         return cmd_crawl4ai_disable()
+    if cmd == "scrapling":
+        if args.action == "enable":
+            return cmd_scrapling_enable()
+        return cmd_scrapling_disable()
     if cmd == "smartdoc":
         return dispatch_smartdoc(args)
     if cmd == "smartbook":

@@ -38,6 +38,6 @@ Machine-readable copy: `vendor/license-audit.json`.
 | `ninerouter` | [decolua/9router](https://github.com/decolua/9router) `f01fb90`; skill `NOTICE.md`. First-party gateway stub; skills on-demand. | MIT © 2026 decolua | follow MIT |
 | Warehouse Batch 3a (`api-design`, `automation-audit-ops`, `click-path-audit`, `code-tour`, `contract-first`) | Adapted from [affaan-m/ECC](https://github.com/affaan-m/ECC); respective skill `NOTICE.md` files | MIT © 2024-2026 affaan-m and ECC contributors | follow MIT |
 | Design bank media | User-provided public bootstrap artifact or existing local bank | **not cleared** | not in git; normal install does not download it |
-| Codebase Memory, serena, browser-act CLI, semgrep, gitleaks, osv-scanner | `vendor/sources.json` | upstream | follow upstream |
+| Codebase Memory, serena, browser-act CLI, Scrapling, Agent-Reach CLI, semgrep, gitleaks, osv-scanner | `vendor/sources.json` | upstream; not vendored | follow upstream |
 
 See `vendor/provenance.json` and `vendor/sources.json` for pins.

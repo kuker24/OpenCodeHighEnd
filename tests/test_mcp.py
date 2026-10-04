@@ -87,6 +87,22 @@ class JsoncMergeTests(unittest.TestCase):
         self.assertIn("foreign-weather", data["mcp"])
         self.assertEqual(data["mcp"]["servers"]["context7"]["type"], "remote")
 
+    def test_scrapling_policy_and_wanted(self):
+        policy = jsonc.loads((ROOT / "vendor" / "mcp-policy.json").read_text(encoding="utf-8"))
+        self.assertIn("scrapling", policy["servers"])
+        sc_policy = policy["servers"]["scrapling"]
+        self.assertFalse(sc_policy["enabled"])
+        self.assertEqual(sc_policy["transport"], "stdio")
+        self.assertEqual(sc_policy["command"], "uvx")
+        self.assertEqual(sc_policy["args"], ["--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"])
+
+        wanted = jsonc.loads((ROOT / "vendor" / "mcp-wanted.json").read_text(encoding="utf-8"))
+        self.assertIn("scrapling", wanted["servers"])
+        sc_wanted = wanted["servers"]["scrapling"]
+        self.assertEqual(sc_wanted["status"], "FOREIGN_ON_DEMAND")
+        self.assertFalse(sc_wanted["wanted"])
+        self.assertEqual(sc_wanted["transport"], "stdio")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -118,14 +118,14 @@ def mcp_status_map() -> dict[str, str]:
         try:
             data = jsonc.load_path(cfg)
         except (OSError, json.JSONDecodeError, ValueError):
-            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa")}
+            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa")}
     mcp = data.get("mcp") or {}
     if not isinstance(mcp, dict):
-        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa")}
+        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa")}
     servers = jsonc.mcp_servers_from_config(data)
     owned = {"codebase-memory-mcp", "context7", "shadcn"}
-    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"}
-    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "exa"):
+    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"}
+    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"):
         spec = servers.get(name)
         if spec is None:
             out[name] = "OPTIONAL_ABSENT" if name in optional else "FAIL"
@@ -217,6 +217,41 @@ def mcp_status_map() -> dict[str, str]:
                 if headers is not None and not isinstance(headers, dict):
                     out[name] = "FAIL"
                     continue
+            out[name] = "CONFIGURED"
+            continue
+        if name == "scrapling":
+            typ = spec.get("type")
+            cmd = spec.get("command")
+            if typ != "local" or not isinstance(cmd, list) or not cmd:
+                out[name] = "FAIL"
+                continue
+            if cmd[0] != "uvx":
+                out[name] = "FAIL"
+                continue
+            joined = " ".join(str(part) for part in cmd)
+            forbidden = (
+                "--http",
+                "--host",
+                "--port",
+                "--no-auth",
+                "--auth-token",
+                "--allowed-host",
+                "0.0.0.0",
+                "docker",
+            )
+            if any(bad in joined for bad in forbidden):
+                out[name] = "FAIL"
+                continue
+            pinned = any(
+                isinstance(part, str) and re.fullmatch(r"^scrapling\[ai\]==\d+\.\d+\.\d+$", part)
+                for part in cmd
+            )
+            if not pinned:
+                out[name] = "FAIL"
+                continue
+            if len(cmd) < 2 or [str(cmd[-2]), str(cmd[-1])] != ["scrapling", "mcp"]:
+                out[name] = "FAIL"
+                continue
             out[name] = "CONFIGURED"
             continue
         if name not in owned:
@@ -492,6 +527,32 @@ def _browser_qa_findings(f: Findings) -> None:
         f.add("OPTIONAL_ABSENT", "BrowserAct CLI", "NOT_INSTALLED")
 
 
+def _research_tools_findings(f: Findings) -> None:
+    ar = which("agent-reach")
+    if ar:
+        try:
+            r = run([ar, "--version"])
+            ver = (r.stdout or r.stderr or "").strip()
+            if r.returncode == 0:
+                f.add("PASS", "Agent-Reach CLI", f"{ar} {ver}")
+            else:
+                f.add("DEGRADED", "Agent-Reach CLI", f"{ar} (version check failed)")
+        except (OSError, ValueError):
+            f.add("DEGRADED", "Agent-Reach CLI", f"{ar} (version check failed)")
+    else:
+        f.add("OPTIONAL_ABSENT", "Agent-Reach CLI", "NOT_INSTALLED")
+
+    skills_dir = config_dir() / "skills"
+    for shadow_name in ("agent-reach", "scrapling-official"):
+        cand = skills_dir / shadow_name
+        if cand.is_dir() and not (cand / ".opencode-highend.json").is_file():
+            f.add(
+                "WARN",
+                "FOREIGN_SKILL_SHADOW",
+                f"{shadow_name}: foreign skill hijacking router; delete manually",
+            )
+
+
 def _permission_findings(f: Findings) -> None:
     cfg = None
     for cand in (config_dir() / "opencode.jsonc", config_dir() / "opencode.json"):
@@ -749,6 +810,7 @@ def cmd_doctor(deep: bool = False, strict: bool = False) -> int:
     print("--- optional ---")
     _host_findings(f, shadcn_enabled=shadcn_enabled)
     _browser_qa_findings(f)
+    _research_tools_findings(f)
     _permission_findings(f)
     _plugin_findings(f)
     print("--- context ---")

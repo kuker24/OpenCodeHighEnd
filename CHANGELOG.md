@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.11 — 2026-10-04
+
+Wave 0.1.11 body-only ("web_research" data-gathering). Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist (`vendor/skill-allowlist.txt` tidak berubah). Tidak ada penambahan atau pensiun skill. Exception 0.1.8 tetap spent.
+
+- Closed intent bertambah 24 → 25: menambahkan `web_research` yang dipetakan ke spesialis `research` (pembaruan badan skill + referensi baru `skills/research/references/web-data.md`).
+- `research`: pembaruan deskripsi dan instruksi untuk pengumpulan data web dan media sosial secara read-only. Aturan sumber primer tetap berlaku: setiap klaim wajib merujuk ke sumber primer pemiliknya, output berupa data.
+- Ladder backend web data: `WebSearch`/`WebFetch` ringan → ekstraksi artikel Markdown via `crawl4ai` (jika aktif) → structured scraping via `scrapling` (jika aktif) → penangkapan background XHR/JSON via skrip sementara di `/tmp` → feed pengembang/API tanpa konfigurasi via CLI `agent-reach` (pointer host) → platform berotentikasi (kredensial milik pengguna, tidak menyimpan cookie/token) → alur sesi browser persisten via `browser-act`. Pengujian aplikasi UI lokal tetap menggunakan `playwright-qa`.
+- Batasan etika & keamanan scraping: bypass stealth dan anti-bot nonaktif secara default (hanya atas persetujuan eksplisit pengguna); patuhi `robots.txt` dan delay sopan; dilarang membobol paywall/login; dilarang mengekstrak cookie dari browser desktop pengguna (`--from-browser` dilarang); dilarang proxy rotasi penipuan.
+- Scrapling: dipromosikan menjadi MCP opsional `FOREIGN_ON_DEMAND` lokal stdio (`uvx --from scrapling[ai]==0.4.15 scrapling mcp`). Dikelola lewat CLI `opencode-he scrapling enable` dan `opencode-he scrapling disable`. Tidak divendor ke `lib/`. Mode `--http`, docker bind-all, dan binding `0.0.0.0` dilarang keras dan ditolak oleh `doctor`. Dilarang menjalankan `scrapling install` (karena memanggil `playwright install-deps` dengan sudo).
+- Agent-Reach: ditetapkan sebagai `POINTER_ONLY` CLI pada host di bawah `research` (`skills/research/references/web-data.md`). Ditolak sebagai MCP maupun skill. Dilarang menjalankan `agent-reach install --system` (karena memutasi paket sistem dan menyalin skill asing ke direktori konfigurasi).
+- Deteksi `doctor`: menambahkan pemeriksaan versi CLI `agent-reach` dan deteksi pembajakan router oleh direktori skill tak terkelola (`FOREIGN_SKILL_SHADOW` untuk `agent-reach` atau `scrapling-official` di `~/.config/opencode/skills/` tanpa `.opencode-highend.json`).
+- `whaleyxbt/patchright-enhanced`: ditolak secara tegas di seluruh dokumentasi karena risiko keamanan dan pemeliharaan fork tidak resmi.
+- Batasan spesialis tetangga dipertegas: `playwright-qa` dan `browser-act` menegaskan pengumpulan data web/sosial bukan tugas QA aplikasi dan diarahkan ke `research`.
+- Sumber dan pin diperbarui di `vendor/sources.json`, `vendor/provenance.json`, `vendor/license-audit.json`, `vendor/mcp-policy.json`, `vendor/mcp-wanted.json`, `THIRD_PARTY_NOTICES.md`, dan `docs/source-wave.md`. Versi produk 0.1.11.
+
 ## 0.1.10 — 2026-10-03
 
 Rilis ini menutup kerja yang sudah di `main` setelah tag `v0.1.9`. Katalog tetap 65 (50 model + 15 manual). Tidak ada pertumbuhan allowlist. Tidak ada penambahan atau pensiun skill.

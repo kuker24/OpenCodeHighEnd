@@ -4,12 +4,12 @@ OpenCode 2 overlay: 65 frozen routed skills, thin `AGENTS.md`, `opencode-he`.
 
 Installer and runtime overlay for [OpenCode 2](https://opencode.ai/v2/docs/).
 
-Version **0.1.10**. The 65-skill catalog is strictly frozen.
+Version **0.1.11**. The 65-skill catalog is strictly frozen.
 
 ## What it is
 
 - 65 skills: 50 model-invoked, 15 manual slash commands (frozen; see [docs/CATALOG-FREEZE.md](docs/CATALOG-FREEZE.md))
-- A thin `AGENTS.md` router (lazy, one primary specialist, 24 closed intents)
+- A thin `AGENTS.md` router (lazy, one primary specialist, 25 closed intents)
 - Core MCP: Codebase Memory (dual CLI and MCP graph adapters), Context7, shadcn
 - 12 Universal Design Banks + Operator Banks (34,700+ items across Identity, Motion, Section, Atomic, and Oversight) with zero-token local search & Google Drive v3 bootstrap
 - Design Bank path resolution via `~/.config/opencode/highend/config/design-bank.json`
@@ -125,6 +125,7 @@ Default: repository evidence first. Then at most one specialist.
 | 9Router gateway (inference/image/video/TTS/STT/web) | `ninerouter` |
 | Deterministic HTML composition video | `hyperframes` (18s brag card via `references/brag.md`) |
 | Demo video aplikasi & narasi ID | `id-demo-video` (`/demo-video`) |
+| Web / social data gathering | `research` (backend ladder in `references/web-data.md`; Scrapling optional MCP; read-only; not QA) |
 | Browser | `playwright-qa` (isolated verification edge; evidence ledger) → `browser-act` → `chrome-devtools-axi` → `click-path-audit` |
 | Documents (PDF/DOCX/answer/extract/review) | `smartdoc` |
 | Consulting PPTX & 16:9 slide decks | `deck-design` |
@@ -137,7 +138,7 @@ Default: repository evidence first. Then at most one specialist.
 | TS Oxlint install | `install-anti-slop` (explicit only) |
 | Architecture bake-off | `/architect` (manual) |
 
-Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film doctrine for real app UI; catalog strictly 65/65). Wave 0.1.10: `found-this-design` indexes Oversight Supply and the Design Bank bootstrap pin moves to DesignBank v3; pstack selected-skill provenance moves to `23e4138` (0.15.6) with host adaptation (`poteto-mode` rejected). Catalog stays 65.
+Warehouse: `api-design`, `contract-first`, `automation-audit-ops`, `code-tour`, `click-path-audit` (plus Wave 2 diagnostics). Wave 0.1.7 additions: `json-render` (generative UI from typed catalogs), `deck-design` (consulting-grade PPTX & 16:9 HTML slide decks), `pageindex` (vectorless tree-reasoning long document navigation). Wave 0.1.8 additions: `business-motion-film` (commercial launch films; retires `img2threejs`), `ninerouter` (multi-provider gateway stub; retires `prompt-optimizer`). Wave 0.1.9 body-only: merges `kaventro/motion-designer` into `business-motion-film` (product-film doctrine for real app UI; catalog strictly 65/65). Wave 0.1.10: `found-this-design` indexes Oversight Supply and the Design Bank bootstrap pin moves to DesignBank v3; pstack selected-skill provenance moves to `23e4138` (0.15.6) with host adaptation (`poteto-mode` rejected). Wave 0.1.11 body-only: adds `web_research` closed intent to `research` with `references/web-data.md`; Scrapling optional MCP; Agent-Reach pointer-only host tool; catalog strictly 65/65.
 
 Examples: interactive product story told by scroll → `scroll-craft`. Unbroken camera through a miniature factory → `scroll-world`. Clean security dashboard → `impeccable`. Video, image generation, and Design V2 stay optional.
 
@@ -189,6 +190,7 @@ Optional:
 - `ui-skills` — `opencode-he ui-skills enable` registers UI Skills (`https://www.ui-skills.com/mcp`) as an optional remote MCP server. `FOREIGN_ON_DEMAND` for design-skill lookup only. Product UI remains Design Bank + Impeccable + Design V2 atoms + shadcn; `BANK_MISS` never generates from a random ui-skills document. `opencode-he ui-skills disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `markitdown` — `opencode-he markitdown enable` registers MarkItDown as a local stdio ingest converter (`uvx --from markitdown-mcp==0.1.8 markitdown-mcp`). `FOREIGN_ON_DEMAND`. Local trusted agents only; never `--http` / `0.0.0.0` / docker bind-all. Output is Markdown data; SmartDoc keeps contract/QA/render. `opencode-he markitdown disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry fails closed.
 - `crawl4ai` — `opencode-he crawl4ai enable` registers Crawl4AI as an optional web content extraction remote MCP (`http://127.0.0.1:11235/mcp`; `--cloud` registers `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`). `FOREIGN_ON_DEMAND`. Docker users bind `127.0.0.1:11235`, never `0.0.0.0`. Web content extraction only; not an exploratory QA tool (`playwright-qa` remains default). `opencode-he crawl4ai disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry (or `0.0.0.0`) fails closed.
+- `scrapling` — `opencode-he scrapling enable` registers Scrapling as an optional local stdio MCP (`uvx --from scrapling[ai]==0.4.15 scrapling mcp`). `FOREIGN_ON_DEMAND`. Structured web scraping and element extraction only; not an exploratory QA tool (`playwright-qa` remains default). Never run `scrapling install` (runs `playwright install-deps` with sudo). `opencode-he scrapling disable` removes only that server key. Absent is not a `doctor` failure; a malformed entry (or `--http` / `0.0.0.0` / docker bind) fails closed.
 - `jev-mcp` — TypeSafe Jev / `jkudish/jev-mcp` is intentionally SKIPPED as a required runtime MCP; core verification and done-gates operate offline without external server dependencies.
 - `pageindex` — PageIndex Cloud MCP is `FOREIGN_ON_DEMAND` and omitted from core servers; skill `pageindex` operates offline or uses local SDK with graceful `NOT_CONFIGURED` degradation.
 - `exa` — `FOREIGN_ON_DEMAND`; installer never adds, removes, or overwrites it
@@ -344,7 +346,7 @@ Officially tested:
 - OpenCode 2.x
 - Python 3, Node + npx, git, curl, tar
 
-Optional host tools: Chromium, `gh`, browser-act, serena, semgrep, osv-scanner, gitleaks.
+Optional host tools: Chromium, `gh`, browser-act, agent-reach, serena, semgrep, osv-scanner, gitleaks.
 
 ## Security model
 

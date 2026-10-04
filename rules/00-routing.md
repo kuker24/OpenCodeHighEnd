@@ -28,7 +28,7 @@ The router classifies every user task into exactly one closed intent:
 ```text
 repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
 motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose
-academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
+academic | longdoc_nav | web_research | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
 ```
 
 | Intent | Primary Route | Handoff Boundary / Rule |
@@ -52,6 +52,7 @@ academic | longdoc_nav | browser_qa | architecture | warehouse | ops_data | vide
 | `prose` | `humanizer` / `/unslop` | Prose AI-tell removal; technical docs stay `technical-writing` |
 | `academic` | `academic` | Literature surveys, IMRaD manuscripts, peer critique |
 | `longdoc_nav` | `pageindex` | Tree/reasoning nav of long structured docs; not Graphiti/Cognee/second CBM |
+| `web_research` | `research` | Web/social data gathering (`references/web-data.md`); read-only, not QA |
 | `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
 | `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
 | `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
@@ -92,6 +93,7 @@ Never list unused tools or uncalled MCP methods as used.
 - Current library or framework docs: MCP `context7` only when repo evidence is insufficient.
 - Installable React/shadcn registry items: MCP `shadcn` (pinned CLI `shadcn@4.21.0`). Search, inspect, then install. Context7 stays documentation.
 - Broader web research: built-in `WebSearch` and `WebFetch`. MCP `exa` is foreign/pre-existing and ON_DEMAND. Use it only if already connected and research needs it. Never add or remove `exa`.
+- Web and social data gathering: `/research` (follow the backend ladder in `references/web-data.md`; Scrapling is optional `FOREIGN_ON_DEMAND`; Agent-Reach is pointer-only; read-only; not `/playwright-qa`).
 - Hard, high-impact, divergent decisions, fuzzy debugging, API or schema alternatives, trap detection: `/adhd` on demand only. Skip ADHD for typos, ordinary CRUD, or bugs with a known cause.
 - Official library, spec, or first-party API facts: `/research` (Context7 when repo evidence is not enough). Why *this repo* chose an approach: suggest `/why` (manual). Do not mix the two.
 - Scholarly literature surveys, academic manuscripts (IMRaD/thesis/proposal), and structured peer critique: `/academic` (not `research`, not `smartdoc` unless file extract/render).
@@ -184,7 +186,7 @@ The specialist architecture forms a deterministic graph connected by file artifa
 ## Plugins and extra MCP
 
 - No extra marketplace plugins. Foundation = skills + MCP + thin AGENTS.md + runtime helpers.
-- User MCP: `codebase-memory-mcp`, `context7`, and `shadcn` on; `serena`, `stitch`, `reticle`, and `ui-skills` absent until a human enables them; `exa` foreign.
+- User MCP: `codebase-memory-mcp`, `context7`, and `shadcn` on; `serena`, `stitch`, `reticle`, `ui-skills`, `markitdown`, `crawl4ai`, and `scrapling` absent until a human enables them; `exa` foreign.
 - ECC / other harness overlays: `FOREIGN_ON_DEMAND`. Never add, remove, or merge foreign harness control planes or continuous-learning runtimes. Individual warehouse procedures ported in Wave 2 (agent-architecture-audit, cost-aware-llm-pipeline, eval-harness, skill-stocktake; prompt-optimizer retired in 0.1.8) and Wave 3 (api-design, contract-first, automation-audit-ops, code-tour, click-path-audit) are first-party MIT skills. If external ECC is already present in user environment, do not merge and do not shadow.
 - FOREIGN vendor packs (e.g. `mongodb/agent-skills`, `supabase/agent-skills`, `vercel-labs/agent-skills`) stay off the overlay; user may `npx skills add mongodb/agent-skills|supabase/agent-skills` locally; never `frontend-design` for product UI.
 - Never auto-edit rules or skills from a learning log (no `/learn`, `/evolve`, or session-end skill writers).
@@ -206,6 +208,9 @@ The specialist architecture forms a deterministic graph connected by file artifa
 - Do not use ADHD for ordinary work.
 - Do not use Emil for static UI, or Impeccable for motion-only work.
 - Do not use BrowserAct as a stand-in for project Playwright.
+- Do not run `scrapling install` (it invokes `playwright install-deps` with sudo).
+- Do not run `agent-reach install --system` or register agent-reach as an MCP or skill.
+- Do not use `whaleyxbt/patchright-enhanced` (rejected upstream fork).
 - Do not claim TypeScript, Vitest, coverage, Knip, or Playwright exist unless the current project has them.
 - Do not copy or print tokens, gateway URLs, or model-mapping values.
 - Do not depend on `~/.grok` at runtime.

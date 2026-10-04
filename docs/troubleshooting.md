@@ -30,6 +30,10 @@ Doctor `OPTIONAL_ABSENT` is not a core failure. `DEGRADED` is non-fatal unless `
 
 `FAIL mcp:crawl4ai` — Crawl4AI must bind to `http://127.0.0.1:11235/mcp` (or cloud `https://api.crawl4ai.com/mcp` with `{env:CRAWL4AI_KEY}`). Binding to `0.0.0.0`, using raw secret keys, or using non-standard URLs triggers a FAIL. Reconfigure with `opencode-he crawl4ai enable` (or `--cloud`).
 
+`FAIL mcp:scrapling` — Scrapling MCP must use `type: local`, command starting with `uvx`, pinned package `scrapling[ai]==<version>`, and end with `scrapling mcp`. Any use of `--http`, `0.0.0.0`, docker, or unpinned package fails closed. Reconfigure with `opencode-he scrapling enable`.
+
+`WARN FOREIGN_SKILL_SHADOW` — A foreign directory (such as `agent-reach` or `scrapling-official`) was detected in `~/.config/opencode/skills/` without an `.opencode-highend.json` ownership marker. These foreign skills hijack router intents and violate the frozen catalog. Delete the unmanaged skill directory manually.
+
 `doctor --deep` exit 1 with `NOT_CHECKED` — `opencode mcp list` failed or was empty; core MCP is not proven live.
 
 Restart OpenCode after install.

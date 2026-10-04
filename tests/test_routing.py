@@ -271,6 +271,45 @@ class RoutingTests(unittest.TestCase):
         research = (ROOT / "skills" / "research" / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("pageindex", research)
 
+    def test_web_research_routing_boundary(self):
+        # Intent presence
+        self.assertIn("web_research", self.agents)
+        self.assertIn("`web_research` | `research`", self.routing)
+        docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
+        self.assertIn("`web_research` | `research`", docs)
+
+        # 25 closed intents in templates/AGENTS.md, rules/00-routing.md, docs/routing.md
+        intents_agents = [
+            x.strip("` ")
+            for x in self.agents.split("Classify into exactly one intent before acting:\n`")[1]
+            .split("`\n")[0]
+            .split("|")
+        ]
+        self.assertEqual(len(intents_agents), 25)
+        self.assertIn("web_research", intents_agents)
+
+        # Boundaries & references
+        self.assertIn("references/web-data.md", self.agents)
+        self.assertIn("bukan `playwright-qa`", self.agents)
+        web_data_ref = ROOT / "skills" / "research" / "references" / "web-data.md"
+        self.assertTrue(web_data_ref.is_file())
+        web_data_text = web_data_ref.read_text(encoding="utf-8")
+        self.assertIn("Backend Selection Ladder", web_data_text)
+        self.assertIn("scrapling", web_data_text.lower())
+        self.assertIn("agent-reach", web_data_text.lower())
+        self.assertIn("crawl4ai", web_data_text.lower())
+        self.assertIn("playwright-qa", web_data_text.lower())
+
+        research_skill = (ROOT / "skills" / "research" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("web-data.md", research_skill)
+        self.assertIn("playwright-qa", research_skill)
+
+        # Neighbor skills have boundaries
+        pw_skill = (ROOT / "skills" / "playwright-qa" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("web-data.md", pw_skill)
+        ba_skill = (ROOT / "skills" / "browser-act" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("web-data.md", ba_skill)
+
     def test_no_context_guard_rule(self):
         self.assertFalse((ROOT / "rules" / "04-context-guard.md").exists())
 

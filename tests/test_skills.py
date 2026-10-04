@@ -152,6 +152,34 @@ class SkillFrontmatterTests(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
                 self.assertIsNone(FOREIGN_PATH_RE.search(text), name)
 
+    def test_research_skill_boundaries(self):
+        skill_path = ROOT / "skills" / "research" / "SKILL.md"
+        self.assertTrue(skill_path.is_file())
+        text = skill_path.read_text(encoding="utf-8")
+        fm = frontmatter(skill_path)
+        desc = fm.get("description", "")
+        self.assertIn("web or social data gathering", desc)
+        self.assertIn("web-data.md", text)
+        self.assertIn("playwright-qa", text)
+
+        ref_path = ROOT / "skills" / "research" / "references" / "web-data.md"
+        self.assertTrue(ref_path.is_file())
+        ref_text = ref_path.read_text(encoding="utf-8")
+        self.assertIn("Backend Selection Ladder", ref_text)
+        self.assertIn("Ethical and Safety Boundaries", ref_text)
+        self.assertIn("scrapling", ref_text.lower())
+        self.assertIn("agent-reach", ref_text.lower())
+
+        # Ensure research description has low overlap with all skills (< 0.50)
+        desc_tokens = set(TOKEN_RE.findall(desc.lower()))
+        for name, other_path in skill_files():
+            if name == "research":
+                continue
+            other_desc = frontmatter(other_path).get("description", "")
+            other_tokens = set(TOKEN_RE.findall(other_desc.lower()))
+            score = jaccard(desc_tokens, other_tokens)
+            self.assertLess(score, OVERLAP_WARN, f"Overlap between research and {name} is {score:.2f} >= {OVERLAP_WARN}")
+
 
 if __name__ == "__main__":
     unittest.main()

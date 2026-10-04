@@ -22,6 +22,7 @@ This skill provides an interactive, token-efficient browser interface for agents
 6. **Port Separation**: Port 9223 is reserved for `opencode-chromium-cdp` / `chrome-devtools-axi`. Do not force Playwright sessions through port 9223.
 7. **Privacy & Hygiene**: Storage state, cookies, HAR recordings, traces, and screenshots must never be committed to git or printed with sensitive credentials.
 8. **No Browser for Backend**: Never start browser sessions when only backend, API, database, or non-UI code changed.
+9. **No Data Gathering**: Web and social data gathering is not UI QA; route extraction tasks to `research` (`references/web-data.md`).
 
 ## Workflow
 

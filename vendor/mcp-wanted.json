@@ -80,6 +80,15 @@
       "transport": "http",
       "url": "http://127.0.0.1:11235/mcp",
       "status": "FOREIGN_ON_DEMAND"
+    },
+    "scrapling": {
+      "wanted": false,
+      "ownedIfAdded": false,
+      "scope": "user",
+      "transport": "stdio",
+      "command": "uvx",
+      "args": ["--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"],
+      "status": "FOREIGN_ON_DEMAND"
     }
   }
 }
