@@ -28,7 +28,7 @@ The router classifies every user task into exactly one closed intent:
 ```text
 repo_understand | bug | security | perf | ui_direction | ui_implement | generative_ui
 motion | scroll_2d | scroll_3d | launch_film | gateway_llm | docs | ingest_md | prose
-academic | longdoc_nav | web_research | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx
+academic | longdoc_nav | web_research | browser_qa | architecture | warehouse | ops_data | video_html | demo_id | slides_pptx | penulis_ilmiah
 ```
 
 | Intent | Primary Route | Handoff Boundary / Rule |
@@ -56,6 +56,7 @@ academic | longdoc_nav | web_research | browser_qa | architecture | warehouse | 
 | `browser_qa` | `playwright-qa` → `browser-act` → `chrome-devtools-axi` → `click-path-audit` | 4-door hierarchy; isolated verification sessions |
 | `video_html` | `hyperframes` | Programmatic HTML-to-MP4 via headless Chrome + FFmpeg |
 | `demo_id` | `id-demo-video` (`/demo-video`) | Indonesian narrated app tour; cards via hyperframes |
+| `penulis_ilmiah` | `penulis-ilmiah` | Indonesian academic drafting, EYD V, KBBI standard words, fail-closed citation verification |
 | `warehouse` | Only when user names the job | `agent-architecture-audit`, `cost-aware-llm-pipeline`, etc. |
 | `ops_data` | `supabase-ops` / `mongodb-ops` / `vercel-ops` | Operational data/hosting config; never generates UI |
 
@@ -97,6 +98,7 @@ Never list unused tools or uncalled MCP methods as used.
 - Hard, high-impact, divergent decisions, fuzzy debugging, API or schema alternatives, trap detection: `/adhd` on demand only. Skip ADHD for typos, ordinary CRUD, or bugs with a known cause.
 - Official library, spec, or first-party API facts: `/research` (Context7 when repo evidence is not enough). Why *this repo* chose an approach: suggest `/why` (manual). Do not mix the two.
 - Scholarly literature surveys, academic manuscripts (IMRaD/thesis/proposal), and structured peer critique: `/academic` (not `research`, not `smartdoc` unless file extract/render).
+- Indonesian academic writing (skripsi, essay, SINTA journal, proposal), EYD V spelling, KBBI standard words, and fail-closed citation verification: `/penulis-ilmiah` (not `academic`, not `humanizer`, not `smartdoc`).
 - Fuzzy or conflicting domain terms, glossary, GLOSSARY.md / ADR writing: `/domain-modeling`. Full product interviews that should leave GLOSSARY.md/ADRs: `/grill-with-docs`.
 - Module, interface, seam, testability, abstraction: `/codebase-design` (distinct from `/api-design` for REST and `/contract-first` for machine schemas). Multi-sketch bake-off: suggest `/architect` (manual). Do not auto-start `/architect`.
 - Throwaway evidence for one design question: `/prototype`. Not for production UI; skip ordinary implementation, ADHD, and `/arena`. Schema/JSON generative UI: `/json-render`.

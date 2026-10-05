@@ -137,6 +137,9 @@
     "pageindex": {
       "invocation": "model"
     },
+    "penulis-ilmiah": {
+      "invocation": "model"
+    },
     "playwright-qa": {
       "invocation": "model"
     },

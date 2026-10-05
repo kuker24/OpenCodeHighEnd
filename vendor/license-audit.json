@@ -328,6 +328,11 @@
       "license": "MIT",
       "evidence": "VectifyAI/PageIndex 6d23caf4 + SKILL.md frontmatter + skills/pageindex/NOTICE.md",
       "redistribution": "mit"
+    },
+    "penulis-ilmiah": {
+      "license": "MIT",
+      "evidence": "first-party penulis-ilmiah export + SKILL.md frontmatter",
+      "redistribution": "mit"
     }
   }
 }

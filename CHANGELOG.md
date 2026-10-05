@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.18 — 2026-10-05
+
+Rilis fitur Wave 0.1.18 untuk penambahan modul `penulis-ilmiah` melalui eksepsi unfreeze resmi katalog (Option B: 65 → 66 skill, 51 model-invoked + 15 manual, tanpa pensiun twin). Closed intents diperluas dari 25 menjadi 26 (`penulis_ilmiah`).
+
+- **Eksepsi Pertumbuhan Katalog Resmi (Option B: 65 → 66)**:
+  - Katalog OpenCodeHighEnd di-unfreeze dari 65 menjadi 66 nama dengan menambahkan skill model-invoked `penulis-ilmiah` di `vendor/skill-allowlist.txt` dan `vendor/skill-policy.json`.
+  - Tidak ada twin yang dipensiunkan (*no twin retired*), serupa dengan preseden pertumbuhan terkelola pada rilis 0.1.7.
+  - Closed intents pada `templates/AGENTS.md`, `rules/00-routing.md`, dan `docs/routing.md` bertambah dari 25 menjadi 26 dengan pendaftaran intent `penulis_ilmiah` yang memetakan secara langsung ke skill `penulis-ilmiah`.
+- **Skill `penulis-ilmiah` (`skills/penulis-ilmiah/`)**:
+  - Didedikasikan untuk penulisan dan penyuntingan draf naskah ilmiah Bahasa Indonesia berstandar EYD V dan kata baku KBBI untuk esai, bab skripsi, artikel jurnal nasional (SINTA), proposal lomba, dan abstrak Scopus dengan verifikasi rujukan mutlak (*fail-closed* / anti-halu sitasi).
+  - Dilengkapi basis pengetahuan operasional pada `references/`: kaidah EYD V lengkap (`eyd/`), pasangan kata baku KBBI (`kata_baku.md`), panduan struktur dan gaya penulisan ilmiah (`gaya_tulisan.md`), aturan format sitasi APA 7th & IEEE (`gaya_sitasi.md`), serta frasa klise AI yang dilarang (`frasa_terlarang.md`).
+- **Server MCP First-Party `mcp/penulis-ilmiah/`**:
+  - Paket TypeScript mandiri (Node.js 20+) berbasis `@modelcontextprotocol/sdk` dan transport lokal stdio (dilarang menggunakan flag jaringan `--http`, `0.0.0.0`, atau docker).
+  - Menyediakan 5 tools terintegrasi: `cek_ejaan` (heuristik penulisan kata depan menempel, imbuhan pasif dipisah, spasi tanda baca, elipsis, integrasi opsional Hunspell `id_ID`), `cek_baku` (validasi kata baku KBBI per-kata dengan cache lokal 30 hari `~/.cache/penulis-ilmiah/kbbi-cache.json` dan rate limit online default 20/menit), `cari_rujukan` (pencarian publikasi ke Crossref, OpenAlex, Semantic Scholar), `verifikasi_rujukan` (validasi DOI Crossref, skor kemiripan judul, pengarang, tahun, dan keaktifan URL dengan status `VALID`, `TIDAK_COCOK`, `TIDAK_DITEMUKAN`), serta `format_sitasi` (pemformatan APA 7th dan IEEE dengan proteksi `wajib_terverifikasi` yang menolak memformat rujukan non-`VALID`).
+- **Integrasi CLI & Diagnostik OCH**:
+  - Perintah CLI `opencode-he penulis-ilmiah {enable,disable}` untuk mengaktifkan/menonaktifkan MCP server `penulis-ilmiah` secara bedah (*surgical config update*).
+  - Status `FOREIGN_ON_DEMAND` pada `vendor/sources.json`, `vendor/mcp-wanted.json`, dan `vendor/mcp-policy.json`.
+  - Diagnostik `opencode-he doctor` mendeteksi konfigurasi valid sebagai `CONFIGURED`, status belum aktif sebagai `OPTIONAL_ABSENT`, dan menolak spesifikasi berbahaya (seperti `0.0.0.0` atau `--http`) sebagai `FAIL`.
+- **Versi Produk**: Bump versi ke `0.1.18`.
+
 ## 0.1.17 — 2026-10-04
 
 Rilis sinkronisasi Wave 0.1.17 untuk pembaruan penuh aset anti-slop ke commit HEAD upstream `dmmulroy/anti-slop@c44ef22ca116d0ba62a3ff663a0bd13a3f3fa40b` (label versi `0.1.2+c44ef22 (untagged main, post-v0.1.2)`). Katalog tetap 65 (50 model + 15 manual). Closed intents tetap 25. Tidak ada penambahan atau pensiun skill (`vendor/skill-allowlist.txt` dan `vendor/skill-policy.json` tidak berubah).
