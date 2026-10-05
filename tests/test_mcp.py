@@ -103,6 +103,22 @@ class JsoncMergeTests(unittest.TestCase):
         self.assertFalse(sc_wanted["wanted"])
         self.assertEqual(sc_wanted["transport"], "stdio")
 
+    def test_penulis_ilmiah_policy_and_wanted(self):
+        policy = jsonc.loads((ROOT / "vendor" / "mcp-policy.json").read_text(encoding="utf-8"))
+        self.assertIn("penulis-ilmiah", policy["servers"])
+        pi_policy = policy["servers"]["penulis-ilmiah"]
+        self.assertFalse(pi_policy["enabled"])
+        self.assertEqual(pi_policy["transport"], "stdio")
+        self.assertEqual(pi_policy["command"], "npx")
+        self.assertEqual(pi_policy["args"], ["tsx", "mcp/penulis-ilmiah/src/index.ts"])
+
+        wanted = jsonc.loads((ROOT / "vendor" / "mcp-wanted.json").read_text(encoding="utf-8"))
+        self.assertIn("penulis-ilmiah", wanted["servers"])
+        pi_wanted = wanted["servers"]["penulis-ilmiah"]
+        self.assertEqual(pi_wanted["status"], "FOREIGN_ON_DEMAND")
+        self.assertFalse(pi_wanted["wanted"])
+        self.assertEqual(pi_wanted["transport"], "stdio")
+
 
 if __name__ == "__main__":
     unittest.main()

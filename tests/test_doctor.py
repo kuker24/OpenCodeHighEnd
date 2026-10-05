@@ -9,6 +9,7 @@ import sys
 
 sys.path.insert(0, str(ROOT))
 import io
+import json
 import os
 import shutil
 from contextlib import redirect_stdout
@@ -18,6 +19,8 @@ from lib.doctor import cmd_doctor, owned_agents_block, parse_mcp_list  # noqa: E
 from lib.install import (  # noqa: E402
     cmd_crawl4ai_disable,
     cmd_crawl4ai_enable,
+    cmd_penulis_ilmiah_disable,
+    cmd_penulis_ilmiah_enable,
     cmd_scrapling_disable,
     cmd_scrapling_enable,
     cmd_install,
@@ -780,6 +783,92 @@ class DoctorDeepTests(IsolatedHome):
             rc = cmd_doctor()
         self.assertEqual(rc, 0, buf.getvalue())
         self.assertIn("OPTIONAL_ABSENT        mcp:scrapling", buf.getvalue())
+
+    def test_doctor_penulis_ilmiah_missing_does_not_fail(self):
+        self._install()
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:penulis-ilmiah", buf.getvalue())
+
+    def test_doctor_penulis_ilmiah_invalid_schema_fails(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data.setdefault("mcp", {})
+        data["mcp"].setdefault("servers", {})
+
+        # Type remote fails
+        data["mcp"]["servers"]["penulis-ilmiah"] = {
+            "type": "remote",
+            "url": "http://127.0.0.1:8000/mcp",
+        }
+        cfg.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1)
+        self.assertIn("FAIL                   mcp:penulis-ilmiah", buf.getvalue())
+
+        # Forbidden 0.0.0.0 or --http fails
+        data["mcp"]["servers"]["penulis-ilmiah"] = {
+            "type": "local",
+            "command": ["npx", "tsx", "mcp/penulis-ilmiah/src/index.ts", "--http", "0.0.0.0"],
+        }
+        cfg.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 1)
+        self.assertIn("FAIL                   mcp:penulis-ilmiah", buf.getvalue())
+
+    def test_doctor_penulis_ilmiah_valid_passes(self):
+        self._install()
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        data.setdefault("mcp", {})
+        data["mcp"].setdefault("servers", {})
+        data["mcp"]["servers"]["penulis-ilmiah"] = {
+            "type": "local",
+            "command": ["npx", "tsx", "/path/to/mcp/penulis-ilmiah/src/index.ts"],
+        }
+        cfg.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:penulis-ilmiah", buf.getvalue())
+
+    def test_doctor_penulis_ilmiah_enable_and_disable(self):
+        self._install()
+        rc = cmd_penulis_ilmiah_enable()
+        self.assertEqual(rc, 0)
+        cfg = self.tmp / ".config" / "opencode" / "opencode.jsonc"
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertIn("penulis-ilmiah", servers)
+        self.assertEqual(servers["penulis-ilmiah"]["type"], "local")
+        self.assertTrue(any("penulis-ilmiah" in str(p) for p in servers["penulis-ilmiah"]["command"]))
+        self.assertNotIn("0.0.0.0", str(servers["penulis-ilmiah"]))
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("CONFIGURED             mcp:penulis-ilmiah", buf.getvalue())
+
+        rc = cmd_penulis_ilmiah_disable()
+        self.assertEqual(rc, 0)
+        data = jsonc.loads(cfg.read_text(encoding="utf-8"))
+        servers = jsonc.mcp_servers_from_config(data)
+        self.assertNotIn("penulis-ilmiah", servers)
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            rc = cmd_doctor()
+        self.assertEqual(rc, 0, buf.getvalue())
+        self.assertIn("OPTIONAL_ABSENT        mcp:penulis-ilmiah", buf.getvalue())
 
     def test_doctor_agent_reach_cli_findings(self):
         self._install()

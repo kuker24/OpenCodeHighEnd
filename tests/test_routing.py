@@ -282,15 +282,16 @@ class RoutingTests(unittest.TestCase):
         docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
         self.assertIn("`web_research` | `research`", docs)
 
-        # 25 closed intents in templates/AGENTS.md, rules/00-routing.md, docs/routing.md
+        # 26 closed intents in templates/AGENTS.md, rules/00-routing.md, docs/routing.md
         intents_agents = [
             x.strip("` ")
             for x in self.agents.split("Classify into exactly one intent before acting:\n`")[1]
             .split("`\n")[0]
             .split("|")
         ]
-        self.assertEqual(len(intents_agents), 25)
+        self.assertEqual(len(intents_agents), 26)
         self.assertIn("web_research", intents_agents)
+        self.assertIn("penulis_ilmiah", intents_agents)
 
         # Boundaries & references
         self.assertIn("references/web-data.md", self.agents)
@@ -313,6 +314,22 @@ class RoutingTests(unittest.TestCase):
         self.assertIn("web-data.md", pw_skill)
         ba_skill = (ROOT / "skills" / "browser-act" / "SKILL.md").read_text(encoding="utf-8")
         self.assertIn("web-data.md", ba_skill)
+
+    def test_penulis_ilmiah_routing_boundary(self):
+        self.assertIn("penulis_ilmiah", self.agents)
+        self.assertIn("`penulis_ilmiah` | `penulis-ilmiah`", self.routing)
+        docs = (ROOT / "docs" / "routing.md").read_text(encoding="utf-8")
+        self.assertIn("`penulis_ilmiah` | `penulis-ilmiah`", docs)
+        self.assertIn("skill `penulis-ilmiah`", self.agents)
+        self.assertIn("EYD V", self.agents)
+        self.assertIn("kata baku KBBI", self.agents)
+        self.assertIn("bukan `academic`", self.agents)
+
+        skill = (ROOT / "skills" / "penulis-ilmiah" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("academic", skill)
+        self.assertIn("humanizer", skill)
+        self.assertIn("smartdoc", skill)
+        self.assertIn("fail-closed", skill.lower())
 
     def test_no_context_guard_rule(self):
         self.assertFalse((ROOT / "rules" / "04-context-guard.md").exists())
