@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "OpenCodeHighEnd",
-  "productVersion": "0.1.17",
+  "productVersion": "0.1.18",
   "firstPartyLicense": "MIT",
   "components": [
     {
@@ -754,6 +754,15 @@
       "modified": false,
       "redistribution": "mit",
       "notes": "First-party operational specialist for Vercel deployment, Next.js hosting, and vercel.json configurations."
+    },
+    {
+      "component": "penulis-ilmiah",
+      "path": "skills/penulis-ilmiah",
+      "upstream": "first-party",
+      "license": "MIT",
+      "modified": false,
+      "redistribution": "mit",
+      "notes": "First-party specialist for Bahasa Indonesia academic drafting, EYD V spelling, KBBI standard words, and fail-closed citation verification."
     }
   ]
 }
