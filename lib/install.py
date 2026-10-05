@@ -966,7 +966,7 @@ def apply(meta: dict, cbm_bin: Path, bank: tuple[str | None, str, str]) -> list[
         "modelInvokedSkills": meta["model"],
         "manualSkills": meta["manual"],
         "ownedMcp": list(OWNED_MCP),
-        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"],
+        "optionalMcp": ["serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "penulis-ilmiah", "exa"],
         "designBank": {
             "root": bank_root,
             "source": bank_source,
@@ -1604,6 +1604,27 @@ def cmd_scrapling_enable() -> int:
 
 def cmd_scrapling_disable() -> int:
     return _optional_mcp_disable("scrapling")
+
+
+def cmd_penulis_ilmiah_enable() -> int:
+    mcp_entry = repo_root() / "mcp" / "penulis-ilmiah" / "src" / "index.ts"
+    spec: dict[str, object] = {
+        "type": "local",
+        "command": ["npx", "tsx", str(mcp_entry)],
+        "disabled": False,
+        "environment": {
+            "CROSSREF_MAILTO": "{env:CROSSREF_MAILTO}"
+        }
+    }
+    rc = _optional_mcp_enable("penulis-ilmiah", spec)
+    if not which("npx"):
+        info("npx not found on PATH; Node.js 20+ required to run penulis-ilmiah stdio MCP.")
+    return rc
+
+
+def cmd_penulis_ilmiah_disable() -> int:
+    return _optional_mcp_disable("penulis-ilmiah")
+
 
 
 

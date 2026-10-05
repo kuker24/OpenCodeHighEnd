@@ -21,6 +21,7 @@ Optional:
 - `markitdown` — `opencode-he markitdown enable` (local stdio via `uvx --from markitdown-mcp==0.0.1a7 --with markitdown[all]==0.1.8 markitdown-mcp`; Markdown ingest only)
 - `crawl4ai` — `opencode-he crawl4ai enable` (remote HTTP `http://127.0.0.1:11235/mcp/sse`; cloud via `--cloud` with `{env:CRAWL4AI_KEY}`)
 - `scrapling` — `opencode-he scrapling enable` (local stdio via `uvx --from scrapling[ai]==0.4.15 scrapling mcp`; structured web scraping)
+- `penulis-ilmiah` — `opencode-he penulis-ilmiah enable` (local stdio via `npx tsx mcp/penulis-ilmiah/src/index.ts`; Indonesian academic writing, EYD V, KBBI standard words, and verified citations)
 - `exa` — foreign; never add/remove/overwrite
 
 Merge is parse-aware. Comment-free JSON is rewritten with `json.dumps`. JSONC with comments is patched surgically (owned MCP keys only). If surgical merge cannot be verified, install fails closed instead of destroying comments.
@@ -40,6 +41,8 @@ Doctor reports `CONFIGURED` for owned MCP entries present in config. That is not
 `opencode-he crawl4ai enable` configures Crawl4AI as an optional web content extraction remote MCP (`http://127.0.0.1:11235/mcp/sse`). It is `FOREIGN_ON_DEMAND` for content extraction, not exploratory browser QA (which remains `playwright-qa`). Legacy `/mcp` emits `WARN CRAWL4AI_LEGACY_URL`. For Docker users, bind strictly to `127.0.0.1:11235` (e.g. `docker run -p 127.0.0.1:11235:11235 ...`); never bind `0.0.0.0`. OpenCodeHighEnd does not launch or manage the container. With `--cloud`, it configures `https://api.crawl4ai.com/mcp` using `{env:CRAWL4AI_KEY}` without writing secrets to disk. `opencode-he crawl4ai disable` surgically removes only the crawl4ai server key. Absent is not a doctor failure; binding to `0.0.0.0` or invalid URLs fails closed.
 
 `opencode-he scrapling enable` configures Scrapling as an optional local stdio MCP (`uvx --from scrapling[ai]==0.4.15 scrapling mcp`). It is `FOREIGN_ON_DEMAND` for structured web scraping and element extraction, not exploratory browser QA (which remains `playwright-qa`). Local stdio only: never `--http`, never bind `0.0.0.0`, never docker bind-all. Do not run `scrapling install` as it invokes `playwright install-deps` with sudo. The scraper is not vendored into `lib/`. `opencode-he scrapling disable` surgically removes only the scrapling server key. Absent is not a doctor failure; a malformed entry (including `--http` / `0.0.0.0`) fails closed.
+
+`opencode-he penulis-ilmiah enable` configures the first-party `penulis-ilmiah` local stdio MCP (`npx tsx mcp/penulis-ilmiah/src/index.ts`). It is `FOREIGN_ON_DEMAND` for Indonesian academic drafting, EYD V spelling checks, KBBI standard words validation, and fail-closed citation verification against Crossref, OpenAlex, and Semantic Scholar. Local stdio only: `--http`, `0.0.0.0`, and docker bind-all are strictly forbidden. Polite Crossref access is configured via `{env:CROSSREF_MAILTO}`. `opencode-he penulis-ilmiah disable` surgically removes only the penulis-ilmiah server key. Absent is not a doctor failure; a malformed entry fails closed.
 
 ## Evaluated, Skipped & Rejected
 

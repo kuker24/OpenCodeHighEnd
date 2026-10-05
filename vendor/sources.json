@@ -77,6 +77,14 @@
       "sdistSha256": "72406900f437316209dd05d9853dae04420f1cab0e11071604bb4588b6e2f713",
       "note": "Optional MCP via uvx --from scrapling[ai]==0.4.15 scrapling mcp. Not vendored. Enabled via opencode-he scrapling enable. Do not run scrapling install (requires sudo / playwright install-deps)."
     },
+    "penulis-ilmiah": {
+      "package": "penulis-ilmiah-mcp",
+      "version": "0.1.0",
+      "transport": "stdio",
+      "via": "npx",
+      "status": "foreign-on-demand",
+      "note": "Optional first-party MCP server for Bahasa Indonesia academic writing, EYD V, KBBI standard words, and verified citations. Enabled via opencode-he penulis-ilmiah enable."
+    },
     "crawl4ai": {
       "repository": "https://github.com/unclecode/crawl4ai",
       "version": "0.9.4",

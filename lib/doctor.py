@@ -120,14 +120,14 @@ def mcp_status_map() -> dict[str, str]:
         try:
             data = jsonc.load_path(cfg)
         except (OSError, json.JSONDecodeError, ValueError):
-            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa")}
+            return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "penulis-ilmiah", "exa")}
     mcp = data.get("mcp") or {}
     if not isinstance(mcp, dict):
-        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa")}
+        return {k: "FAIL" for k in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "penulis-ilmiah", "exa")}
     servers = jsonc.mcp_servers_from_config(data)
     owned = {"codebase-memory-mcp", "context7", "shadcn"}
-    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"}
-    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "exa"):
+    optional = {"serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "penulis-ilmiah", "exa"}
+    for name in ("codebase-memory-mcp", "context7", "shadcn", "serena", "stitch", "reticle", "ui-skills", "markitdown", "crawl4ai", "scrapling", "penulis-ilmiah", "exa"):
         spec = servers.get(name)
         if spec is None:
             out[name] = "OPTIONAL_ABSENT" if name in optional else "FAIL"
@@ -270,6 +270,28 @@ def mcp_status_map() -> dict[str, str]:
                 out[name] = "FAIL"
                 continue
             if len(cmd) < 2 or [str(cmd[-2]), str(cmd[-1])] != ["scrapling", "mcp"]:
+                out[name] = "FAIL"
+                continue
+            out[name] = "CONFIGURED"
+            continue
+        if name == "penulis-ilmiah":
+            typ = spec.get("type")
+            cmd = spec.get("command")
+            if typ != "local" or not isinstance(cmd, list) or not cmd:
+                out[name] = "FAIL"
+                continue
+            joined = " ".join(str(part) for part in cmd)
+            forbidden = (
+                "--http",
+                "--host",
+                "--port",
+                "0.0.0.0",
+                "docker",
+            )
+            if any(bad in joined for bad in forbidden):
+                out[name] = "FAIL"
+                continue
+            if not any("penulis-ilmiah" in str(part) for part in cmd):
                 out[name] = "FAIL"
                 continue
             out[name] = "CONFIGURED"

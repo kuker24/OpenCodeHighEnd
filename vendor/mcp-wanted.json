@@ -95,6 +95,15 @@
       "command": "uvx",
       "args": ["--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"],
       "status": "FOREIGN_ON_DEMAND"
+    },
+    "penulis-ilmiah": {
+      "wanted": false,
+      "ownedIfAdded": false,
+      "scope": "user",
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["tsx", "mcp/penulis-ilmiah/src/index.ts"],
+      "status": "FOREIGN_ON_DEMAND"
     }
   }
 }

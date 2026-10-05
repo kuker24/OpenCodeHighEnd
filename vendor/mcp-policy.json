@@ -72,6 +72,12 @@
       "transport": "stdio",
       "command": "uvx",
       "args": ["--from", "scrapling[ai]==0.4.15", "scrapling", "mcp"]
+    },
+    "penulis-ilmiah": {
+      "enabled": false,
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["tsx", "mcp/penulis-ilmiah/src/index.ts"]
     }
   }
 }

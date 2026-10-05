@@ -30,6 +30,8 @@ from lib.install import (  # noqa: E402
     cmd_markitdown_enable,
     cmd_reticle_disable,
     cmd_reticle_enable,
+    cmd_penulis_ilmiah_disable,
+    cmd_penulis_ilmiah_enable,
     cmd_scrapling_disable,
     cmd_scrapling_enable,
     cmd_serena_enable,
@@ -130,6 +132,9 @@ def build_parser() -> argparse.ArgumentParser:
     sc = sub.add_parser("scrapling", help="optional Scrapling local stdio MCP")
     sc.add_argument("action", choices=["enable", "disable"])
 
+    pi = sub.add_parser("penulis-ilmiah", help="optional Penulis Ilmiah local stdio MCP")
+    pi.add_argument("action", choices=["enable", "disable"])
+
     sd = sub.add_parser("smartdoc", help="document profiles, extract, status")
     add_smartdoc_cli(sd)
     sb = sub.add_parser("smartbook", help="reusable SmartBook lifecycle")
@@ -209,6 +214,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.action == "enable":
             return cmd_scrapling_enable()
         return cmd_scrapling_disable()
+    if cmd == "penulis-ilmiah":
+        if args.action == "enable":
+            return cmd_penulis_ilmiah_enable()
+        return cmd_penulis_ilmiah_disable()
     if cmd == "smartdoc":
         return dispatch_smartdoc(args)
     if cmd == "smartbook":
