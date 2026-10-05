@@ -23,7 +23,7 @@ node dist/index.js
 
 ## Konfigurasi Lingkungan (Environment Variables)
 
-- `CROSSREF_MAILTO`: Alamat surel polite pool Crossref (disarankan: `fahmiharun0812@gmail.com`).
+- `CROSSREF_MAILTO`: Alamat surel untuk polite pool Crossref/OpenAlex. Isi dengan surel Anda sendiri (contoh: `your-email@example.com`). Jika kosong/tidak di-set, server memakai default `open-code-highend@users.noreply.github.com`.
 - `OPENALEX_API_KEY`: Kunci API opsional untuk OpenAlex.
 - `S2_API_KEY`: Kunci API opsional untuk Semantic Scholar.
 - `KBBI_RATE_PER_MIN`: Batas maksimal pencarian online KBBI per menit (default: 20).
