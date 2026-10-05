@@ -1,7 +1,7 @@
 import { RujukanItem } from './types.js';
 
 function getMailto(): string {
-  return process.env.CROSSREF_MAILTO || 'fahmiharun0812@gmail.com';
+  return process.env.CROSSREF_MAILTO || 'open-code-highend@users.noreply.github.com';
 }
 
 function getUserAgent(): string {

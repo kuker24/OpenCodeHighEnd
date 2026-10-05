@@ -38,6 +38,16 @@ Version **0.1.18**. The 66-skill catalog is strictly frozen.
 - Not OpenCode 1.x (installer fails closed on 1.x)
 - Not claimed as macOS/Windows-tested (Linux x86_64 only for this release)
 
+## What's new in 0.1.18
+
+- **Official Catalog Unfreeze Exception (Option B: 65 → 66)**: Managed catalog growth from 65 to 66 skills (51 model-invoked + 15 manual slash commands) with no twin retired (`vendor/skill-allowlist.txt`, `docs/CATALOG-FREEZE.md`).
+- **Closed Intent Expansion (25 → 26)**: Added `penulis_ilmiah` closed intent routing directly to `penulis-ilmiah` in `templates/AGENTS.md` (budget 72 lines ≤ 120), `rules/00-routing.md`, and `docs/routing.md`.
+- **Skill `penulis-ilmiah` (`skills/penulis-ilmiah/`)**: Indonesian academic writing specialist for skripsi, SINTA journals, essays, and proposals with comprehensive knowledge references for EYD V (`references/eyd/`), KBBI standard word pairs (`references/kata_baku.md`), and forbidden AI clichés (`references/frasa_terlarang.md`).
+- **First-Party TypeScript stdio MCP (`mcp/penulis-ilmiah/`)**: Standalone stdio MCP server (Node ≥20) providing 5 tools: `cek_ejaan`, `cek_baku`, `cari_rujukan`, `verifikasi_rujukan`, and `format_sitasi`. Strictly non-networked local stdio transport (no `--http`, no `0.0.0.0`).
+- **Fail-Closed Citation Integrity**: `format_sitasi` enforces `wajib_terverifikasi: true` by rejecting unverified references with error code `REF_NOT_VERIFIED`.
+- **CLI & Doctor Integration**: `opencode-he penulis-ilmiah {enable,disable}` provides parse-aware surgical config updates; `doctor` validates safe stdio configuration (`CONFIGURED`), reports `OPTIONAL_ABSENT` when not enabled, and flags invalid/network bindings as `FAIL`.
+- **Test Coverage**: 410 unit/integration tests passing cleanly without pre-compiled artifacts, plus clean idempotency and install verification.
+
 ## What's new in 0.1.13
 
 - **Upstream Pins & MCP Modernization**: Core MCP `shadcn` bumped to `4.21.1`; `@reticlehq/server` pinned to `3.5.0`; `markitdown-mcp` pinned to `0.0.1a7` with `markitdown[all]==0.1.8`; `crawl4ai` standardized to `/mcp/sse` endpoint; `context7-mcp` shadow detection added to doctor.

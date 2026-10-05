@@ -16,7 +16,7 @@ Rilis fitur Wave 0.1.18 untuk penambahan modul `penulis-ilmiah` melalui eksepsi 
   - Menyediakan 5 tools terintegrasi: `cek_ejaan` (heuristik penulisan kata depan menempel, imbuhan pasif dipisah, spasi tanda baca, elipsis, integrasi opsional Hunspell `id_ID`), `cek_baku` (validasi kata baku KBBI per-kata dengan cache lokal 30 hari `~/.cache/penulis-ilmiah/kbbi-cache.json` dan rate limit online default 20/menit), `cari_rujukan` (pencarian publikasi ke Crossref, OpenAlex, Semantic Scholar), `verifikasi_rujukan` (validasi DOI Crossref, skor kemiripan judul, pengarang, tahun, dan keaktifan URL dengan status `VALID`, `TIDAK_COCOK`, `TIDAK_DITEMUKAN`), serta `format_sitasi` (pemformatan APA 7th dan IEEE dengan proteksi `wajib_terverifikasi` yang menolak memformat rujukan non-`VALID`).
 - **Integrasi CLI & Diagnostik OCH**:
   - Perintah CLI `opencode-he penulis-ilmiah {enable,disable}` untuk mengaktifkan/menonaktifkan MCP server `penulis-ilmiah` secara bedah (*surgical config update*).
-  - Status `FOREIGN_ON_DEMAND` pada `vendor/sources.json`, `vendor/mcp-wanted.json`, dan `vendor/mcp-policy.json`.
+  - Didaftarkan sebagai optional MCP pada `vendor/sources.json` dan status `FOREIGN_ON_DEMAND` pada `vendor/mcp-wanted.json` (dengan transport policy stdio pada `vendor/mcp-policy.json`).
   - Diagnostik `opencode-he doctor` mendeteksi konfigurasi valid sebagai `CONFIGURED`, status belum aktif sebagai `OPTIONAL_ABSENT`, dan menolak spesifikasi berbahaya (seperti `0.0.0.0` atau `--http`) sebagai `FAIL`.
 - **Versi Produk**: Bump versi ke `0.1.18`.
 

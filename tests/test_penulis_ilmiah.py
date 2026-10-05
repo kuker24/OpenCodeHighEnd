@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import shutil
 import subprocess
 import unittest
 from pathlib import Path
@@ -84,6 +85,22 @@ class PenulisIlmiahTests(unittest.TestCase):
 
     def test_mcp_tools_execution(self):
         mcp_dir = ROOT / "mcp" / "penulis-ilmiah"
+        dist_entry = mcp_dir / "dist" / "tools" / "cek_ejaan.js"
+
+        node_bin = shutil.which("node")
+        if not node_bin:
+            self.skipTest("node binary not found on PATH")
+
+        if not dist_entry.is_file():
+            npm_bin = shutil.which("npm")
+            if not npm_bin:
+                self.skipTest("npm binary not found on PATH to build mcp/penulis-ilmiah")
+            if not (mcp_dir / "node_modules").is_dir():
+                subprocess.run([npm_bin, "ci"], cwd=mcp_dir, check=True, timeout=180, capture_output=True)
+            subprocess.run([npm_bin, "run", "build"], cwd=mcp_dir, check=True, timeout=120, capture_output=True)
+
+        self.assertTrue(dist_entry.is_file())
+
         # Script running inside node to test tools unit behavior
         script = """
 import { cekEjaan } from "./dist/tools/cek_ejaan.js";

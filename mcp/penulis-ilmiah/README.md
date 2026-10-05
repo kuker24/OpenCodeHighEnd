@@ -28,3 +28,10 @@ node dist/index.js
 - `S2_API_KEY`: Kunci API opsional untuk Semantic Scholar.
 - `KBBI_RATE_PER_MIN`: Batas maksimal pencarian online KBBI per menit (default: 20).
 - `PENULIS_CACHE_DIR`: Direktori penyimpanan cache (default: `~/.cache/penulis-ilmiah`).
+
+## Dependensi & Pinning
+
+Versi pustaka di-pin secara exact di `package.json` dan terkunci di `package-lock.json`:
+- `@modelcontextprotocol/sdk`: `1.32.1`
+- `citation-js`: `0.7.22`
+- `zod`: `3.25.76`
